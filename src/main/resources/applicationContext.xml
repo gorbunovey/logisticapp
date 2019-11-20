@@ -13,20 +13,15 @@
     <bean id="musicRockBean" class="com.gorbunovey.logisticapp.RockMusic"/>
     <bean id="musicRapBean" class="com.gorbunovey.logisticapp.RapMusic"/>
 
-    <bean id="musicList" class="java.util.ArrayList">
-        <constructor-arg>
-            <list>
-                <ref bean="musicClassicalBean"/>
-                <ref bean="musicRockBean"/>
-                <ref bean="musicRapBean"/>
-            </list>
-        </constructor-arg>
-    </bean>
-
-
     <bean id="musicPlayer"
     class="com.gorbunovey.logisticapp.MusicPlayer">
-        <property name="musicList" ref="musicList"/>
+        <property name="musicList">
+        <list>
+            <ref bean="musicClassicalBean"/>
+            <ref bean="musicRockBean"/>
+            <ref bean="musicRapBean"/>
+        </list>
+        </property>
         <property name="name" value="${musicPlayer.name}"/>
         <property name="volume" value="${musicPlayer.volume}"/>
     </bean>
