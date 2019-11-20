@@ -1,0 +1,4 @@
+## IDEA webapp ignore-list:
+*.iml
+.idea/
+target/
