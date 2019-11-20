@@ -9,12 +9,24 @@
 
     <context:property-placeholder location="classpath:musicPlayer.properties"/>
 
-    <bean id="musicClassicalBean" class="com.gorbunovey.logisticapp.ClassicalMusic"/>
-    <bean id="musicRockBean" class="com.gorbunovey.logisticapp.RockMusic"/>
-    <bean id="musicRapBean" class="com.gorbunovey.logisticapp.RapMusic"/>
+    <bean id="musicClassicalBean" class="com.gorbunovey.logisticapp.ClassicalMusic"
+          init-method="doMyInit"
+          destroy-method="doMyDestroy"
+    />
+    <bean id="musicRockBean" class="com.gorbunovey.logisticapp.RockMusic"
+          scope="prototype"
+          init-method="doMyInit"
+          destroy-method="doMyDestroy"
+    />
+    <bean id="musicRapBean" class="com.gorbunovey.logisticapp.RapMusic"
+          scope="singleton"
+          factory-method="getRapMusic"
+          init-method="doMyInit"
+          destroy-method="doMyDestroy"/>
 
     <bean id="musicPlayer"
-    class="com.gorbunovey.logisticapp.MusicPlayer">
+    class="com.gorbunovey.logisticapp.MusicPlayer"
+    scope="prototype">
         <property name="musicList">
         <list>
             <ref bean="musicClassicalBean"/>
