@@ -2,12 +2,13 @@ package com.gorbunovey.logisticapp;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
 
 @Component
+@Scope("prototype")
 public class MusicPlayer {
     public enum MusicType {CLASSICAL, ROCK, RAP}
     @Autowired
@@ -19,8 +20,10 @@ public class MusicPlayer {
     @Autowired
     @Qualifier("rapMusic")
     private Music musicRap;
-    private String name = "";
-    private int volume = 100;
+    @Value("${musicPlayer.name}")
+    private String name;
+    @Value("${musicPlayer.volume}")
+    private int volume;
 
     public String getName() {
         return name;
