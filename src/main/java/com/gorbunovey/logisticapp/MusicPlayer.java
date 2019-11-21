@@ -3,6 +3,8 @@ package com.gorbunovey.logisticapp;
 import org.springframework.beans.factory.annotation.Value;
 
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,6 +17,15 @@ public class MusicPlayer {
     private String name;
     @Value("${musicPlayer.volume}")
     private int volume;
+
+    @PostConstruct
+    public void doMyInit(){
+        System.out.println("MusicPlayer -> Doing my initialization");
+    }
+    @PreDestroy
+    public void doMyDestroy(){
+        System.out.println("MusicPlayer -> Doing my destruction");
+    }
 
     public MusicPlayer(List<Music> playlist) {
         this.playlist = playlist;
