@@ -4,9 +4,14 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-@Component("musicClassicalBean")
+@Component
 public class ClassicalMusic implements Music {
+
+    String[] songs = {"Hungarian Rhapsody", "Requiem", "Symphony No. 6"};
 
     @PostConstruct
     public void doMyInit(){
@@ -18,6 +23,8 @@ public class ClassicalMusic implements Music {
     }
     @Override
     public String getSong(){
-        return "Hungarian Rhapsody";
+        Random r = new Random();
+        int num = r.nextInt(songs.length);
+        return songs[num];
     }
 }

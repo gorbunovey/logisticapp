@@ -11,18 +11,5 @@
 
     <context:property-placeholder location="classpath:musicPlayer.properties"/>
 
-    <bean id="musicPlayer"
-    class="com.gorbunovey.logisticapp.MusicPlayer"
-    scope="prototype">
-        <property name="musicList">
-        <list>
-            <ref bean="musicClassicalBean"/>
-            <ref bean="musicRockBean"/>
-            <ref bean="musicRapBean"/>
-        </list>
-        </property>
-        <property name="name" value="${musicPlayer.name}"/>
-        <property name="volume" value="${musicPlayer.volume}"/>
-    </bean>
 
 </beans>
