@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc https://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <mvc:annotation-driven/>
+    <context:component-scan base-package="com.gorbunovey.logisticapp"/>
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+    <!-- Mapping all static resources. For next theme and so on -->
+    <mvc:resources mapping="/resources/**" location="/resources/" />
+    <!-- Default app icon -->
+    <mvc:resources mapping="/favicon.ico" location="/resources/img/favicon.ico" cache-period="31536000"/>
+    <!-- Mapping index page. How to map all requests /* to one page? -->
+    <mvc:view-controller path="/" view-name="index"/>
+</beans>
