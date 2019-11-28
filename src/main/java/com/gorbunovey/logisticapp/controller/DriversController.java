@@ -1,17 +1,20 @@
 package com.gorbunovey.logisticapp.controller;
 
+import com.gorbunovey.logisticapp.model.Driver;
 import com.gorbunovey.logisticapp.service.DriverService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 
 @Controller
 @RequestMapping("/drivers")
 public class DriversController {
+
     @Autowired
     DriverService driverService;
 
@@ -24,11 +27,11 @@ public class DriversController {
     @RequestMapping(value = "/{id}", method = RequestMethod.GET)
     public String getDriver(
             @PathVariable(value = "id") int id,
-            @RequestParam(value="message", required=false) String message,
+            @RequestParam(value="statusMessage", required=false) String statusMessage,
             Model model){
         // Here should be validating id
         // if no such driver -> then no driver attribute
-        model.addAttribute("message", message);
+        model.addAttribute("statusMessage", statusMessage);
         model.addAttribute("driver", driverService.getDriver(id));
         return "drivers/driver";
     }
@@ -39,32 +42,38 @@ public class DriversController {
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
     public String newDriver(
-            @RequestParam(value="message", required=false) String message,
+            @RequestParam(value="statusMessage", required=false) String statusMessage,
             Model model){
-        //model.addAttribute("driver", new Driver())
-        model.addAttribute("message", message);
+        model.addAttribute("driver", new Driver());
+        model.addAttribute("statusMessage", statusMessage);
         return "drivers/new";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
-    public String createDriver(Model model){
+    public String createDriver(
+            @ModelAttribute @Valid Driver driver,
+           BindingResult bindingResult,
+           Model model){
         // Here should be validation form fields
-        // Catch a person by @ModelAttribute("Driver") Driver driver
         // Validate @Valid thus???
-        // Here try to driverService.createDriver(new Driver from form)
         // if success -> return redirect to default new page with success message
         // else -> return to the same page with validation errors message
+
+        if(!bindingResult.hasErrors()){
+            driverService.addDriver(driver);
+            model.addAttribute("statusMessage", "Success. " + driver.toString());
+        }
         return "drivers/new";
     }
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteDriverConfirm(
             @PathVariable(value = "id") int id,
-            @RequestParam(value="message", required=false) String message,
+            @RequestParam(value="message", required=false) String statusMessage,
             Model model){
         // Here should be validating id
         // if no such driver -> then no driver attribute
-        model.addAttribute("message", message);
+        model.addAttribute("statusMessage", statusMessage);
         model.addAttribute("driver", driverService.getDriver(id));
         // return the confirmation form for deleting
         return "drivers/delete";

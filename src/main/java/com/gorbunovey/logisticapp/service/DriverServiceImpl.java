@@ -11,17 +11,16 @@ import java.util.List;
 public class DriverServiceImpl implements DriverService {
 
     @Autowired
-    //Qualifier("driverDao")
     private DriverDao driverDao;
 
     @Override
-    public void createDriver(Driver driver) {
-        this.driverDao.createDriver(driver);
+    public void addDriver(Driver driver) {
+        this.driverDao.addDriver(driver);
     }
 
     @Override
     public Driver getDriver(int id) {
-        return driverDao.readDriver(id);
+        return driverDao.getDriver(id);
     }
 
     @Override

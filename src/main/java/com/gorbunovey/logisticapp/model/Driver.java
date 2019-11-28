@@ -1,24 +1,38 @@
 package com.gorbunovey.logisticapp.model;
 
+import javax.validation.constraints.*;
 import java.util.Objects;
 
 public class Driver {
 
+    @NotNull
+    @Min(value = 0)
     private int id;
-    private String name;
-    private String surname;
-    private int hours;
+    @NotBlank
+    @Size(min = 2, max = 45)
+    private String firstName;
+    @NotBlank
+    @Size(min = 2, max = 45)
+    private String lastName;
+    private String patronymicName;
+    @NotBlank
+    @Size(min = 2, max = 20)
     private String status;
+    @NotNull
+    @Min(value = 0)
+    @Max(value = 176)
+    private int hours;
 
     public Driver() {
     }
 
-    public Driver(int id, String name, String surname, int hours, String status) {
+    public Driver(int id, String firstName, String lastName, String patronymicName, String status, int hours) {
         this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.hours = hours;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.patronymicName = patronymicName;
         this.status = status;
+        this.hours = hours;
     }
 
     public int getId() {
@@ -29,20 +43,28 @@ public class Driver {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getSurname() {
-        return surname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setSurname(String surname) {
-        this.surname = surname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public String getPatronymicName() {
+        return patronymicName;
+    }
+
+    public void setPatronymicName(String patronymicName) {
+        this.patronymicName = patronymicName;
     }
 
     public int getHours() {
@@ -67,13 +89,13 @@ public class Driver {
         if (!(o instanceof Driver)) return false;
         Driver driver = (Driver) o;
         return id == driver.id &&
-                Objects.equals(name, driver.name) &&
-                Objects.equals(surname, driver.surname);
+                Objects.equals(firstName, driver.firstName) &&
+                Objects.equals(lastName, driver.lastName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, surname);
+        return Objects.hash(id, firstName, lastName);
     }
 
 
@@ -81,8 +103,8 @@ public class Driver {
     public String toString() {
         return "Driver{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
+                ", name='" + firstName + '\'' +
+                ", surname='" + lastName + '\'' +
                 ", hours=" + hours +
                 ", status='" + status + '\'' +
                 '}';

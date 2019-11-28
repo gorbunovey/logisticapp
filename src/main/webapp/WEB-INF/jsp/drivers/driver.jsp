@@ -14,6 +14,7 @@
     <div>
         <c:if test="${!empty driver}">
             <form>
+                <c:out value="${driver}"/>
                 <!-- Some form which one for edit and show -->
             </form>
         </c:if>

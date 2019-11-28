@@ -1,6 +1,4 @@
-package com.gorbunovey.logisticapp.entity;
-
-import com.gorbunovey.logisticapp.model.Driver;
+package com.gorbunovey.logisticapp.dao.entity;
 
 import java.util.Objects;
 

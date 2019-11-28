@@ -10,22 +10,24 @@ import java.util.List;
 @Component
 public class DriverDaoDummyImpl implements DriverDao {
 
-    List<Driver> drivers = Arrays.asList(
-            new Driver(1, "Alexandr", "Kolobkov", 10, "free"),
-            new Driver(2, "Sergey", "Andreykov", 20, "busy"),
-            new Driver(3, "Evgeniy", "Smirnov", 30, "busy"),
-            new Driver(4, "Andrey", "Goncharov", 40, "free"),
-            new Driver(5, "Anton", "Kolodyan", 50, "busy")
-    );
+    List<Driver> drivers = new ArrayList<>();
+
+    public DriverDaoDummyImpl(){
+        drivers.add(new Driver(1, "Alexandr", "Kolobkov", "Ivanovich", "free", 10));
+        drivers.add(new Driver(2, "Sergey", "Andreykov", "Ivanovich", "busy", 20));
+        drivers.add(new Driver(3, "Evgeniy", "Smirnov", "Ivanovich", "busy", 30));
+        drivers.add(new Driver(4, "Andrey", "Goncharov", "Ivanovich", "free", 40));
+        drivers.add(new Driver(5, "Anton", "Kolodyan", "Ivanovich", "busy", 50));
+    }
 
     @Override
-    public void createDriver(Driver driver) {
+    public void addDriver(Driver driver) {
         drivers.add(driver);
 
     }
 
     @Override
-    public Driver readDriver(int id) {
+    public Driver getDriver(int id) {
         return drivers.get(id);
     }
 
@@ -35,8 +37,8 @@ public class DriverDaoDummyImpl implements DriverDao {
     }
 
     @Override
-    public void deleteDriver(Driver driver) {
-        drivers.remove(driver.getId());
+    public void deleteDriver(int id) {
+        drivers.remove(id);
     }
 
     @Override

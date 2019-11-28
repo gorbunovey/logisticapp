@@ -8,6 +8,7 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.gorbunovey.logisticapp"/>
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
         <property name="prefix" value="/WEB-INF/jsp/"/>
         <property name="suffix" value=".jsp"/>
     </bean>
