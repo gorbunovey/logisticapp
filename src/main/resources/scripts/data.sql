@@ -1,0 +1,5 @@
+INSERT INTO `logisticdb`.`simple_driver` (`ID`, `FIRST_NAME`, `LAST_NAME`, `PATRONYMIC_NAME`, `STATUS`, `WORK_HOURS`, `CITY_ID`, `TRUCK_REG_NUMBER`) VALUES ('1', 'Alexandr', 'Kolobkov', 'Ivanovich', 'free', '10', '1', 'AH12345');
+INSERT INTO `logisticdb`.`simple_driver` (`ID`, `FIRST_NAME`, `LAST_NAME`, `PATRONYMIC_NAME`, `STATUS`, `WORK_HOURS`, `CITY_ID`, `TRUCK_REG_NUMBER`) VALUES ('2', 'Sergey', 'Andreykov', 'Ivanovich', 'free', '20', '1', 'AH12345');
+INSERT INTO `logisticdb`.`simple_driver` (`ID`, `FIRST_NAME`, `LAST_NAME`, `PATRONYMIC_NAME`, `STATUS`, `WORK_HOURS`, `CITY_ID`, `TRUCK_REG_NUMBER`) VALUES ('3', 'Evgeniy', 'Smirnov', 'Ivanovich', 'busy', '30', '1', 'AH12345');
+INSERT INTO `logisticdb`.`simple_driver` (`ID`, `FIRST_NAME`, `LAST_NAME`, `PATRONYMIC_NAME`, `STATUS`, `WORK_HOURS`, `CITY_ID`, `TRUCK_REG_NUMBER`) VALUES ('4', 'Andrey', 'Goncharov', 'Ivanovich', 'busy', '40', '1', 'AH12345');
+INSERT INTO `logisticdb`.`simple_driver` (`ID`, `FIRST_NAME`, `LAST_NAME`, `PATRONYMIC_NAME`, `STATUS`, `WORK_HOURS`, `CITY_ID`, `TRUCK_REG_NUMBER`) VALUES ('5', 'Anton', 'Kolodyan', 'Ivanovich', 'free', '50', '1', 'AH12345');
