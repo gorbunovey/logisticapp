@@ -1,44 +1,52 @@
 package com.gorbunovey.logisticapp.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.*;
 import java.util.Objects;
 
 @Entity
-@Table(name = "simple_driver")
+@Table(name = "driver")
 public class Driver {
 
     @Id
     @NotNull
     @Min(value = 0)
+    @Column(name = "ID", nullable = false)
     private Integer id;
+
     @NotBlank
     @Size(min = 2, max = 45)
+    @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
+
     @NotBlank
     @Size(min = 2, max = 45)
+    @Column(name = "LAST_NAME", nullable = false)
     private String lastName;
+
+    @Column(name = "PATRONYMIC_NAME")
     private String patronymicName;
+
     @NotBlank
     @Size(min = 2, max = 20)
+    @Column(name = "STATUS", nullable = false)
     private String status;
+
     @NotNull
     @Min(value = 0)
     @Max(value = 176)
+    @Column(name = "WORK_HOURS")
     private int hours;
 
-    public Driver() {
-    }
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "CITY_ID")
+    private City city;
 
-    public Driver(@NotNull @Min(value = 0) Integer id, @NotBlank @Size(min = 2, max = 45) String firstName, @NotBlank @Size(min = 2, max = 45) String lastName, String patronymicName, @NotBlank @Size(min = 2, max = 20) String status, @NotNull @Min(value = 0) @Max(value = 176) int hours) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.patronymicName = patronymicName;
-        this.status = status;
-        this.hours = hours;
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
+    @JoinColumn(name = "TRUCK_REG_NUMBER")
+    private Truck truck;
+
+    public Driver() {
     }
 
     public Integer getId() {
@@ -87,6 +95,22 @@ public class Driver {
 
     public void setHours(int hours) {
         this.hours = hours;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
+    }
+
+    public Truck getTruck() {
+        return truck;
+    }
+
+    public void setTruck(Truck truck) {
+        this.truck = truck;
     }
 
     @Override

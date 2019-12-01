@@ -9,6 +9,8 @@
     <mvc:annotation-driven/>
     <context:component-scan base-package="com.gorbunovey.logisticapp"/>
 
+    <import resource="persistence-config.xml"/>
+
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/jsp directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>
@@ -19,6 +21,6 @@
     <mvc:resources mapping="/resources/**" location="/resources/" />
     <!-- Default app icon -->
     <mvc:resources mapping="/favicon.ico" location="/resources/img/favicon.ico" cache-period="31536000"/>
-    <!-- Mapping index page. How to map all requests /* to one page? -->
+    <!-- Mapping index page -->
     <mvc:view-controller path="/" view-name="index"/>
 </beans>

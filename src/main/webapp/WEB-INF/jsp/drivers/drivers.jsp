@@ -13,8 +13,9 @@
 <%-- pageBody --%>
     <div>
         <a href="/drivers/new">New driver</a>
-        <br/>
     </div>
+    <br/>
+    <br/>
     <div>
         <c:if test="${!empty drivers}">
             <table>
@@ -26,6 +27,8 @@
                     <th>Patronymic Name</th>
                     <th>Status</th>
                     <th>Hours</th>
+                    <th>City</th>
+                    <th>Current Truck</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
@@ -38,6 +41,8 @@
                         <td class="center">${driver.patronymicName}</td>
                         <td class="center">${driver.status}</td>
                         <td class="center">${driver.hours}</td>
+                        <td class="center">${driver.city}</td>
+                        <td class="center">${driver.truck}</td>
                         <td class="center">
                             <a href="/drivers/${driver.id}">Edit</a>
                             <a href="/drivers/delete/${driver.id}">Delete</a>
