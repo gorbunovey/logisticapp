@@ -11,5 +11,4 @@ public interface DriverService {
     public void updateDriver(Driver driver);
     public void deleteDriver(int id);
     public List<Driver> getDriverList();
-    public boolean isExist(int id);
 }

@@ -7,7 +7,7 @@
 
     <!-- Enables the Spring MVC @Controller programming model -->
     <mvc:annotation-driven/>
-    <context:component-scan base-package="com.gorbunovey.logisticapp.controller"/>
+    <context:component-scan base-package="com.gorbunovey.logisticapp"/>
 
     <!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/jsp directory -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

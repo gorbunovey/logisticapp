@@ -54,7 +54,7 @@
     Configure Spring Data JPA and set the base package of the
     repository interfaces
     -->
-    <jpa:repositories base-package="com.gorbunovey.logisticapp.repository"/>
+    <jpa:repositories base-package="com.gorbunovey.logisticapp"/>
 
     <!-- Process SQLException into specific DataAccessExceptions -->
     <bean class="org.springframework.dao.annotation.PersistenceExceptionTranslationPostProcessor"/>

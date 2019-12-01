@@ -10,9 +10,9 @@ import java.util.Objects;
 @Table(name = "simple_driver")
 public class Driver {
 
+    @Id
     @NotNull
     @Min(value = 0)
-    @Id
     private Integer id;
     @NotBlank
     @Size(min = 2, max = 45)
@@ -94,7 +94,7 @@ public class Driver {
         if (this == o) return true;
         if (!(o instanceof Driver)) return false;
         Driver driver = (Driver) o;
-        return id == driver.id &&
+        return Objects.equals(id, driver.id) &&
                 Objects.equals(firstName, driver.firstName) &&
                 Objects.equals(lastName, driver.lastName);
     }

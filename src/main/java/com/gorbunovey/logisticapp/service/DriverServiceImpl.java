@@ -48,7 +48,7 @@ public class DriverServiceImpl implements DriverService {
         return driverRepository.findAll();
     }
 
-    @Override
+    //@Override
     public boolean isExist(int id) {
         return driverRepository.existsById(id);
     }
