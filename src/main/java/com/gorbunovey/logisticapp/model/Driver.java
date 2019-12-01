@@ -1,13 +1,19 @@
 package com.gorbunovey.logisticapp.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.*;
 import java.util.Objects;
 
+@Entity
+@Table(name = "simple_driver")
 public class Driver {
 
     @NotNull
     @Min(value = 0)
-    private int id;
+    @Id
+    private Integer id;
     @NotBlank
     @Size(min = 2, max = 45)
     private String firstName;
@@ -26,7 +32,7 @@ public class Driver {
     public Driver() {
     }
 
-    public Driver(int id, String firstName, String lastName, String patronymicName, String status, int hours) {
+    public Driver(@NotNull @Min(value = 0) Integer id, @NotBlank @Size(min = 2, max = 45) String firstName, @NotBlank @Size(min = 2, max = 45) String lastName, String patronymicName, @NotBlank @Size(min = 2, max = 20) String status, @NotNull @Min(value = 0) @Max(value = 176) int hours) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -35,11 +41,11 @@ public class Driver {
         this.hours = hours;
     }
 
-    public int getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -67,20 +73,20 @@ public class Driver {
         this.patronymicName = patronymicName;
     }
 
-    public int getHours() {
-        return hours;
-    }
-
-    public void setHours(int hours) {
-        this.hours = hours;
-    }
-
     public String getStatus() {
         return status;
     }
 
     public void setStatus(String status) {
         this.status = status;
+    }
+
+    public int getHours() {
+        return hours;
+    }
+
+    public void setHours(int hours) {
+        this.hours = hours;
     }
 
     @Override

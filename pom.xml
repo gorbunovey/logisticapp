@@ -39,7 +39,6 @@
       <version>2.2.2.RELEASE</version>
     </dependency>
 
-
     <!-- Servlet -->
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -66,7 +65,7 @@
       <version>6.1.0.Final</version>
     </dependency>
 
-    <!-- MySql -->
+    <!-- MySQL database driver -->
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>

@@ -16,6 +16,7 @@ import javax.validation.Valid;
 public class DriversController {
 
     @Autowired
+    @Qualifier("driverServiceImpl")
     DriverService driverService;
 
     @RequestMapping(method = RequestMethod.GET)

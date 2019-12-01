@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.model;
+package com.gorbunovey.logisticapp.model.login;
 
 public class User {
 
