@@ -12,9 +12,9 @@
 <div>
     <%-- pageBody --%>
         <div>
-            <a href="/trucks/new">New driver</a>
-            <br/>
+            <a href="/trucks/new">New truck</a>
         </div>
+        <br/>
         <br/>
         <div>
             <c:if test="${!empty trucks}">
@@ -38,8 +38,8 @@
                             <td class="center">${truck.state}</td>
                             <td class="center">${truck.city}</td>
                             <td class="center">
-                                <a href="/trucks/${truck.id}">Edit</a>
-                                <a href="/trucks/delete/${truck.id}">Delete</a>
+                                <a href="/trucks/${truck.regNumber}">Edit</a>
+                                <a href="/trucks/delete/${truck.regNumber}">Delete</a>
                             </td>
                         </tr>
                     </c:forEach>
