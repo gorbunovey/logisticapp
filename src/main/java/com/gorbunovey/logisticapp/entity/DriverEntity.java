@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.model;
+package com.gorbunovey.logisticapp.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -6,7 +6,7 @@ import java.util.Objects;
 
 @Entity
 @Table(name = "driver")
-public class Driver {
+public class DriverEntity {
 
     @Id
     @NotNull
@@ -40,13 +40,13 @@ public class Driver {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "CITY_ID")
-    private City city;
+    private CityEntity city;
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "TRUCK_REG_NUMBER")
-    private Truck truck;
+    private TruckEntity truck;
 
-    public Driver() {
+    public DriverEntity() {
     }
 
     public Integer getId() {
@@ -97,27 +97,27 @@ public class Driver {
         this.hours = hours;
     }
 
-    public City getCity() {
+    public CityEntity getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(CityEntity city) {
         this.city = city;
     }
 
-    public Truck getTruck() {
+    public TruckEntity getTruck() {
         return truck;
     }
 
-    public void setTruck(Truck truck) {
+    public void setTruck(TruckEntity truck) {
         this.truck = truck;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Driver)) return false;
-        Driver driver = (Driver) o;
+        if (!(o instanceof DriverEntity)) return false;
+        DriverEntity driver = (DriverEntity) o;
         return Objects.equals(id, driver.id) &&
                 Objects.equals(firstName, driver.firstName) &&
                 Objects.equals(lastName, driver.lastName);

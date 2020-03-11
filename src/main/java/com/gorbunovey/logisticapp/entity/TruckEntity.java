@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.model;
+package com.gorbunovey.logisticapp.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.*;
@@ -6,7 +6,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "truck")
-public class Truck {
+public class TruckEntity {
 
     @NotBlank
     @Size(min = 7, max = 7)
@@ -32,12 +32,12 @@ public class Truck {
 
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
     @JoinColumn(name = "CITY_ID")
-    private City city;
+    private CityEntity city;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "truck")
-    private Set<Driver> drivers;
+    private Set<DriverEntity> drivers;
 
-    public Truck() {
+    public TruckEntity() {
     }
 
     public String getRegNumber() {
@@ -72,19 +72,19 @@ public class Truck {
         this.state = state;
     }
 
-    public City getCity() {
+    public CityEntity getCity() {
         return city;
     }
 
-    public void setCity(City city) {
+    public void setCity(CityEntity city) {
         this.city = city;
     }
 
-    public Set<Driver> getDrivers() {
+    public Set<DriverEntity> getDrivers() {
         return drivers;
     }
 
-    public void setDrivers(Set<Driver> drivers) {
+    public void setDrivers(Set<DriverEntity> drivers) {
         this.drivers = drivers;
     }
 }

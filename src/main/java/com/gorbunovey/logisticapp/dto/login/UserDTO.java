@@ -1,6 +1,6 @@
-package com.gorbunovey.logisticapp.model.login;
+package com.gorbunovey.logisticapp.dto.login;
 
-public class User {
+public class UserDTO {
 
     private String login;
     private String password;

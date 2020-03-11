@@ -1,6 +1,6 @@
 package com.gorbunovey.logisticapp.controller;
 
-import com.gorbunovey.logisticapp.model.Truck;
+import com.gorbunovey.logisticapp.dto.TruckDTO;
 import com.gorbunovey.logisticapp.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -38,14 +38,14 @@ public class TrucksController {
     public String newTruck(
             @RequestParam(value="statusMessage", required=false) String statusMessage,
             Model model){
-        model.addAttribute("truck", new Truck());
+        model.addAttribute("truck", new TruckDTO());
         model.addAttribute("statusMessage", statusMessage);
         return "trucks/new";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createTruck(
-            @ModelAttribute @Valid Truck truck,
+            @ModelAttribute @Valid TruckDTO truck,
             BindingResult bindingResult,
             Model model){
         // Here should be validation form fields

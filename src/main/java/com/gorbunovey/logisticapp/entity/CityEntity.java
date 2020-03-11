@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.model;
+package com.gorbunovey.logisticapp.entity;
 
 import javax.persistence.*;
 import javax.validation.constraints.Min;
@@ -9,7 +9,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "city")
-public class City {
+public class CityEntity {
 
     @NotNull
     @Min(value = 0)
@@ -24,10 +24,10 @@ public class City {
     private String name;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
-    private Set<Truck> trucks;
+    private Set<TruckEntity> trucks;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
-    private Set<Driver> drivers;
+    private Set<DriverEntity> drivers;
 
 //    @OneToMany(fetch = FetchType.EAGER, mappedBy = "departurePoint")
 ////    private Set<Map> departures;
@@ -36,7 +36,7 @@ public class City {
 ////    private Set<Map> destinations;
 
 
-    public City() {
+    public CityEntity() {
     }
 
     public Long getId() {
@@ -55,19 +55,19 @@ public class City {
         this.name = name;
     }
 
-    public Set<Truck> getTrucks() {
+    public Set<TruckEntity> getTrucks() {
         return trucks;
     }
 
-    public void setTrucks(Set<Truck> trucks) {
+    public void setTrucks(Set<TruckEntity> trucks) {
         this.trucks = trucks;
     }
 
-    public Set<Driver> getDrivers() {
+    public Set<DriverEntity> getDrivers() {
         return drivers;
     }
 
-    public void setDrivers(Set<Driver> drivers) {
+    public void setDrivers(Set<DriverEntity> drivers) {
         this.drivers = drivers;
     }
 

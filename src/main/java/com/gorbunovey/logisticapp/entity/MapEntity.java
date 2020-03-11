@@ -1,4 +1,4 @@
-//package com.gorbunovey.logisticapp.model;
+//package com.gorbunovey.logisticapp.dto;
 //
 //import javax.persistence.*;
 //import javax.validation.constraints.Min;

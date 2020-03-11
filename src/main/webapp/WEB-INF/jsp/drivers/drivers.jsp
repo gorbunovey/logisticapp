@@ -41,10 +41,10 @@
                         <td class="center">${driver.patronymicName}</td>
                         <td class="center">${driver.status}</td>
                         <td class="center">${driver.hours}</td>
-                        <td class="center">${driver.city}</td>
-                        <td class="center">${driver.truck}</td>
+                        <td class="center">${driver.city.name}</td>
+                        <td class="center">${driver.truck.regNumber}</td>
                         <td class="center">
-                            <a href="/drivers/${driver.id}">Edit</a>
+                            <a href="/drivers/edit/${driver.id}">Edit</a>
                             <a href="/drivers/delete/${driver.id}">Delete</a>
                         </td>
                     </tr>
