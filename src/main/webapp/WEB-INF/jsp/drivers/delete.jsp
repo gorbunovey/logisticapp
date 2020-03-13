@@ -11,46 +11,65 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-    <h2> Delete Driver #<c:out value="${driver.id}"/> ?</h2>
+    <h2>Delete Driver#<c:out value="${id}"/></h2>
     <div>
-        <form:form action="/drivers/delete/${driver.id}" method="post" modelAttribute="driver"  readonly="true" >
-            <table>
-                <tr>
-                    <td>Driver ID:</td>
-                    <td><form:input  path="id" /></td>
-                </tr>
-                <tr>
-                    <td>First Name:</td>
-                    <td><form:input path="firstName" readonly="true"/></td>
-                </tr>
-                <tr>
-                    <td>Last Name:</td>
-                    <td><form:input path="lastName" /></td>
-                </tr>
-                <tr>
-                    <td>Patronymic Name:</td>
-                    <td><form:input path="patronymicName" /></td>
+        <c:choose>
+                <c:when test="${!empty driver}">
+                    <form:form action="/drivers/delete/${driver.id}" method="post" modelAttribute="driver" >
+                        <table>
+                            <tr>
+                                <td>Driver ID:</td>
+                                <td><form:input  path="id" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>First Name:</td>
+                                <td><form:input path="firstName" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>Last Name:</td>
+                                <td><form:input path="lastName" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>Patronymic Name:</td>
+                                <td><form:input path="patronymicName"  disabled="true"/></td>
 
-                </tr>
-                <tr>
-                    <td>Status:</td>
-                    <td><form:input path="status" /></td>
+                            </tr>
+                            <tr>
+                                <td>Status:</td>
+                                <td><form:input path="status" disabled="true"/></td>
 
-                </tr>
-                <tr>
-                    <td>Hours:</td>
-                    <td><form:input path="hours" /></td>
-                </tr>
-                <tr>
-                    <td colspan="2">
-                        <input type="submit" value="Delete Driver" />
-                    </td>
-                </tr>
-            </table>
-        </form:form>
+                            </tr>
+                            <tr>
+                                <td>Hours:</td>
+                                <td><form:input path="hours" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>City:</td>
+                                <td><form:input path="city" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td>Truck:</td>
+                                <td><form:input path="truck" disabled="true"/></td>
+                            </tr>
+                            <tr>
+                                <td colspan="1">
+                                    <input type="submit" value="Delete" />
+                                </td>
+                                <td colspan="1">
+                                    <input type="reset" value="Reset" />
+                                </td>
+                            </tr>
+                        </table>
+                    </form:form>
+                </c:when>
+            <c:otherwise>
+                <h2>?</h2>
+                <div>No such driver with ID#<c:out value="${id}"/></div>
+            </c:otherwise>
+        </c:choose>
     </div>
     <%-- pageBody --%>
-    <c:import url="../footer.jsp"/>
 </div>
+<c:import url="../footer.jsp"/>
 </body>
 </html>

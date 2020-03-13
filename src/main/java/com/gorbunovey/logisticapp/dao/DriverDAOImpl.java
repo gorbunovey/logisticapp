@@ -32,8 +32,12 @@ public class DriverDAOImpl implements DriverDAO {
     }
 
     @Override
-    public void updateDriver(DriverEntity driver) {
-        entityManager.merge(driver);
+    public void updateDriver(DriverEntity newDriver) {
+        //DriverEntity oldDriver = entityManager.find(DriverEntity.class, driver.getId());
+        // change oldDriver field by field like newDriver
+        //entityManager.remove(driver);
+        //entityManager.merge(driver);
+
     }
 
     @Override

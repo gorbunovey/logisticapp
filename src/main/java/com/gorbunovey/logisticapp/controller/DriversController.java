@@ -19,73 +19,87 @@ public class DriversController {
     @Qualifier("driverServiceImpl")
     DriverService driverService;
 
+    // ---------------------------------------- ALL ----------------------------------------
+
     @RequestMapping(method = RequestMethod.GET)
-    public String getDriverList(Model model){
+    public String getDriverList(
+            @RequestParam(value = "statusMessage", required = false) String statusMessage,
+            Model model) {
         model.addAttribute("drivers", driverService.getDriverList());
+        model.addAttribute("statusMessage", statusMessage);
         return "drivers/drivers";
     }
+
+    // ---------------------------------------- EDIT ----------------------------------------
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String getDriver(
             @PathVariable(value = "id") int id,
-            @RequestParam(value="statusMessage", required=false) String statusMessage,
-            Model model){
-        // Here should be validating id
-        // if no such driver -> then no driver attribute
-        model.addAttribute("statusMessage", statusMessage);
+            Model model) {
+        // TODO: Sanity check for id before using service
         model.addAttribute("driver", driverService.getDriver(id));
         return "drivers/edit";
     }
 
-    // @RequestMapping(value = "/{id}", method = RequestMethod.POST)
-    // public String setDriver...
-    // Here POST-method save changes of driver
+    @RequestMapping(value = "/edit/{id}", method = RequestMethod.POST)
+    public String setDriver(
+            @ModelAttribute @Valid DriverDTO driver,
+            BindingResult bindingResult,
+            Model model) {
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("statusMessage", "Failure. Driver #" + driver.getId() + " wasn't edit");
+        }else{
+            driverService.updateDriver(driver);
+            model.addAttribute("driver", driver);
+            model.addAttribute("statusMessage", "Success. Driver #" + driver.getId() + " was edit");
+        }
+        return "drivers/edit";
+    }
+
+    // ---------------------------------------- NEW ----------------------------------------
 
     @RequestMapping(value = "/new", method = RequestMethod.GET)
-    public String newDriver(
-            @RequestParam(value="statusMessage", required=false) String statusMessage,
-            Model model){
+    public String newDriver(Model model) {
         model.addAttribute("driver", new DriverDTO());
-        model.addAttribute("statusMessage", statusMessage);
         return "drivers/new";
     }
 
     @RequestMapping(value = "/new", method = RequestMethod.POST)
     public String createDriver(
-            @ModelAttribute @Valid DriverDTO driver,
-           BindingResult bindingResult,
-           Model model){
-        // Here should be validation form fields
-        // Validate @Valid thus???
-        // if success -> return redirect to default new page with success message
-        // else -> return to the same page with validation errors message
+            @ModelAttribute("driver") @Valid DriverDTO driver,
+            BindingResult bindingResult,
+            Model model) {
 
-        if(!bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("statusMessage", "Failure. Couldn't add new driver");
+        } else {
             driverService.addDriver(driver);
+            model.addAttribute("statusMessage", "Success. Driver #" + driver.getId() + " was added");
             model.addAttribute("driver", new DriverDTO());
-            model.addAttribute("statusMessage", "Success. " + driver.toString());
         }
         return "drivers/new";
+
     }
 
+    // ---------------------------------------- DELETE ----------------------------------------
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
-    public String deleteDriverConfirm(
+    public String deleteDriver(
             @PathVariable(value = "id") int id,
-            @RequestParam(value="message", required=false) String statusMessage,
-            Model model){
-        // Here should be validating id
-        // if no such driver -> then no driver attribute
-        model.addAttribute("statusMessage", statusMessage);
+            Model model) {
+        // TODO: Sanity check for id before using service
         model.addAttribute("driver", driverService.getDriver(id));
         return "drivers/delete";
     }
+
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteDriver(
             @PathVariable(value = "id") int id,
-            Model model){
-        // TODO: Here should be validating id
-        //  if no such driver -> then error msg
+            @RequestParam(value = "message", required = false) String statusMessage,
+            Model model) {
+        // TODO: Sanity check for id before using service
         driverService.deleteDriver(id);
-        return "drivers/delete";
+        model.addAttribute("statusMessage", "Success. Driver #" + id + " was deleted");
+        return "redirect:drivers";
     }
 }

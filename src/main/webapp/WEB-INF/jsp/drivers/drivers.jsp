@@ -4,18 +4,17 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Drivers</title>
+    <title>All Drivers</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
 <c:import url="../header.jsp"/>
 <div>
 <%-- pageBody --%>
+    <h2>All Drivers</h2>
     <div>
-        <a href="/drivers/new">New driver</a>
+        <a href="<c:url value="/drivers/new"/>">New driver</a>
     </div>
-    <br/>
-    <br/>
     <div>
         <c:if test="${!empty drivers}">
             <table>
@@ -50,13 +49,13 @@
                     </tr>
                 </c:forEach>
                 </tbody>
-
             </table>
+            <%-- Pagination --%>
         </c:if>
     </div>
-<%-- Pagination --%>
+    <div><c:out value="${statusMessage}"/></div>
 <%-- pageBody --%>
-    <c:import url="../footer.jsp"/>
 </div>
+<c:import url="../footer.jsp"/>
 </body>
 </html>

@@ -1,13 +1,11 @@
 package com.gorbunovey.logisticapp.dto;
 
-import javax.persistence.*;
 import javax.validation.constraints.*;
-import java.util.Objects;
 
 public class DriverDTO {
 
     @NotNull
-    @Min(value = 0)
+    @Digits(integer=9, fraction=0)
     private Integer id;
 
     @NotBlank
@@ -25,9 +23,8 @@ public class DriverDTO {
     private String status;
 
     @NotNull
-    @Min(value = 0)
-    @Max(value = 176)
-    private int hours;
+    @Digits(integer=3, fraction=0)
+    private Integer hours;
 
     private CityDTO city;
 
@@ -76,11 +73,11 @@ public class DriverDTO {
         this.status = status;
     }
 
-    public int getHours() {
+    public Integer getHours() {
         return hours;
     }
 
-    public void setHours(int hours) {
+    public void setHours(Integer hours) {
         this.hours = hours;
     }
 

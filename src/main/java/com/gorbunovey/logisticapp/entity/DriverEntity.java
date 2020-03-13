@@ -10,7 +10,7 @@ public class DriverEntity {
 
     @Id
     @NotNull
-    @Min(value = 0)
+    @Digits(integer=9, fraction=0)
     @Column(name = "ID", nullable = false)
     private Integer id;
 
@@ -33,8 +33,7 @@ public class DriverEntity {
     private String status;
 
     @NotNull
-    @Min(value = 0)
-    @Max(value = 176)
+    @Digits(integer=3, fraction=0)
     @Column(name = "WORK_HOURS")
     private int hours;
 
