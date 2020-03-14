@@ -18,47 +18,28 @@ public class DriverDAOImpl implements DriverDAO {
     private EntityManager entityManager;
 
     @Override
-    public void addDriver(DriverEntity driver) {
+    public void add(DriverEntity driver) {
         entityManager.persist(driver);
     }
 
     @Override
-    public DriverEntity getDriver(int id) {
-        // FIXME: use find method instead
-        // return entityManager.find(DriverEntity.class, id);
-        TypedQuery<DriverEntity> q = entityManager.createQuery("SELECT d FROM DriverEntity d WHERE d.id = :id", DriverEntity.class);
-        q.setParameter("id", id);
-        return q.getResultStream().findAny().orElse(null);
+    public DriverEntity get(int id) {
+        return entityManager.find(DriverEntity.class, id);
     }
 
     @Override
-    public void updateDriver(DriverEntity newDriver) {
-        //DriverEntity oldDriver = entityManager.find(DriverEntity.class, driver.getId());
-        // change oldDriver field by field like newDriver
-        //entityManager.remove(driver);
-        //entityManager.merge(driver);
+    public void update(DriverEntity entity) {
+        entityManager.merge(entity);
 
     }
 
     @Override
-        public void deleteDriver(int id) {
-        // FIXME: нужно уточнить правильную логику работы
-        //  пример1: я буду удалять исполняя запрос:
-        //  String queryString = "delete from DriverEntity d where d.id = " + id;
-        //  Query query = entityManager.createQuery(queryString);
-        //  query.executeUpdate();
-        //  Будет ли при этом делаться поиск сущности по id в контексте entityManager?
-        //  И будет ли она удаляться из контекста?
-        //  Насколько ужасен костыль ниже?
-        DriverEntity entity = entityManager.find(DriverEntity.class, id);
-        if(entity != null) {
-            entityManager.merge(entity);
-            entityManager.remove(entity);
-        }
+    public void delete(DriverEntity entity) {
+        entityManager.remove(entityManager.merge(entity));//merge for cascade entities
     }
 
     @Override
-    public List<DriverEntity> getDriverList() {
+    public List<DriverEntity> getAll() {
         return entityManager.createQuery("select d from DriverEntity d").getResultList();
     }
 }

@@ -45,18 +45,18 @@
                             </tr>
                             <tr>
                                 <td>City:</td>
-                                <td><form:input path="city" disabled="true"/></td>
+                                <td><form:input path="city.name" disabled="true"/></td>
                             </tr>
                             <tr>
                                 <td>Truck:</td>
-                                <td><form:input path="truck" disabled="true"/></td>
+                                <td><form:input path="truck.regNumber" disabled="true"/></td>
                             </tr>
                             <tr>
                                 <td colspan="1">
-                                    <input type="submit" value="Delete" />
+                                    <input type="submit" value="Delete"/>
                                 </td>
                                 <td colspan="1">
-                                    <input type="reset" value="Reset" />
+                                    <input type="reset" value="Reset"/>
                                 </td>
                             </tr>
                         </table>

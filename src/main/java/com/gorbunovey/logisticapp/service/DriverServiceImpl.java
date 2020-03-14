@@ -24,13 +24,13 @@ public class DriverServiceImpl implements DriverService {
     @Transactional
     public void addDriver(DriverDTO driver) {
         DriverEntity driverEntity = modelMapper.map(driver, DriverEntity.class);
-        driverDAO.addDriver(driverEntity);
+        driverDAO.add(driverEntity);
 
     }
 
     @Override
     public DriverDTO getDriver(int id) {
-        DriverEntity driverEntity = driverDAO.getDriver(id);
+        DriverEntity driverEntity = driverDAO.get(id);
         if (driverEntity == null){
             return null;
         }else {
@@ -41,21 +41,22 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public void updateDriver(DriverDTO driver) {
-        DriverEntity driverEntity = modelMapper.map(driver, DriverEntity.class);
-        driverDAO.updateDriver(driverEntity);
+    public void updateDriver(DriverDTO driverDTO) {
+        DriverEntity driverEntity = driverDAO.get(driverDTO.getId());
+        modelMapper.map(driverDTO, driverEntity);
+        driverDAO.update(driverEntity);
     }
 
     @Override
     @Transactional
     public void deleteDriver(int id) {
-        driverDAO.deleteDriver(id);
+        driverDAO.delete(driverDAO.get(id));
     }
 
     @Override
     public List<DriverDTO> getDriverList() {
         List<DriverDTO> driverDTOList = new ArrayList<>();
-        driverDAO.getDriverList().forEach( driverEntity -> driverDTOList.add(modelMapper.map(driverEntity, DriverDTO.class)));
+        driverDAO.getAll().forEach( driverEntity -> driverDTOList.add(modelMapper.map(driverEntity, DriverDTO.class)));
         return driverDTOList;
     }
 

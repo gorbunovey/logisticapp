@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DriverDAO {
 
-    public void addDriver(DriverEntity driver);
-    public DriverEntity getDriver(int id);
-    public void updateDriver(DriverEntity driver);
-    public void deleteDriver(int id);
-    public List<DriverEntity> getDriverList();
+    public void add(DriverEntity entity);
+    public DriverEntity get(int id);
+    public void update(DriverEntity entity);
+    public void delete(DriverEntity entity);
+    public List<DriverEntity> getAll();
 }
