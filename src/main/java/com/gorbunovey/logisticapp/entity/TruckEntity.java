@@ -1,90 +1,32 @@
 package com.gorbunovey.logisticapp.entity;
 
+import lombok.*;
 import javax.persistence.*;
-import javax.validation.constraints.*;
-import java.util.Set;
+import java.io.Serializable;
 
+@Data
 @Entity
-@Table(name = "truck")
-public class TruckEntity {
+@Table(name = "TRUCK")
+public class TruckEntity implements Serializable {
 
-    @NotBlank
-    @Size(min = 7, max = 7)
     @Id
-    @Column(name = "REG_NUMBER", nullable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID", nullable = false)
+    private Long id;
+
+    @Column(name = "REG_NUMBER", nullable = false, unique = true)
     private String regNumber;
 
-    @NotNull
-    @Min(value = 0)
-    @Max(value = 10)
-    @Column(name = "CREW")
-    private int crewSize;
+    @Column(name = "CREW", nullable = false)
+    private int crew;
 
-    @NotNull
-    @Min(value = 0)
-    @Max(value = 100000)
-    @Column(name = "CAPACITY")
-    private int capacity;
+    @Column(name = "CAPACITY", nullable = false)
+    private float capacity;
 
-    @NotNull
-    @Column(name = "STATE")
+    @Column(name = "STATE", nullable = false)
     private boolean state;
 
-    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.PERSIST})
-    @JoinColumn(name = "CITY_ID")
+    @ManyToOne(fetch = FetchType.LAZY)
     private CityEntity city;
 
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "truck")
-    private Set<DriverEntity> drivers;
-
-    public TruckEntity() {
-    }
-
-    public String getRegNumber() {
-        return regNumber;
-    }
-
-    public void setRegNumber(String regNumber) {
-        this.regNumber = regNumber;
-    }
-
-    public int getCrewSize() {
-        return crewSize;
-    }
-
-    public void setCrewSize(int crewSize) {
-        this.crewSize = crewSize;
-    }
-
-    public int getCapacity() {
-        return capacity;
-    }
-
-    public void setCapacity(int capacity) {
-        this.capacity = capacity;
-    }
-
-    public boolean isState() {
-        return state;
-    }
-
-    public void setState(boolean state) {
-        this.state = state;
-    }
-
-    public CityEntity getCity() {
-        return city;
-    }
-
-    public void setCity(CityEntity city) {
-        this.city = city;
-    }
-
-    public Set<DriverEntity> getDrivers() {
-        return drivers;
-    }
-
-    public void setDrivers(Set<DriverEntity> drivers) {
-        this.drivers = drivers;
-    }
 }
