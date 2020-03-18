@@ -4,8 +4,11 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
+@EqualsAndHashCode(exclude = "orderCargos")
+@ToString(exclude = "orderCargos")
 @Entity
 @Table(name = "CARGO")
 public class CargoEntity implements Serializable {
@@ -27,9 +30,14 @@ public class CargoEntity implements Serializable {
     @Column(name = "STATUS", nullable = false)
     private String status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CITY_FROM")
     private CityEntity cityFrom;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "CITY_TO")
     private CityEntity cityTo;
+
+    @OneToMany(mappedBy = "cargo")
+    Set<OrderCargosEntity> orderCargos;
 }

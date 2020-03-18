@@ -4,52 +4,56 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Trucks</title>
+    <title>All Trucks</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-        <div>
-            <a href="/trucks/new">New truck</a>
-        </div>
-        <br/>
-        <br/>
-        <div>
-            <c:if test="${!empty trucks}">
-                <table>
-                    <thead>
+    <%-- message from redirect flash attribute  --%>
+    <c:if test="${not empty statusMsg}">
+        <div><strong><c:out value="${statusMsg}"/></strong></div>
+    </c:if>
+    <%-- message from redirect flash attribute  --%>
+    <h2>All Trucks</h2>
+    <div>
+        <a href="<c:url value="/trucks/new"/>">New truck</a>
+    </div>
+    <div>
+        <c:if test="${!empty trucks}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Registration Number</th>
+                    <th>Crew size</th>
+                    <th>Load capacity</th>
+                    <th>Vehicle state</th>
+                    <th>Current city</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="truck" items="${trucks}">
                     <tr>
-                        <th>Registration Number</th>
-                        <th>Crew size</th>
-                        <th>Load capacity</th>
-                        <th>Vehicle state</th>
-                        <th>Current city</th>
-                        <th>Actions</th>
+                        <td class="center">${truck.regNumber}</td>
+                        <td class="center">${truck.crew}</td>
+                        <td class="center">${truck.capacity}</td>
+                        <td class="center">${truck.active == true ? "active":"broken"}</td>
+                        <td class="center">${truck.cityName}</td>
+                        <td class="center">
+                            <a href="/trucks/edit/${truck.regNumber}">Edit</a>
+                            <a href="/trucks/delete/${truck.regNumber}">Delete</a>
+                        </td>
                     </tr>
-                    </thead>
-                    <tbody>
-                    <c:forEach var="truck" items="${trucks}">
-                        <tr>
-                            <td class="center">${truck.regNumber}</td>
-                            <td class="center">${truck.crewSize}</td>
-                            <td class="center">${truck.capacity}</td>
-                            <td class="center">${truck.state}</td>
-                            <td class="center">${truck.city}</td>
-                            <td class="center">
-                                <a href="/trucks/${truck.regNumber}">Edit</a>
-                                <a href="/trucks/delete/${truck.regNumber}">Delete</a>
-                            </td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-            </c:if>
-        </div>
-    <%-- Pagination --%>
+                </c:forEach>
+                </tbody>
+            </table>
+            <%-- Pagination --%>
+        </c:if>
+    </div>
     <%-- pageBody --%>
-    <c:import url="../footer.jsp"/>
 </div>
+<c:import url="../footer.jsp"/>
 </body>
 </html>

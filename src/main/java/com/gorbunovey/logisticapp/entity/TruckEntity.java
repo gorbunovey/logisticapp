@@ -3,6 +3,7 @@ package com.gorbunovey.logisticapp.entity;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Set;
 
 @Data
 @Entity
@@ -24,9 +25,13 @@ public class TruckEntity implements Serializable {
     private float capacity;
 
     @Column(name = "STATE", nullable = false)
-    private boolean state;
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CITY_ID")
     private CityEntity city;
+
+    @OneToMany(mappedBy = "truck")
+    private Set<OrderEntity> orders;
 
 }

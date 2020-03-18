@@ -31,11 +31,13 @@ public class UserEntity implements Serializable {
     @Column(name = "PASSWORD", nullable = false)
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "ROLE_ID")
     private RoleEntity role;
 
-    @OneToOne(mappedBy = "user")
     // orphanRemoval="true" - для автоматического удаления водителя, для которого удален его user
+    // по идее cascade = CascadeType.ALL должна тоже это сделать
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private DriverEntity driver;
 
 }

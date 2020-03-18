@@ -6,9 +6,9 @@ import java.util.List;
 
 public interface DriverService {
 
-    public void addDriver(DriverDTO driver);
-    public DriverDTO getDriver(int id);
-    public void updateDriver(DriverDTO driver);
-    public void deleteDriver(int id);
-    public List<DriverDTO> getDriverList();
+    void addDriver(DriverDTO driver);
+    DriverDTO getDriver(Long id);
+    void updateDriver(DriverDTO driver);
+    void deleteDriver(Long id);
+    List<DriverDTO> getDriverList();
 }

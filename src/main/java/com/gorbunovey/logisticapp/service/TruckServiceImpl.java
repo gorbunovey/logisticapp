@@ -1,12 +1,18 @@
 package com.gorbunovey.logisticapp.service;
 
+import com.gorbunovey.logisticapp.dao.CityDAO;
 import com.gorbunovey.logisticapp.dao.TruckDAO;
 import com.gorbunovey.logisticapp.dto.TruckDTO;
+import com.gorbunovey.logisticapp.entity.CityEntity;
+import com.gorbunovey.logisticapp.entity.TruckEntity;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 @Transactional(readOnly = true)
@@ -15,33 +21,73 @@ public class TruckServiceImpl implements TruckService {
     @Autowired
     private TruckDAO truckDAO;
 
-    @Override
-    @Transactional
-    public void addTruck(TruckDTO truck) {
-       //truckRepository.save(truck);
-    }
+    @Autowired
+    private CityDAO cityDAO;
 
-    @Override
-    public TruckDTO getTruck(String regNumber) {
-        //return truckRepository.findById(regNumber).orElse(null);
-        return null;
-    }
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Override
     @Transactional
-    public void updateTruck(TruckDTO truck) {
-        //truckRepository.save(truck);
+    public void addTruck(TruckDTO truckDTO) {
+        TruckEntity truckEntity = modelMapper.map(truckDTO, TruckEntity.class);
+        // TODO: маппер автоматически создает объект City в truckEntity!
+        //  т.к. новая truckEntity еще не под управлением entityManager, то он позволет создать недостроенный объект City
+        //  нужна java-конфигурация и настройка маппер, в идеале - обертка вокруг маппера как на хабре
+        System.out.println("NEW-TRUCK-from-mapper =" + truckEntity);
+        CityEntity cityEntity = cityDAO.getByCode(truckDTO.getCityCode());
+        truckEntity.setCity(cityEntity);
+        System.out.println("NEW-TRUCK-FULL =" + truckEntity);
+        truckDAO.add(truckEntity);
+    }
+
+    @Override
+    public TruckDTO getTruckByRegNumber(String regNumber) {
+        TruckEntity truckEntity = truckDAO.getByRegNumber(regNumber);
+        if (truckEntity == null){
+            return null;
+        }else {
+            return modelMapper.map(truckEntity, TruckDTO.class);
+        }
     }
 
     @Override
     @Transactional
-    public void deleteTruck(String regNumber) {
-        //truckRepository.deleteById(regNumber);
+    public boolean updateTruck(TruckDTO truckDTO) {
+        TruckEntity truckEntity = truckDAO.getByRegNumber(truckDTO.getRegNumber());
+        if (truckEntity == null){
+            return false;
+        }else {
+            // TODO: маппер автоматически создает объект City в truckEntity!
+            //  без настройки modelMapper нельзя юзать для update, т.к. мы обновляем сущность уже в контексте
+            //  и он меняет объект cityEntity, который не может заполнить полностью и хибернейт кидает исключение
+            //modelMapper.map(truckDTO, truckEntity);
+            truckEntity.setRegNumber(truckDTO.getRegNumber());
+            truckEntity.setCrew(truckDTO.getCrew());
+            truckEntity.setCapacity(truckDTO.getCapacity());
+            truckEntity.setActive(truckDTO.isActive());
+            truckEntity.setCity(cityDAO.getByCode(truckDTO.getCityCode()));
+            truckDAO.update(truckEntity);
+            return true;
+        }
+
+    }
+
+    @Override
+    @Transactional
+    public boolean deleteTruck(String regNumber) {
+        TruckEntity truckEntity = truckDAO.getByRegNumber(regNumber);
+        if (truckEntity == null){
+            return false;
+        }else {
+            truckDAO.delete(truckEntity);
+            return true;
+        }
     }
 
     @Override
     public List<TruckDTO> getTruckList() {
-        //return truckRepository.findAll();
-        return null;
+        List<TruckDTO> truckDTOList = new ArrayList<>();
+        truckDAO.getAll().forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
+        return truckDTOList;
     }
 }

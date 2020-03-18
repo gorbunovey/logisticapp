@@ -21,14 +21,16 @@ public class DriverEntity  implements Serializable {
     private long number;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "CITY_ID")
     private CityEntity city;
 
     @OneToOne(optional = false)
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "driver")
     // orphanRemoval="true" - для автоматической очистки истории при удалении драйвера
+    // по идее cascade = CascadeType.ALL - должна сделать тоже самое
+    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     private Set<DriverHistoryEntity> driverHistory;
 
     @ManyToMany(mappedBy = "drivers")

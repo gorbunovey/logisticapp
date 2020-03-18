@@ -21,6 +21,7 @@ public class DriverHistoryEntity implements Serializable {
     @Column(name = "STATUS_TIME", nullable = false)
     private LocalDateTime statusTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional=false)
+    @JoinColumn(name = "DRIVER_ID")
     private DriverEntity driver;
 }

@@ -22,14 +22,14 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public void addDriver(DriverDTO driver) {
-        DriverEntity driverEntity = modelMapper.map(driver, DriverEntity.class);
+    public void addDriver(DriverDTO driverDTO) {
+        DriverEntity driverEntity = modelMapper.map(driverDTO, DriverEntity.class);
         driverDAO.add(driverEntity);
 
     }
 
     @Override
-    public DriverDTO getDriver(int id) {
+    public DriverDTO getDriver(Long id) {
         DriverEntity driverEntity = driverDAO.get(id);
         if (driverEntity == null){
             return null;
@@ -49,7 +49,7 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     @Transactional
-    public void deleteDriver(int id) {
+    public void deleteDriver(Long id) {
         driverDAO.delete(driverDAO.get(id));
     }
 

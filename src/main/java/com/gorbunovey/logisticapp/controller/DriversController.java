@@ -34,7 +34,7 @@ public class DriversController {
 
     @RequestMapping(value = "/edit/{id}", method = RequestMethod.GET)
     public String getDriver(
-            @PathVariable(value = "id") int id,
+            @PathVariable(value = "id") Long id,
             Model model) {
         // TODO: Sanity check for id before using service
         model.addAttribute("driver", driverService.getDriver(id));
@@ -85,7 +85,7 @@ public class DriversController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.GET)
     public String deleteDriver(
-            @PathVariable(value = "id") int id,
+            @PathVariable(value = "id") Long id,
             Model model) {
         // TODO: Sanity check for id before using service
         model.addAttribute("driver", driverService.getDriver(id));
@@ -94,7 +94,7 @@ public class DriversController {
 
     @RequestMapping(value = "/delete/{id}", method = RequestMethod.POST)
     public String deleteDriver(
-            @PathVariable(value = "id") int id,
+            @PathVariable(value = "id") Long id,
             @RequestParam(value = "message", required = false) String statusMessage,
             Model model) {
         // TODO: Sanity check for id before using service

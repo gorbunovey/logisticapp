@@ -17,10 +17,12 @@ public class MapEntity implements Serializable {
     @Column(name = "DISTANCE", nullable = false)
     private int distance;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "DEPARTURE_POINT")
     private CityEntity departurePoint;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "DESTINATION_POINT")
     private CityEntity destinationPoint;
 
 }

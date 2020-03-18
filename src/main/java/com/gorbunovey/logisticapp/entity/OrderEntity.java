@@ -7,6 +7,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(exclude = {"drivers", "orderCargos"})
+@ToString(exclude = {"drivers", "orderCargos"})
 @Entity
 @Table(name = "ORDER")
 public class OrderEntity implements Serializable {
@@ -20,9 +22,10 @@ public class OrderEntity implements Serializable {
     private long number;
 
     @Column(name = "STATUS", nullable = false)
-    private boolean status;
+    private boolean active;
 
     @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "TRUCK_ID")
     private TruckEntity truck;
 
     @ManyToMany
@@ -31,4 +34,7 @@ public class OrderEntity implements Serializable {
             joinColumns = @JoinColumn(name = "ORDER_ID"),
             inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
     private Set<DriverEntity> drivers;
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    Set<OrderCargosEntity> orderCargos;
 }

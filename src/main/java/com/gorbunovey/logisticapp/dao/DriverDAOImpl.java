@@ -18,19 +18,18 @@ public class DriverDAOImpl implements DriverDAO {
     private EntityManager entityManager;
 
     @Override
-    public void add(DriverEntity driver) {
-        entityManager.persist(driver);
+    public void add(DriverEntity entity) {
+        entityManager.persist(entity);
     }
 
     @Override
-    public DriverEntity get(int id) {
+    public DriverEntity get(Long id) {
         return entityManager.find(DriverEntity.class, id);
     }
 
     @Override
     public void update(DriverEntity entity) {
         entityManager.merge(entity);
-
     }
 
     @Override
@@ -40,6 +39,6 @@ public class DriverDAOImpl implements DriverDAO {
 
     @Override
     public List<DriverEntity> getAll() {
-        return entityManager.createQuery("select d from DriverEntity d").getResultList();
+        return entityManager.createQuery("select e from DriverEntity e").getResultList();
     }
 }
