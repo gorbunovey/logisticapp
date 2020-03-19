@@ -11,4 +11,6 @@ public interface DriverDAO {
     void update(DriverEntity entity);
     void delete(DriverEntity entity);
     List<DriverEntity> getAll();
+
+    DriverEntity getByNumber(Long number);
 }

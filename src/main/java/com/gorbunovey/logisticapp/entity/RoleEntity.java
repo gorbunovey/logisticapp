@@ -16,10 +16,10 @@ public class RoleEntity implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    private Long roleId;
+    private Long id;
 
     @Column(name = "NAME", nullable = false, unique = true, length = 60)
-    private String roleName;
+    private String name;
 
     @OneToMany(mappedBy = "role")
     private Set<UserEntity> users;

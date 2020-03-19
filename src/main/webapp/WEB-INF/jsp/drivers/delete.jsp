@@ -11,52 +11,40 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-    <h2>Delete Driver#<c:out value="${id}"/></h2>
+    <h2>Delete Driver#<c:out value="${number}"/></h2>
     <div>
         <c:choose>
                 <c:when test="${!empty driver}">
-                    <form:form action="/drivers/delete/${driver.id}" method="post" modelAttribute="driver" >
+                    <form:form action="/drivers/delete/${driver.number}" method="post" modelAttribute="driver" >
                         <table>
                             <tr>
-                                <td>Driver ID:</td>
-                                <td><form:input  path="id" disabled="true"/></td>
+                                <td>Driver Number:</td>
+                                <td>${driver.number}</td>
                             </tr>
                             <tr>
                                 <td>First Name:</td>
-                                <td><form:input path="firstName" disabled="true"/></td>
+                                <td>${driver.userFirstName}</td>
                             </tr>
                             <tr>
                                 <td>Last Name:</td>
-                                <td><form:input path="lastName" disabled="true"/></td>
-                            </tr>
-                            <tr>
-                                <td>Patronymic Name:</td>
-                                <td><form:input path="patronymicName"  disabled="true"/></td>
-
+                                <td>${driver.userLastName}</td>
                             </tr>
                             <tr>
                                 <td>Status:</td>
-                                <td><form:input path="status" disabled="true"/></td>
+                                <td>${driver.status}</td>
 
                             </tr>
                             <tr>
                                 <td>Hours:</td>
-                                <td><form:input path="hours" disabled="true"/></td>
+                                <td>${driver.hours}</td>
                             </tr>
                             <tr>
-                                <td>City:</td>
-                                <td><form:input path="city.name" disabled="true"/></td>
-                            </tr>
-                            <tr>
-                                <td>Truck:</td>
-                                <td><form:input path="truck.regNumber" disabled="true"/></td>
+                                <td>Current City:</td>
+                                <td>${driver.cityName == null ? "no City" : driver.cityName}</td>
                             </tr>
                             <tr>
                                 <td colspan="1">
                                     <input type="submit" value="Delete"/>
-                                </td>
-                                <td colspan="1">
-                                    <input type="reset" value="Reset"/>
                                 </td>
                             </tr>
                         </table>
@@ -64,7 +52,7 @@
                 </c:when>
             <c:otherwise>
                 <h2>?</h2>
-                <div>No such driver with ID#<c:out value="${id}"/></div>
+                <div>No such driver with ID#<c:out value="${number}"/></div>
             </c:otherwise>
         </c:choose>
     </div>

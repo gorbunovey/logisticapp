@@ -115,6 +115,7 @@ INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_F
 
 INSERT INTO `logisticdb`.`role` (`NAME`) VALUES ('Moderator');
 INSERT INTO `logisticdb`.`role` (`NAME`) VALUES ('Driver');
+INSERT INTO `logisticdb`.`role` (`NAME`) VALUES ('Guest');
 
 -- -----------------------------------------------------
 -- Table USER
@@ -130,11 +131,11 @@ INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vasiliy','8', 'Ampilogov','1982-02-04','Ampilogov@gmail.com','123456','2');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vyacheslav','9', 'Ivanov','1984-04-28','Ivanov@gmail.com','123456','2');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Klim','10', 'Panov','1989-03-01','Panov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','11', 'Varvanovich','1975-01-26','Varvanovich@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','12', 'Kaminskiy','1976-04-19','Kaminskiy@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','13', 'Dagov','1972-11-08','Dagov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Aleksey','14', 'Stebkov','1969-12-04','Stebkov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitriy','15', 'Zhukov','1981-01-25','Zhukov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','11', 'Varvanovich','1975-01-26','Varvanovich@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','12', 'Kaminskiy','1976-04-19','Kaminskiy@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','13', 'Dagov','1972-11-08','Dagov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Aleksey','14', 'Stebkov','1969-12-04','Stebkov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitriy','15', 'Zhukov','1981-01-25','Zhukov@gmail.com','123456','3');
 
 -- -----------------------------------------------------
 -- Table DRIVER

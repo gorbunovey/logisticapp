@@ -32,27 +32,28 @@ public class TrucksController {
 
 // ---------------------------------------- EDIT ----------------------------------------
 
-    @RequestMapping(value = "/edit/{regNumber}", method = RequestMethod.GET)
-    public String getTruck(
-            @PathVariable(value = "regNumber") String regNumber, Model model) {
+    @RequestMapping(value = "/edit/{pathRegNumber}", method = RequestMethod.GET)
+    public String getTruck(@PathVariable(value = "pathRegNumber") String pathRegNumber, Model model) {
         // TODO: Sanity check for regNumber, before using service
-        model.addAttribute("truck", truckService.getTruckByRegNumber(regNumber));
+        model.addAttribute("truck", truckService.getTruckByRegNumber(pathRegNumber));
         model.addAttribute("cityList", mapService.getCityList());
         return "trucks/edit";
     }
 
-    @RequestMapping(value = "/edit/{regNumber}", method = RequestMethod.POST)
-    public String setTruck(
-            @ModelAttribute("truck") @Valid TruckDTO truckDTO, BindingResult bindingResult, Model model) {
+    @RequestMapping(value = "/edit/{pathRegNumber}", method = RequestMethod.POST)
+    public String setTruck(@PathVariable(value = "pathRegNumber") String pathRegNumber,
+                           @ModelAttribute("truck") @Valid TruckDTO truckDTO, BindingResult bindingResult,
+                           final RedirectAttributes redirectAttributes,Model model) {
         if (bindingResult.hasErrors()) {
-            model.addAttribute("statusMsg", "Failure. Truck #" + truckDTO.getRegNumber() + " wasn't edit");
+            model.addAttribute("statusMsg", "Failure. Truck #" + pathRegNumber + " wasn't edit");
             model.addAttribute("cityList", mapService.getCityList());
+            return "trucks/edit";
         } else {
+            truckDTO.setOldRegNumber(pathRegNumber);
             truckService.updateTruck(truckDTO);
-            model.addAttribute("statusMsg", "Success. Truck #" + truckDTO.getRegNumber() + " was edit");
-            model.addAttribute("cityList", mapService.getCityList());
+            redirectAttributes.addFlashAttribute("statusMsg", "Success. Truck #" + truckDTO.getRegNumber() + " was edit");
+            return "redirect:/trucks";
         }
-        return "trucks/edit";
     }
 
     // ---------------------------------------- NEW ----------------------------------------
@@ -73,9 +74,9 @@ public class TrucksController {
         } else {
             truckService.addTruck(truckDTO);
             model.addAttribute("statusMsg", "Success. Truck #" + truckDTO.getRegNumber() + " was added");
-            model.addAttribute("truck", new TruckDTO());
-            model.addAttribute("cityList", mapService.getCityList());
         }
+        model.addAttribute("truck", new TruckDTO());
+        model.addAttribute("cityList", mapService.getCityList());
         return "trucks/new";
     }
     // ---------------------------------------- DELETE ----------------------------------------

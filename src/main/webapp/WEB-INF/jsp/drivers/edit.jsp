@@ -11,53 +11,39 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-    <h2>Edit Driver ID#<c:out value="${id}"/></h2>
+        <c:if test="${not empty statusMsg}">
+            <div><strong><c:out value="${statusMsg}"/></strong></div>
+        </c:if>
+    <h2>Edit Driver ID#<c:out value="${pathNumber}"/></h2>
     <div>
         <c:choose>
             <c:when test="${!empty driver}">
-                <form:form action="/drivers/edit/${driver.id}" method="post" modelAttribute="driver">
+                <form:form action="/drivers/edit/${pathNumber}" method="post" modelAttribute="driver">
                     <table>
                         <tr>
-                            <td>Driver ID:</td>
-                            <td><form:input path="id" /></td>
-                            <td><form:errors path="id" /></td>
+                            <td>Driver Number:</td>
+                            <td><form:input path="number" /></td>
+                            <td><form:errors path="number" /></td>
                         </tr>
                         <tr>
-                            <td>First Name:</td>
-                            <td><form:input path="firstName" /></td>
-                            <td><form:errors path="firstName" /></td>
+                            <td>Current city:</td>
+                            <td><form:select path="cityCode">
+                                <form:option value="" label="--- No city ---" />
+                                <form:options items="${cityList}" itemValue="code" itemLabel="name" />
+                            </form:select>
+                            </td>
+                            <td><form:errors path="cityCode"/></td>
                         </tr>
                         <tr>
-                            <td>Last Name:</td>
-                            <td><form:input path="lastName" /></td>
-                            <td><form:errors path="lastName" /></td>
-                        </tr>
-                        <tr>
-                            <td>Patronymic Name:</td>
-                            <td><form:input path="patronymicName" /></td>
-                            <td><form:errors path="patronymicName" /></td>
+                            <td>User:</td>
+                            <td><form:select path="userNumber">
+                                <form:option value="${driver.userNumber}" label="${driver.userEmail}" />
+                                <form:options items="${userList}" itemValue="number" itemLabel="email"/>
+                            </form:select>
+                                <form:hidden path="userEmail" />
+                            </td>
+                            <td><form:errors path="userNumber"/></td>
 
-                        </tr>
-                        <tr>
-                            <td>Status:</td>
-                            <td><form:input path="status" /></td>
-                            <td><form:errors path="status" /></td>
-
-                        </tr>
-                        <tr>
-                            <td>Hours:</td>
-                            <td><form:input path="hours" /></td>
-                            <td><form:errors path="hours" /></td>
-                        </tr>
-                        <tr>
-                            <td>City:</td>
-                            <td><form:input path="city" /></td>
-                            <td><form:errors path="city" /></td>
-                        </tr>
-                        <tr>
-                            <td>Truck:</td>
-                            <td><form:input path="truck" /></td>
-                            <td><form:errors path="truck" /></td>
                         </tr>
                         <tr>
                             <td colspan="1">
@@ -72,11 +58,10 @@
             </c:when>
             <c:otherwise>
                 <h2>?</h2>
-                <div>No such driver with ID#<c:out value="${id}"/></div>
+                <div>No such driver with ID#<c:out value="${pathNumber}"/></div>
             </c:otherwise>
         </c:choose>
     </div>
-        <div><c:out value="${statusMessage}"/></div>
     <%-- pageBody --%>
 </div>
 <c:import url="../footer.jsp"/>

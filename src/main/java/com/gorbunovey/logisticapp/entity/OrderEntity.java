@@ -35,6 +35,6 @@ public class OrderEntity implements Serializable {
             inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
     private Set<DriverEntity> drivers;
 
-    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "order", orphanRemoval = true)
     Set<OrderCargosEntity> orderCargos;
 }

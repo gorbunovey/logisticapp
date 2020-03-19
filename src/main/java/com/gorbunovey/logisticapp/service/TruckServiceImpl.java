@@ -20,7 +20,6 @@ public class TruckServiceImpl implements TruckService {
 
     @Autowired
     private TruckDAO truckDAO;
-
     @Autowired
     private CityDAO cityDAO;
 
@@ -43,9 +42,9 @@ public class TruckServiceImpl implements TruckService {
     @Override
     public TruckDTO getTruckByRegNumber(String regNumber) {
         TruckEntity truckEntity = truckDAO.getByRegNumber(regNumber);
-        if (truckEntity == null){
+        if (truckEntity == null) {
             return null;
-        }else {
+        } else {
             return modelMapper.map(truckEntity, TruckDTO.class);
         }
     }
@@ -53,10 +52,10 @@ public class TruckServiceImpl implements TruckService {
     @Override
     @Transactional
     public boolean updateTruck(TruckDTO truckDTO) {
-        TruckEntity truckEntity = truckDAO.getByRegNumber(truckDTO.getRegNumber());
-        if (truckEntity == null){
+        TruckEntity truckEntity = truckDAO.getByRegNumber(truckDTO.getOldRegNumber());
+        if (truckEntity == null) {
             return false;
-        }else {
+        } else {
             // TODO: маппер автоматически создает объект City в truckEntity!
             //  без настройки modelMapper нельзя юзать для update, т.к. мы обновляем сущность уже в контексте
             //  и он меняет объект cityEntity, который не может заполнить полностью и хибернейт кидает исключение
@@ -76,9 +75,9 @@ public class TruckServiceImpl implements TruckService {
     @Transactional
     public boolean deleteTruck(String regNumber) {
         TruckEntity truckEntity = truckDAO.getByRegNumber(regNumber);
-        if (truckEntity == null){
+        if (truckEntity == null) {
             return false;
-        }else {
+        } else {
             truckDAO.delete(truckEntity);
             return true;
         }

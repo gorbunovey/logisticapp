@@ -11,41 +11,35 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
+        <c:if test="${not empty statusMsg}">
+            <div><strong><c:out value="${statusMsg}"/></strong></div>
+        </c:if>
     <h2>New Driver</h2>
     <div>
         <form:form action="/drivers/new" method="post" modelAttribute="driver">
             <table>
                 <tr>
-                    <td>Driver ID:</td>
-                    <td><form:input path="id" pattern = "^([0-9]|([1-9][0-9]{1,8}))$"  required="true"/></td>
-                    <td><form:errors path="id"  /></td>
+                    <td>Driver Number:</td>
+                    <td><form:input path="number" pattern = "^([0-9]|([1-9][0-9]{1,8}))$" required="true"/></td>
+                    <td><form:errors path="number"  /></td>
                 </tr>
                 <tr>
-                    <td>First Name:</td>
-                    <td><form:input path="firstName" pattern = "[^\d#&<>\"~;$^%{}?]{2,45}" required="true"/></td>
-                    <td><form:errors path="firstName" /></td>
+                    <td>Current city:</td>
+                    <td><form:select path="cityCode">
+                        <form:option value="" label="--- No city ---"/>
+                        <form:options items="${cityList}" itemValue="code" itemLabel="name"/>
+                    </form:select>
+                    </td>
+                    <td><form:errors path="cityCode"/></td>
                 </tr>
                 <tr>
-                    <td>Last Name:</td>
-                    <td><form:input path="lastName" pattern = "[^\d#&<>\"~;$^%{}?]{2,45}" required="true"/></td>
-                    <td><form:errors path="lastName" /></td>
-                </tr>
-                <tr>
-                    <td>Patronymic Name:</td>
-                    <td><form:input path="patronymicName" pattern = "[^\d#&<>\"~;$^%{}?]{2,45}"/></td>
-                    <td><form:errors path="patronymicName" /></td>
+                    <td>User:</td>
+                    <td><form:select path="userNumber">
+                        <form:options items="${userList}" itemValue="number" itemLabel="email"/>
+                    </form:select>
+                    </td>
+                    <td><form:errors path="userNumber"/></td>
 
-                </tr>
-                <tr>
-                    <td>Status:</td>
-                    <td><form:input path="status" pattern = "[^\s\d#&<>\"~;$^%{}?]{2,20}" required="true"/></td>
-                    <td><form:errors path="status" /></td>
-
-                </tr>
-                <tr>
-                    <td>Hours:</td>
-                    <td><form:input path="hours" pattern = "^([0-9]|([1-3][0-9][0-9]))$" required="true"/></td>
-                    <td><form:errors path="hours" /></td>
                 </tr>
                 <tr>
                     <td colspan="1">
@@ -58,7 +52,6 @@
             </table>
         </form:form>
     </div>
-        <div><c:out value="${statusMessage}"/></div>
     <%-- pageBody --%>
 </div>
 <c:import url="../footer.jsp"/>

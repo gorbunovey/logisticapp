@@ -11,6 +11,11 @@
 <c:import url="../header.jsp"/>
 <div>
 <%-- pageBody --%>
+    <%-- message from redirect flash attribute  --%>
+    <c:if test="${not empty statusMsg}">
+        <div><strong><c:out value="${statusMsg}"/></strong></div>
+    </c:if>
+    <%-- message from redirect flash attribute  --%>
     <h2>All Drivers</h2>
     <div>
         <a href="<c:url value="/drivers/new"/>">New driver</a>
@@ -20,31 +25,27 @@
             <table>
                 <thead>
                 <tr>
-                    <th>ID</th>
+                    <th>Number</th>
                     <th>First Name</th>
                     <th>Last Name</th>
-                    <th>Patronymic Name</th>
                     <th>Status</th>
                     <th>Hours</th>
-                    <th>City</th>
-                    <th>Current Truck</th>
+                    <th>Current City</th>
                     <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
                 <c:forEach var="driver" items="${drivers}">
                     <tr>
-                        <td class="center">${driver.id}</td>
-                        <td class="center">${driver.firstName}</td>
-                        <td class="center">${driver.lastName}</td>
-                        <td class="center">${driver.patronymicName}</td>
+                        <td class="center">${driver.number}</td>
+                        <td class="center">${driver.userFirstName}</td>
+                        <td class="center">${driver.userLastName}</td>
                         <td class="center">${driver.status}</td>
                         <td class="center">${driver.hours}</td>
-                        <td class="center">${driver.city.name}</td>
-                        <td class="center">${driver.truck.regNumber}</td>
+                        <td class="center">${driver.cityName}</td>
                         <td class="center">
-                            <a href="/drivers/edit/${driver.id}">Edit</a>
-                            <a href="/drivers/delete/${driver.id}">Delete</a>
+                            <a href="/drivers/edit/${driver.number}">Edit</a>
+                            <a href="/drivers/delete/${driver.number}">Delete</a>
                         </td>
                     </tr>
                 </c:forEach>
@@ -53,7 +54,6 @@
             <%-- Pagination --%>
         </c:if>
     </div>
-    <div><c:out value="${statusMessage}"/></div>
 <%-- pageBody --%>
 </div>
 <c:import url="../footer.jsp"/>

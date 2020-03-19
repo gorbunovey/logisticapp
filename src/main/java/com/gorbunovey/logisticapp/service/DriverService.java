@@ -6,9 +6,10 @@ import java.util.List;
 
 public interface DriverService {
 
-    void addDriver(DriverDTO driver);
-    DriverDTO getDriver(Long id);
-    void updateDriver(DriverDTO driver);
-    void deleteDriver(Long id);
+    void addDriver(DriverDTO driverDTO);
+    DriverDTO getDriverByNumber(Long number);
+    boolean updateDriver(DriverDTO driverDTO);
+    boolean deleteDriver(Long number);
     List<DriverDTO> getDriverList();
+
 }

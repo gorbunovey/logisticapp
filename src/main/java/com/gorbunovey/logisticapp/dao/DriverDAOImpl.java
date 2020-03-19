@@ -41,4 +41,12 @@ public class DriverDAOImpl implements DriverDAO {
     public List<DriverEntity> getAll() {
         return entityManager.createQuery("select e from DriverEntity e").getResultList();
     }
+
+    @Override
+    public DriverEntity getByNumber(Long number) {
+        TypedQuery<DriverEntity> q = entityManager.createQuery(
+                "SELECT e from DriverEntity e where e.number =: number", DriverEntity.class);
+        q.setParameter("number", number);
+        return q.getResultStream().findAny().orElse(null);
+    }
 }

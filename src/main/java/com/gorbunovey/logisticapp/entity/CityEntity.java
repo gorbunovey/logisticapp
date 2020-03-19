@@ -23,10 +23,10 @@ public class CityEntity implements Serializable {
     @Column(name = "NAME", nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "departurePoint", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "departurePoint", orphanRemoval = true)
     private Set<MapEntity> departurePoints;
 
-    @OneToMany(mappedBy = "destinationPoint", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "destinationPoint", orphanRemoval = true)
     private Set<MapEntity> destinationPoints;
 
     @OneToMany(mappedBy = "city")

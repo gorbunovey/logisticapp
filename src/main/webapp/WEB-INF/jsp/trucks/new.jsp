@@ -11,11 +11,9 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-    <%-- message from redirect flash attribute  --%>
-    <c:if test="${not empty statusMsg}">
-        <div><strong><c:out value="${statusMsg}"/></strong></div>
-    </c:if>
-    <%-- message from redirect flash attribute  --%>
+        <c:if test="${not empty statusMsg}">
+            <div><strong><c:out value="${statusMsg}"/></strong></div>
+        </c:if>
     <h2>New Truck</h2>
     <div>
         <form:form action="/trucks/new" method="post" modelAttribute="truck">

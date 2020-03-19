@@ -11,7 +11,9 @@
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
-    <div><c:out value="${statusMsg}"/></div>
+        <c:if test="${not empty statusMsg}">
+            <div><strong><c:out value="${statusMsg}"/></strong></div>
+        </c:if>
     <h2>Edit Truck #<c:out value="${regNumber}"/></h2>
     <div>
         <c:choose>

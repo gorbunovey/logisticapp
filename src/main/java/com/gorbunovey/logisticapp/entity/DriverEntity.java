@@ -30,7 +30,7 @@ public class DriverEntity  implements Serializable {
 
     // orphanRemoval="true" - для автоматической очистки истории при удалении драйвера
     // по идее cascade = CascadeType.ALL - должна сделать тоже самое
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "driver", orphanRemoval = true)
     private Set<DriverHistoryEntity> driverHistory;
 
     @ManyToMany(mappedBy = "drivers")
