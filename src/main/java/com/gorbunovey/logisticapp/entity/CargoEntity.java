@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = "orderCargos")
-@ToString(exclude = "orderCargos")
+@EqualsAndHashCode(exclude = "wayPoints")
+@ToString(exclude = "wayPoints")
 @Entity
 @Table(name = "CARGO")
 public class CargoEntity implements Serializable {
@@ -18,7 +18,7 @@ public class CargoEntity implements Serializable {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "NUMBER")
+    @Column(name = "NUMBER", nullable = false, unique = true)
     private long number;
 
     @Column(name = "TITLE", nullable = false)
@@ -39,5 +39,5 @@ public class CargoEntity implements Serializable {
     private CityEntity cityTo;
 
     @OneToMany(mappedBy = "cargo")
-    Set<OrderCargosEntity> orderCargos;
+    Set<WayPointEntity> wayPoints;
 }

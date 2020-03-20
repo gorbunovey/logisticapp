@@ -211,11 +211,11 @@ CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDER`
 
 
 -- -----------------------------------------------------
--- Table `logisticdb`.`ORDER_CARGOS`
+-- Table `logisticdb`.`WAY_POINT`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `logisticdb`.`ORDER_CARGOS`;
+DROP TABLE IF EXISTS `logisticdb`.`WAY_POINT`;
 
-CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDER_CARGOS`
+CREATE TABLE IF NOT EXISTS `logisticdb`.`WAY_POINT`
 (
     `ID`         BIGINT  NOT NULL AUTO_INCREMENT,
     `ORDER_ID`   BIGINT  NOT NULL,
@@ -223,14 +223,14 @@ CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDER_CARGOS`
     `TYPE`       TINYINT NOT NULL,
     `SEQ_NUMBER` INT     NOT NULL,
     PRIMARY KEY (`ID`),
-    INDEX `fk_ORDER_WAY_POINTS_ORDER1_idx` (`ORDER_ID` ASC) VISIBLE,
-    INDEX `fk_ORDER_WAY_POINTS_CARGO1_idx` (`CARGO_ID` ASC) VISIBLE,
-    CONSTRAINT `fk_ORDER_WAY_POINTS_ORDER1`
+    INDEX `fk_WAY_POINT_ORDER1_idx` (`ORDER_ID` ASC) VISIBLE,
+    INDEX `fk_WAY_POINT_CARGO1_idx` (`CARGO_ID` ASC) VISIBLE,
+    CONSTRAINT `fk_WAY_POINT_ORDER1`
         FOREIGN KEY (`ORDER_ID`)
             REFERENCES `logisticdb`.`ORDER` (`ID`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
-    CONSTRAINT `fk_ORDER_WAY_POINTS_CARGO1`
+    CONSTRAINT `fk_WAY_POINT_CARGO1`
         FOREIGN KEY (`CARGO_ID`)
             REFERENCES `logisticdb`.`CARGO` (`ID`)
             ON DELETE NO ACTION

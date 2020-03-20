@@ -7,8 +7,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = {"drivers", "orderCargos"})
-@ToString(exclude = {"drivers", "orderCargos"})
+@EqualsAndHashCode(exclude = {"drivers", "wayPoints"})
+@ToString(exclude = {"drivers", "wayPoints"})
 @Entity
 @Table(name = "ORDER")
 public class OrderEntity implements Serializable {
@@ -36,5 +36,5 @@ public class OrderEntity implements Serializable {
     private Set<DriverEntity> drivers;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true)
-    Set<OrderCargosEntity> orderCargos;
+    Set<WayPointEntity> wayPoints;
 }

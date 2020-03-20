@@ -7,13 +7,13 @@ import java.io.Serializable;
 
 @Data
 @Entity
-@Table(name = "ORDER_CARGOS")
-public class OrderCargosEntity implements Serializable {
+@Table(name = "WAY_POINT")
+public class WayPointEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ID", nullable = false)
-    private Long roleId;
+    private Long id;
 
     @Column(name = "TYPE", nullable = false)
     private boolean type;

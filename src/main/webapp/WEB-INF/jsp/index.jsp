@@ -13,11 +13,9 @@
     <%-- pageBody --%>
     <div>
         <h2>Logistic Web Application</h2>
-    <p>Some text...</p>
-    <p>There will be init DB button</p>
-    <p>There will be drop DB butto</p>
+    <p>Logistics - it's EASY!</p>
+    <p>There will be refresh DB butto</p>
     </div>
-    <%-- Pagination --%>
     <%-- pageBody --%>
     <c:import url="footer.jsp"/>
 </div>
