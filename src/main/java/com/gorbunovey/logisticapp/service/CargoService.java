@@ -6,5 +6,7 @@ import java.util.List;
 
 public interface CargoService {
 
+    CargoDTO getCargoByNumber(Long number);
     List<CargoDTO> getCargoList();
+    List<CargoDTO> getCargoWithStatus(String status);
 }

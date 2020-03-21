@@ -39,7 +39,7 @@ public class OrderServiceImpl implements OrderService {
     public List<OrderDTO> getOrderList() {
         List<OrderDTO> orderDTOList = new ArrayList<>();
         orderDAO.getAll().forEach(orderEntity -> orderDTOList.add(modelMapper.map(orderEntity, OrderDTO.class)));
-        System.out.println("-------------------------------");
+        System.out.println("---------------orderDTOList.isEmpty()----------------" + orderDTOList.isEmpty());
         orderDTOList.forEach(System.out::println);
         return orderDTOList;
     }

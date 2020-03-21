@@ -10,7 +10,7 @@ import java.util.Set;
 @EqualsAndHashCode(exclude = {"drivers", "wayPoints"})
 @ToString(exclude = {"drivers", "wayPoints"})
 @Entity
-@Table(name = "ORDER")
+@Table(name = "ORDERS")
 public class OrderEntity implements Serializable {
 
     @Id

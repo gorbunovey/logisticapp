@@ -1,0 +1,134 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>New Order shipment</title>
+    <c:import url="../head.jsp"/>
+</head>
+<body>
+<c:import url="../header.jsp"/>
+<div>
+    <%-- pageBody --%>
+    <h1>New Order - step 1. Shipment list</h1>
+    <%-- message from redirect flash attribute  --%>
+    <c:if test="${not empty statusMsg}">
+        <div><strong><c:out value="${statusMsg}"/></strong></div>
+    </c:if>
+    <%-- message from redirect flash attribute  --%>
+
+    <h2>New Order shipment cart</h2>
+        <div>
+            <c:if test="${empty sessionScope.wayPoints}">
+                <div>List is empty. Please, choose the first cargo to load</div>
+            </c:if>
+            <c:if test="${!empty sessionScope.wayPoints}">
+                <div>
+                    <a href="<c:url value="/orders/new"/>">New List</a>
+                </div>
+                <form:form method="post">
+                    <table>
+                        <thead>
+                        <tr>
+                            <th>Sequence number</th>
+                            <th>City</th>
+                            <th>Process</th>
+                            <th>Cargo</th>
+                            <th>Accumulated mass</th>
+                            <th>Max mass</th>
+                            <th>Actions</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <c:set var="seqNumber" value="0" scope="page" />
+                        <c:set var="accumulatedMass" value="0" scope="page" />
+                        <c:forEach var="point" items="${sessionScope.wayPoints}">
+                            <tr>
+                                <td class="center">
+                                    <c:set var="seqNumber" value="${seqNumber + 1}" scope="page"/>
+                                    <c:out value = "${seqNumber}"/>
+                                </td>
+                                <td class="center">
+                                        ${point.type == true ? point.cargo.cityFromName : point.cargo.cityToName}
+                                </td>
+                                <td class="center">
+                                        ${point.type == true ? "loading" : "unloading"}
+                                </td>
+                                <td class="center">
+                                    #${point.cargo.number}
+                                    ${point.cargo.title}
+                                    ${point.cargo.weight} kg
+                                </td>
+
+                                <td class="center">
+                                    <c:choose>
+                                    <c:when test="${point.type}">
+                                        <c:set var="accumulatedMass" value="${accumulatedMass + point.cargo.weight}" scope="page"/>
+                                        <c:out value = "${accumulatedMass}"/>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <c:set var="accumulatedMass" value="${accumulatedMass - point.cargo.weight}" scope="page"/>
+                                        <c:out value = "${accumulatedMass}"/>
+                                    </c:otherwise>
+                                    </c:choose>
+                                </td>
+                                <td class="center">${sessionScope.maxMass}</td>
+                                <td class="center">
+<%--                                    <input type="submit" formaction="/orders/new/shipment/${seqNumber}" name="delete" value="Delete"/>--%>
+                                    <c:if test="${point.type}">
+                                        <input type="submit" formaction="/orders/new/shipment/${point.cargo.number}" name="unload" value="Unload"/>
+                                    </c:if>
+                                </td>
+                            </tr>
+                        </c:forEach>
+                        </tbody>
+                    </table>
+                        <c:if test="${(!empty sessionScope.wayPoints) && (accumulatedMass == 0)}">
+                            <div><input type="submit" formaction="/orders/new/truck" value="Next"/></div>
+                        </c:if>
+                </form:form>
+            </c:if>
+        </div>
+        <h2>Available cargo</h2>
+        <div>
+        <c:if test="${!empty cargoList}">
+            <form:form method="post">
+            <table>
+                <thead>
+                <tr>
+                    <th>Number</th>
+                    <th>Title</th>
+                    <th>Weight</th>
+                    <th>Status</th>
+                    <th>Departure City</th>
+                    <th>Destination City</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <c:forEach var="cargo" items="${cargoList}">
+                    <tr>
+                        <td class="center">${cargo.number}</td>
+                        <td class="center">${cargo.title}</td>
+                        <td class="center">${cargo.weight}</td>
+                        <td class="center">${cargo.status}</td>
+                        <td class="center">${cargo.cityFromName}</td>
+                        <td class="center">${cargo.cityToName}</td>
+                        <td class="center">
+                            <input type="submit" formaction="/orders/new/shipment/${cargo.number}" name="load" value="Load"/>
+                            <input type="submit" formaction="/orders/new/shipment/${cargo.number}" name="unload" value="Unload"/>
+                        </td>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+            </form:form>
+            <%-- Pagination --%>
+        </c:if>
+    </div>
+    <%-- pageBody --%>
+</div>
+<c:import url="../footer.jsp"/>
+</body>
+</html>

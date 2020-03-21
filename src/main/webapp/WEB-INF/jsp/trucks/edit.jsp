@@ -14,7 +14,7 @@
         <c:if test="${not empty statusMsg}">
             <div><strong><c:out value="${statusMsg}"/></strong></div>
         </c:if>
-    <h2>Edit Truck #<c:out value="${regNumber}"/></h2>
+    <h2>Edit Truck #<c:out value="${pathRegNumber}"/></h2>
     <div>
         <c:choose>
             <c:when test="${!empty truck}">
@@ -68,7 +68,7 @@
             </c:when>
             <c:otherwise>
                 <h2>?</h2>
-                <div>No such truck with Registration Number #<c:out value="${regNumber}"/></div>
+                <div>No such truck with Registration Number #<c:out value="${pathRegNumber}"/></div>
             </c:otherwise>
         </c:choose>
     </div>

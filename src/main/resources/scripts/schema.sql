@@ -188,11 +188,11 @@ CREATE TABLE IF NOT EXISTS `logisticdb`.`MAP`
 
 
 -- -----------------------------------------------------
--- Table `logisticdb`.`ORDER`
+-- Table `logisticdb`.`ORDERS`
 -- -----------------------------------------------------
-DROP TABLE IF EXISTS `logisticdb`.`ORDER`;
+DROP TABLE IF EXISTS `logisticdb`.`ORDERS`;
 
-CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDER`
+CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDERS`
 (
     `ID`       BIGINT  NOT NULL AUTO_INCREMENT,
     `NUMBER`   BIGINT  NOT NULL UNIQUE,
@@ -227,7 +227,7 @@ CREATE TABLE IF NOT EXISTS `logisticdb`.`WAY_POINT`
     INDEX `fk_WAY_POINT_CARGO1_idx` (`CARGO_ID` ASC) VISIBLE,
     CONSTRAINT `fk_WAY_POINT_ORDER1`
         FOREIGN KEY (`ORDER_ID`)
-            REFERENCES `logisticdb`.`ORDER` (`ID`)
+            REFERENCES `logisticdb`.`ORDERS` (`ID`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT `fk_WAY_POINT_CARGO1`
@@ -253,7 +253,7 @@ CREATE TABLE IF NOT EXISTS `logisticdb`.`ORDER_DRIVERS`
     INDEX `fk_ORDER_DRIVERS_DRIVER1_idx` (`DRIVER_ID` ASC) VISIBLE,
     CONSTRAINT `fk_ORDER_DRIVERS_ORDER1`
         FOREIGN KEY (`ORDER_ID`)
-            REFERENCES `logisticdb`.`ORDER` (`ID`)
+            REFERENCES `logisticdb`.`ORDERS` (`ID`)
             ON DELETE NO ACTION
             ON UPDATE NO ACTION,
     CONSTRAINT `fk_ORDER_DRIVERS_DRIVER1`
