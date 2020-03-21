@@ -15,7 +15,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
 import java.util.*;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Controller
@@ -42,63 +41,71 @@ public class OrdersController {
     public String newOrder(Model model, HttpSession session) {
         List<WayPointDTO> wayPoints = new ArrayList<>();
         session.setAttribute("wayPoints", wayPoints);
-        session.setAttribute("accumulatedMass", 0);
-        session.setAttribute("maxMass", 0);
-
         return "redirect:/orders/new/shipment";
     }
     // @PostMapping -> for last operation of making order, where will be some last checks
 
     // ---------------------------------------- SHIPMENT ----------------------------------------
 
+    // Prepare cargo for view
     @GetMapping(value = "/new/shipment")
     public String newOrderShipment(Model model, HttpSession session, final RedirectAttributes redirectAttributes) {
-
         List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
-        Integer accumulatedMass = (Integer) session.getAttribute("accumulatedMass");
-        Integer maxMass = (Integer) session.getAttribute("maxMass");
         // Sanity check:
-        if(wayPoints == null || accumulatedMass == null || maxMass == null){
+        if(wayPoints == null){
             redirectAttributes.addFlashAttribute("statusMsg", "Failure. Couldn't create a shipment list");
             return "redirect:/orders";
         }
         // preparing available cargo for loading:
         if(wayPoints.isEmpty()){
-            // if shipment list empty - show all prepared cargo:
+            // shipment list empty? -> show all prepared cargo:
             model.addAttribute("cargoList", cargoService.getCargoWithStatus("prepared"));
         }else{
-            // if list not empty - filter by action - load or unload:
             WayPointDTO lastPoint = wayPoints.get(wayPoints.size()-1);
+            List<CargoDTO> preparedCargo;
+            // filter prepared cargo by city in order to last action - load or unload:
             if(lastPoint.isType()){
                 // if loading - filter cargo by cityFrom:
-                model.addAttribute("cargoList", getCargoListFromCity(lastPoint.getCargo().getCityFromCode()));
+                preparedCargo = getCargoListFromCity(lastPoint.getCargo().getCityFromCode());
             }else{
                 // if unloading - filter cargo by cityTo:
-                model.addAttribute("cargoList", getCargoListFromCity(lastPoint.getCargo().getCityToCode()));
-
+                preparedCargo = getCargoListFromCity(lastPoint.getCargo().getCityToCode());
             }
+            // get list of cargo which already added:
+            List<Long> addedCargoNumbers = wayPoints.stream()
+                    .map(p->p.getCargo().getNumber())
+                    .collect(Collectors.toList());
+            // remove those cargo from prepared:
+            preparedCargo.removeIf(cargo->addedCargoNumbers.contains(cargo.getNumber()));
+            model.addAttribute("cargoList", preparedCargo);
         }
         return "orders/shipment";
     }
 
+    // Add cargo as load point
     @PostMapping(value = "/new/shipment/{pathCargoNumber}", params = "load")
     public String newOrderShipmentLoad(@PathVariable(value = "pathCargoNumber") Long pathCargoNumber, Model model,
                                        HttpSession session, final RedirectAttributes redirectAttributes) {
         // TODO: check for null for session objects and pathCargoNumber, if problems - redirect
         List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
+        // Check if cargo is already present in wayPoints:
+        WayPointDTO loadPoint = wayPoints.stream()
+                .filter(WayPointDTO::isType)
+                .filter(point->point.getCargo().getNumber() == pathCargoNumber)
+                .findAny().orElse(null);
+        if(loadPoint != null) {
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't add load point. Cargo already loaded");
+            return "redirect:/orders/new/shipment";
+        }
         // Add new way point:
         CargoDTO cargo = cargoService.getCargoByNumber(pathCargoNumber);
         if (cargo != null){
             WayPointDTO newWayPoint = new WayPointDTO();
             newWayPoint.setType(true);
             newWayPoint.setCargo(cargo);
+            cargo.setStatus("load"); // mark cargo as loaded
             wayPoints.add(newWayPoint);
-            // refresh mass values:
-            int accumulatedMass = (int) session.getAttribute("accumulatedMass") + cargo.getWeight();
-            session.setAttribute("accumulatedMass", accumulatedMass);
-            int maxMass = (int) session.getAttribute("maxMass");
-            if(accumulatedMass > maxMass) session.setAttribute("maxMass", accumulatedMass);
-
         }else{
             redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
                     "Couldn't add cargo with number#"+ pathCargoNumber);
@@ -106,6 +113,7 @@ public class OrdersController {
         return "redirect:/orders/new/shipment";
     }
 
+    // Add cargo as unload point
     @PostMapping(value = "/new/shipment/{pathCargoNumber}", params = "unload")
     public String newOrderShipmentUnload(@PathVariable(value = "pathCargoNumber") Long pathCargoNumber, Model model,
                                          HttpSession session, final RedirectAttributes redirectAttributes) {
@@ -131,47 +139,40 @@ public class OrdersController {
                     "Couldn't add unload point. Please load this cargo at first");
         }else{
             // Add new new way point:
-            CargoDTO cargo = cargoService.getCargoByNumber(pathCargoNumber);
-            if (cargo != null){
-                WayPointDTO newWayPoint = new WayPointDTO();
-                newWayPoint.setType(false);
-                newWayPoint.setCargo(cargo);
-                wayPoints.add(newWayPoint);
-                // refresh mass value:
-                Integer accumulatedMass = (Integer) session.getAttribute("accumulatedMass") + cargo.getWeight();
-                session.setAttribute("accumulatedMass", accumulatedMass);
-            }else{
-                redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
-                        "Couldn't add cargo with number#"+ pathCargoNumber);
-            }
+            WayPointDTO newWayPoint = new WayPointDTO();
+            newWayPoint.setType(false);
+            newWayPoint.setCargo(loadPoint.getCargo());
+            loadPoint.getCargo().setStatus("unload"); // mark cargo as unloaded
+            wayPoints.add(newWayPoint);
         }
         return "redirect:/orders/new/shipment";
     }
 
-    // ПОКА ОТЛОЖИЛ РЕАЛИЗАЦИЮ УДАЛЕНИЯ ПОЗИЦИИ!!!
+    // Remove way point
     @PostMapping(value = "/new/shipment/{pathSeqNumber}", params = "delete")
     public String newOrderShipmentDelete(@PathVariable(value = "pathSeqNumber") int pathSeqNumber, Model model,
                                          HttpSession session, final RedirectAttributes redirectAttributes) {
         // TODO: check for null for session objects and pathCargoNumber, if problems - redirect
         List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
-        //wayPoints.removeIf(point -> point.getSeqNumber() == pathSeqNumber);
 
-        // Если удаляем загрузку, то нужно удалять и отгрузку!!!
-        // НО если удаляем отгрузку, то загрузку нужно оставить
-        // Пока реализовано только полностью удаление груза, присем без пересчета массы
-        // Пока решил отложить реализацию удаления
-        if(pathSeqNumber >= 0 && wayPoints != null && !wayPoints.isEmpty() && pathSeqNumber <= wayPoints.size()){
-            WayPointDTO wayPoint = wayPoints.get(pathSeqNumber);
-            Long cargoNumber = wayPoint.getCargo().getNumber();
-            List<WayPointDTO> deletePoints = wayPoints.stream()
-                    .filter(point->point.getCargo().getNumber() == cargoNumber)
-                    .collect(Collectors.toList());
-            // TODO: recalculate mass before deleting
-            wayPoints.removeAll(deletePoints);
+        // Sanity check:
+        if(pathSeqNumber >= 0 && !wayPoints.isEmpty() && pathSeqNumber <= wayPoints.size()){
+            WayPointDTO removableWayPoint = wayPoints.get(pathSeqNumber-1);
+            // Removing wayPoint:
+            if(removableWayPoint.isType()){
+                // when remove load position -> than need to remove unload position also:
+                wayPoints.removeIf(p -> p.getCargo().getNumber() == removableWayPoint.getCargo().getNumber());
+            }else{
+                // otherwise -> just removing unload wayPoint:
+                wayPoints.remove(pathSeqNumber-1);
+                // and need to change status:
+                removableWayPoint.getCargo().setStatus("load");
+            }
         }
         return "redirect:/orders/new/shipment";
     }
 
+    // ---------------------------------------- PRIVATE METHODS ----------------------------------------
 
     private int calculateMaxMass(List<WayPointDTO> wayPoints){
         int maxMass = 0;

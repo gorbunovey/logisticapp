@@ -34,7 +34,11 @@
                             <th>Sequence number</th>
                             <th>City</th>
                             <th>Process</th>
+                            <th>№</th>
                             <th>Cargo</th>
+                            <th>From</th>
+                            <th>To</th>
+                            <th>kg</th>
                             <th>Accumulated mass</th>
                             <th>Max mass</th>
                             <th>Actions</th>
@@ -43,6 +47,7 @@
                         <tbody>
                         <c:set var="seqNumber" value="0" scope="page" />
                         <c:set var="accumulatedMass" value="0" scope="page" />
+                        <c:set var="maxMass" value="0" scope="page" />
                         <c:forEach var="point" items="${sessionScope.wayPoints}">
                             <tr>
                                 <td class="center">
@@ -55,11 +60,11 @@
                                 <td class="center">
                                         ${point.type == true ? "loading" : "unloading"}
                                 </td>
-                                <td class="center">
-                                    #${point.cargo.number}
-                                    ${point.cargo.title}
-                                    ${point.cargo.weight} kg
-                                </td>
+                                <td class="center">${point.cargo.number}</td>
+                                <td class="center">${point.cargo.title}</td>
+                                <td class="center">${point.cargo.cityFromName}</td>
+                                <td class="center">${point.cargo.cityToName}</td>
+                                <td class="center">${point.cargo.weight}</td>
 
                                 <td class="center">
                                     <c:choose>
@@ -73,10 +78,16 @@
                                     </c:otherwise>
                                     </c:choose>
                                 </td>
-                                <td class="center">${sessionScope.maxMass}</td>
                                 <td class="center">
-<%--                                    <input type="submit" formaction="/orders/new/shipment/${seqNumber}" name="delete" value="Delete"/>--%>
-                                    <c:if test="${point.type}">
+                                    <c:if test="${accumulatedMass > maxMass}">
+                                        <c:set var="maxMass" value="${accumulatedMass}" scope="page" />
+                                    </c:if>
+                                    <c:out value = "${maxMass}"/>
+<%--                                        ${sessionScope.maxMass}--%>
+                                </td>
+                                <td class="center">
+                                    <input type="submit" formaction="/orders/new/shipment/${seqNumber}" name="delete" value="Delete"/>
+                                    <c:if test="${point.cargo.status == 'load'}">
                                         <input type="submit" formaction="/orders/new/shipment/${point.cargo.number}" name="unload" value="Unload"/>
                                     </c:if>
                                 </td>
@@ -117,7 +128,7 @@
                         <td class="center">${cargo.cityToName}</td>
                         <td class="center">
                             <input type="submit" formaction="/orders/new/shipment/${cargo.number}" name="load" value="Load"/>
-                            <input type="submit" formaction="/orders/new/shipment/${cargo.number}" name="unload" value="Unload"/>
+<%--                            <input type="submit" formaction="/orders/new/shipment/${cargo.number}" name="unload" value="Unload"/>--%>
                         </td>
                     </tr>
                 </c:forEach>
