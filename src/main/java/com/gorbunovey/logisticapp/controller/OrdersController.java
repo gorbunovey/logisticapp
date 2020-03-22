@@ -189,7 +189,10 @@ public class OrdersController {
 
         int maxMass = calculateMaxMass(wayPoints);
         session.setAttribute("maxMass", maxMass);
+        System.out.println("--@@@@@@@@----------Controller------------getAllActiveWithCapacityAndFree ");
+
         model.addAttribute("trucks", truckService.getAllActiveWithCapacityAndFree(maxMass/1000f));
+        System.out.println("--@@@@@@@@----------Controller------------getAllActiveWithCapacity ");
         truckService.getAllActiveWithCapacity(maxMass/1000f);
         return "orders/trucks";
 

@@ -27,8 +27,8 @@
                 <tr>
                     <th>Number</th>
                     <th>Status</th>
-                    <th>Truck</th>
-                    <th>Drivers</th>
+                    <th>Truck Registration number</th>
+                    <th>Drivers numbers</th>
                     <th>Order Way Points</th>
                 </tr>
                 </thead>
@@ -40,24 +40,22 @@
                         <td class="center">${order.truckRegNumber}</td>
                         <td class="center">
                             <c:if test="${not empty order.driversNumber}">
-                                <ul>
-                                    <c:forEach var="number" items="${order.driversNumber}">
-                                        <li>${number}</li>
-                                    </c:forEach>
-                                </ul>
+                                <c:forEach var="number" items="${order.driversNumber}">
+                                    ${number}
+                                </c:forEach>
                             </c:if>
                         </td>
-                        <td class="center">
+                        <td>
                             <c:if test="${not empty order.wayPoints}">
-                                <ul>
-                                    <c:forEach var="wayPoint" items="${order.wayPoints}">
-                                        <li>${wayPoint.seqNumber}</li>
-                                        <li>${wayPoint.type}</li>
-                                        <li>${wayPoint.cargo.number}</li>
-                                        <li>${wayPoint.cargo.title}</li>
-                                    </c:forEach>
-                                </ul>
+                                <c:forEach var="wayPoint" items="${order.wayPoints}">
+                                    ${wayPoint.seqNumber}
+                                    ${wayPoint.type == true ? wayPoint.cargo.cityFromName : wayPoint.cargo.cityFromName}
+                                    ${wayPoint.type == true ? "Loading":"Unloading"}
+                                    Cargo #${wayPoint.cargo.number}
+                                    ${wayPoint.cargo.title}<br/>
+                                </c:forEach>
                             </c:if>
+
                         </td>
                     </tr>
                 </c:forEach>

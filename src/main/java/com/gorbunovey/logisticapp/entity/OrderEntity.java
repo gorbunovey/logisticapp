@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Data
@@ -36,5 +38,15 @@ public class OrderEntity implements Serializable {
     private Set<DriverEntity> drivers;
 
     @OneToMany(mappedBy = "order", orphanRemoval = true)
-    Set<WayPointEntity> wayPoints;
+    private List<WayPointEntity> wayPoints = new ArrayList<>();
+
+    public void addChild(WayPointEntity wayPoint) {
+        wayPoints.add(wayPoint);
+        wayPoint.setOrder(this);
+    }
+
+    public void removeChild(WayPointEntity wayPoint) {
+        wayPoints.remove(wayPoint);
+        wayPoint.setOrder(null);
+    }
 }

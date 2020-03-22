@@ -58,7 +58,9 @@ public class TruckDAOImpl implements TruckDAO {
     @Override
     public List<TruckEntity> getAllActiveWithCapacityAndFree(float capacity) {
         TypedQuery<TruckEntity> q = entityManager.createQuery(
-                "SELECT t FROM TruckEntity t LEFT JOIN t.orders o WHERE t.active = TRUE AND o.active = FALSE AND t.capacity >= :capacity", TruckEntity.class);
+                "SELECT t FROM TruckEntity t LEFT JOIN t.orders o " +
+                        "WHERE t.active = TRUE AND t.capacity >= :capacity " +
+                        "AND ( o.active IN (FALSE) OR t.orders IS EMPTY)", TruckEntity.class);
         q.setParameter("capacity", capacity);
         return q.getResultList();
     }

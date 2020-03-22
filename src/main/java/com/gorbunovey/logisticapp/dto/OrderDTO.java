@@ -16,7 +16,6 @@ public class OrderDTO {
     private long number;
     private boolean active;
     private String truckRegNumber;
-    //List<DriverDTO> drivers; // возможно просто список номеров водил?
     List<Long> driversNumber;
     List<WayPointDTO> wayPoints;
 
