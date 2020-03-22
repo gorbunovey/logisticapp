@@ -4,6 +4,7 @@ import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.dto.WayPointDTO;
 import com.gorbunovey.logisticapp.service.CargoService;
 import com.gorbunovey.logisticapp.service.OrderService;
+import com.gorbunovey.logisticapp.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -26,6 +27,8 @@ public class OrdersController {
     private OrderService orderService;
     @Autowired
     private CargoService cargoService;
+    @Autowired
+    private TruckService truckService;
 
     // ---------------------------------------- ALL ----------------------------------------
 
@@ -172,6 +175,25 @@ public class OrdersController {
         return "redirect:/orders/new/shipment";
     }
 
+    // ---------------------------------------- Trucks ----------------------------------------
+
+    @GetMapping(value = "/new/trucks")
+    public String newOrderTrucks(Model model, HttpSession session, final RedirectAttributes redirectAttributes) {
+        List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
+        // Sanity check:
+        if (wayPoints == null) {
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. Couldn't create a shipment list");
+            return "redirect:/orders";
+        }
+        // TODO: check wayPoints by calculating masses
+
+        int maxMass = calculateMaxMass(wayPoints);
+        session.setAttribute("maxMass", maxMass);
+        model.addAttribute("trucks", truckService.getAllActiveWithCapacityAndFree(maxMass/1000f));
+        truckService.getAllActiveWithCapacity(maxMass/1000f);
+        return "orders/trucks";
+
+    }
     // ---------------------------------------- PRIVATE METHODS ----------------------------------------
 
     private int calculateMaxMass(List<WayPointDTO> wayPoints){

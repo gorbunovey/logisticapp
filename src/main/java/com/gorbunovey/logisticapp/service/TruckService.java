@@ -10,4 +10,6 @@ public interface TruckService {
     boolean updateTruck(TruckDTO truckDTO);
     boolean deleteTruck(String regNumber);
     List<TruckDTO> getTruckList();
+    List<TruckDTO> getAllActiveWithCapacity(float capacity);
+    List<TruckDTO> getAllActiveWithCapacityAndFree(float capacity);
 }

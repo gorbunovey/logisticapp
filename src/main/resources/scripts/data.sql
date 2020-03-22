@@ -25,17 +25,50 @@ INSERT INTO `logisticdb`.`city` (`CODE`,`NAME`) VALUES ('60401000000', 'Rostov-o
 -- -----------------------------------------------------
 -- Table MAP
 -- -----------------------------------------------------
+-- To simplify map service presume:
+-- * Map with roads - connected graph, so there is always a way between cities(vertexes)
+-- * Modern search of a way - use of geoservices
+-- * Just to simulate their work -> make a full-connected graph with a small amount cities(vertexes) and simple service
+--    to get the distance. I see no reason to map real roads in DB and make a recursive joins in relation DB
 
--- SPb-Tver-Moscow-Voronezh-Rostov:
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '2', '500000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '1', '500000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '3', '170000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '2', '170000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '4', '500000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '3', '500000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '5', '550000');
-INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '4', '550000');
--- Moscow-Kazan-Yekaterinburg-Novosibirsk:
+-- Make a full connected graph for chain SPb-Tver-Moscow-Voronezh-Rostov: (km)
+-- SPb
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '2', '500');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '3', '670');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '4', '1170');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '5', '1670');
+-- Tver
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '1', '500');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '3', '170');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '4', '670');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '5', '1220');
+-- Msk
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '1', '670');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '2', '170');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '4', '500');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '5', '1050');
+-- Voronezh
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '1', '1170');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '2', '670');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '3', '500');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '5', '550');
+-- Rostov
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '1', '1670');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '2', '1220');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '3', '1050');
+INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '4', '550');
+
+
+-- SPb-Tver-Moscow-Voronezh-Rostov: (m)
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('1', '2', '500000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '1', '500000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('2', '3', '170000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '2', '170000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '4', '500000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '3', '500000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('4', '5', '550000');
+# INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('5', '4', '550000');
+-- Moscow-Kazan-Yekaterinburg-Novosibirsk: (m)
 -- INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('3', '6', '750000');
 -- INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('6', '3', '750000');
 -- INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`) VALUES ('6', '7', '700000');
@@ -48,29 +81,29 @@ INSERT INTO `logisticdb`.`map` (`DEPARTURE_POINT`,`DESTINATION_POINT`,`DISTANCE`
 -- -----------------------------------------------------
 
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25001', '2', '25', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25002', '2', '25', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25002', '2', '25', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25003', '2', '25', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25004', '2', '25', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25004', '2', '25', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('AA25005', '2', '25', '0', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('BB20001', '2', '20', '1', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('BB20002', '2', '20', '1', '2');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('BB20003', '2', '20', '1', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('BB20004', '2', '20', '1', '2');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('BB20005', '2', '20', '0', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15001', '2', '15', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15002', '2', '15', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15001', '2', '15', '1', '3');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15002', '2', '15', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15003', '1', '15', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15004', '1', '15', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15004', '1', '15', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('CC15005', '2', '15', '0', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10001', '2', '10', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10002', '1', '10', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10002', '1', '10', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10003', '2', '10', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10004', '1', '10', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10004', '1', '10', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('DD10005', '2', '10', '0', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05001', '1', '5', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05002', '1', '5', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05002', '1', '5', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05003', '1', '5', '1', '1');
-INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05004', '1', '5', '1', '2');
+INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05004', '1', '5', '1', '3');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('EE05005', '1', '5', '0', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('FF03001', '1', '5', '0', '1');
 INSERT INTO `logisticdb`.`truck` (`REG_NUMBER`, `CREW`, `CAPACITY`, `STATE`, `CITY_ID`) VALUES ('GG01501', '1', '1.5', '1', '1');
@@ -108,6 +141,35 @@ INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_F
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('18', 'Corn', '3000', 'prepared', '3','1');
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('19', 'Lettuce', '500', 'prepared', '3','1');
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('20', 'Cabbage', '8000', 'prepared', '3','1');
+-- delivered
+ INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('21', 'Potato', '10000', 'delivered', '1','3');
+ INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('22', 'Cabbage', '5000', 'delivered', '1','2');
+-- loaded
+INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('23', 'Onion', '5000', 'loaded', '3','1');
+-- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('24', 'Potato', '5000', 'loaded', '1','3');
+-- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('25', 'Carrot', '5000', 'loaded', '1','3');
+
+
+-- -----------------------------------------------------
+-- Table ORDERS
+-- -----------------------------------------------------
+-- closed
+ INSERT INTO `logisticdb`.`orders` (`NUMBER`, `STATUS`, `TRUCK_ID`) VALUES ('1', '0', '11');
+-- open
+INSERT INTO `logisticdb`.`orders` (`NUMBER`, `STATUS`, `TRUCK_ID`) VALUES ('2', '1', '22');
+
+-- -----------------------------------------------------
+-- Table WAY_POINT
+-- -----------------------------------------------------
+-- closed
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','21','1');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '1','22','1');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('3', '0','22','1');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('4', '0','21','1');
+-- open
+INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','23','2');
+INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '0','23','2');
+
 
 -- -----------------------------------------------------
 -- Table ROLE
@@ -126,11 +188,11 @@ INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Ivan','3', 'Smirnov','1985-08-17','Smirnov@gmail.com','123456','2');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','4', 'Goncharov','1973-07-13','Goncharov@gmail.com','123456','2');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Anton','5', 'Kolodyan','1965-01-21','Kolodyan@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitry','6', 'Prigozhin','1987-09-26','Prigozhin@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Maksim','7', 'Skolkin','1990-10-24','Skolkin@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vasiliy','8', 'Ampilogov','1982-02-04','Ampilogov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vyacheslav','9', 'Ivanov','1984-04-28','Ivanov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Klim','10', 'Panov','1989-03-01','Panov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitry','6', 'Prigozhin','1987-09-26','Prigozhin@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Maksim','7', 'Skolkin','1990-10-24','Skolkin@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vasiliy','8', 'Ampilogov','1982-02-04','Ampilogov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vyacheslav','9', 'Ivanov','1984-04-28','Ivanov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Klim','10', 'Panov','1989-03-01','Panov@gmail.com','123456','3');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','11', 'Varvanovich','1975-01-26','Varvanovich@gmail.com','123456','3');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','12', 'Kaminskiy','1976-04-19','Kaminskiy@gmail.com','123456','3');
 INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','13', 'Dagov','1972-11-08','Dagov@gmail.com','123456','3');
@@ -166,3 +228,12 @@ INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) V
 INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '8');
 INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '9');
 INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '10');
+-- open:
+-- INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('first', '2020-03-01', '10');
+INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('first', NOW() - INTERVAL 1 DAY, '10');
+-- -----------------------------------------------------
+-- Table ORDER_DRIVERS
+-- -----------------------------------------------------
+-- closed
+-- open
+INSERT INTO `logisticdb`.`order_drivers` (`ORDER_ID`,`DRIVER_ID`) VALUES ('2','10');

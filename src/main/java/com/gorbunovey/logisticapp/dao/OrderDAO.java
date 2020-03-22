@@ -14,4 +14,5 @@ public interface OrderDAO {
     List<OrderEntity> getAll();
 
     OrderEntity getByNumber(Long number);
+    List<OrderEntity> getAllActive();
 }

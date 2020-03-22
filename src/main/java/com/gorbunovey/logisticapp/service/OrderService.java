@@ -9,6 +9,7 @@ public interface OrderService {
     void addOrder(OrderDTO orderDTO);
     OrderDTO getOrderByNumber(Long number);
     List<OrderDTO> getOrderList();
+    List<OrderDTO> getActiveOrdersList();
     //boolean closeOrder();
 
 

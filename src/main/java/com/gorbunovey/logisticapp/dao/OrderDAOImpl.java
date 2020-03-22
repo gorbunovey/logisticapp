@@ -46,4 +46,11 @@ public class OrderDAOImpl implements OrderDAO {
         q.setParameter("number", number);
         return q.getResultStream().findAny().orElse(null);
     }
+
+    @Override
+    public List<OrderEntity> getAllActive() {
+        return entityManager.createQuery(
+                "SELECT o FROM OrderEntity o WHERE o.active  = TRUE")
+                .getResultList();
+    }
 }

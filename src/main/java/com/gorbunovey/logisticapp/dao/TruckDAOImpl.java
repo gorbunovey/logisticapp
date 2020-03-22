@@ -46,4 +46,20 @@ public class TruckDAOImpl implements TruckDAO {
         q.setParameter("regNumber", regNumber);
         return q.getResultStream().findAny().orElse(null);
     }
+
+    @Override
+    public List<TruckEntity> getAllActiveWithCapacity(float capacity) {
+        return entityManager.createQuery(
+                "SELECT t FROM TruckEntity t WHERE t.active  = TRUE AND t.capacity >= :capacity", TruckEntity.class)
+                .setParameter("capacity", capacity)
+                .getResultList();
+    }
+
+    @Override
+    public List<TruckEntity> getAllActiveWithCapacityAndFree(float capacity) {
+        TypedQuery<TruckEntity> q = entityManager.createQuery(
+                "SELECT t FROM TruckEntity t LEFT JOIN t.orders o WHERE t.active = TRUE AND o.active = FALSE AND t.capacity >= :capacity", TruckEntity.class);
+        q.setParameter("capacity", capacity);
+        return q.getResultList();
+    }
 }

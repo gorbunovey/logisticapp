@@ -96,7 +96,10 @@
                         </tbody>
                     </table>
                         <c:if test="${(!empty sessionScope.wayPoints) && (accumulatedMass == 0)}">
-                            <div><input type="submit" formaction="/orders/new/truck" value="Next"/></div>
+                            <div>
+<%--                                <input type="submit" formaction="/orders/new/trucks" value="Next"/>--%>
+                                <a href="<c:url value="/orders/new/trucks"/>">Choose truck</a>
+                            </div>
                         </c:if>
                 </form:form>
             </c:if>

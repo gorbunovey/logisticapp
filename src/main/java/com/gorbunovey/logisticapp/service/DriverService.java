@@ -11,5 +11,4 @@ public interface DriverService {
     boolean updateDriver(DriverDTO driverDTO);
     boolean deleteDriver(Long number);
     List<DriverDTO> getDriverList();
-
 }

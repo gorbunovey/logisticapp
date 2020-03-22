@@ -89,4 +89,24 @@ public class TruckServiceImpl implements TruckService {
         truckDAO.getAll().forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
         return truckDTOList;
     }
+
+    @Override
+    public List<TruckDTO> getAllActiveWithCapacity(float capacity) {
+        List<TruckDTO> truckDTOList = new ArrayList<>();
+        truckDAO.getAllActiveWithCapacity(capacity).forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
+        System.out.println("---------capacity------------------------" + capacity);
+        System.out.println("---------getAllActiveWithCapacity--------truckDTOList.isEmpty()---------" + truckDTOList.isEmpty());
+        truckDTOList.forEach(System.out::println);
+        return truckDTOList;
+    }
+
+    @Override
+    public List<TruckDTO> getAllActiveWithCapacityAndFree(float capacity) {
+        List<TruckDTO> truckDTOList = new ArrayList<>();
+        truckDAO.getAllActiveWithCapacityAndFree(capacity).forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
+        System.out.println("---------capacity------------------------" + capacity);
+        System.out.println("---------getAllActiveWithCapacityAndFree--------truckDTOList.isEmpty()---------" + truckDTOList.isEmpty());
+        truckDTOList.forEach(System.out::println);
+        return truckDTOList;
+    }
 }

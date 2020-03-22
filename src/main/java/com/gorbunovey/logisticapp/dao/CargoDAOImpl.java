@@ -42,7 +42,7 @@ public class CargoDAOImpl implements CargoDAO {
     @Override
     public CargoEntity getByNumber(Long number) {
         TypedQuery<CargoEntity> q = entityManager.createQuery(
-                "SELECT e from CargoEntity e where e.number =: number", CargoEntity.class);
+                "SELECT e FROM CargoEntity e WHERE e.number =: number", CargoEntity.class);
         q.setParameter("number", number);
         return q.getResultStream().findAny().orElse(null);
     }

@@ -13,4 +13,5 @@ public interface UserService {
     boolean updateUser(UserDTO userDTO);
     boolean updateUserRole(Long userNumber, String newRole);
     UserEntity getUserEntityByNumber(Long number);
+
 }

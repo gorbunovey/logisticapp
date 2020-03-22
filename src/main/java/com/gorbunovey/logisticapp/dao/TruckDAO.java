@@ -13,4 +13,6 @@ public interface TruckDAO {
     List<TruckEntity> getAll();
 
     TruckEntity getByRegNumber(String regNumber);
+    List<TruckEntity> getAllActiveWithCapacity(float capacity);
+    List<TruckEntity> getAllActiveWithCapacityAndFree(float capacity);
 }
