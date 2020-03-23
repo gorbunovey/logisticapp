@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Order truck choosing</title>
+    <title>New Order - truck choosing</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
@@ -17,7 +17,66 @@
         <div><strong><c:out value="${statusMsg}"/></strong></div>
     </c:if>
     <%-- message from redirect flash attribute  --%>
-    <div><strong> Max mass: <c:out value="${sessionScope.maxMass}"/></strong></div>
+    <h2>Shipment list</h2>
+        <div>
+            <c:if test="${empty sessionScope.wayPoints}">
+                <div>
+                Sorry, shipment list is empty. <br/>
+                Try to make a new one
+                </div>
+                <div>
+                    <a href="<c:url value="/orders/new"/>">New List</a>
+                </div>
+                <br/>
+            </c:if>
+            <c:if test="${!empty sessionScope.wayPoints}">
+                <div>
+                    <a href="<c:url value="/orders/new/shipment"/>">Back</a>
+                </div>
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Sequence number</th>
+                        <th>City</th>
+                        <th>Process</th>
+                        <th>№</th>
+                        <th>Cargo</th>
+                        <th>From</th>
+                        <th>To</th>
+                        <th>kg</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:set var="seqNumber" value="0" scope="page" />
+                    <c:forEach var="point" items="${sessionScope.wayPoints}">
+                        <tr>
+                            <td class="center">
+                                <c:set var="seqNumber" value="${seqNumber + 1}" scope="page"/>
+                                <c:out value = "${seqNumber}"/>
+                            </td>
+                            <td class="center">
+                                    ${point.type == true ? point.cargo.cityFromName : point.cargo.cityToName}
+                            </td>
+                            <td class="center">
+                                    ${point.type == true ? "loading" : "unloading"}
+                            </td>
+                            <td class="center">${point.cargo.number}</td>
+                            <td class="center">${point.cargo.title}</td>
+                            <td class="center">${point.cargo.cityFromName}</td>
+                            <td class="center">${point.cargo.cityToName}</td>
+                            <td class="center">${point.cargo.weight}</td>
+
+                        </tr>
+                    </c:forEach>
+                    <tr>
+                        <td rowspan="8" class="center">
+                            Maximum mass = <c:out value = "${sessionScope.maxMass}"/>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </c:if>
+        </div>
     <h2>Available trucks</h2>
         <div>
             <c:if test="${!empty trucks}">

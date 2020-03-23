@@ -1,8 +1,10 @@
 package com.gorbunovey.logisticapp.controller;
 
 import com.gorbunovey.logisticapp.dto.CargoDTO;
+import com.gorbunovey.logisticapp.dto.TruckDTO;
 import com.gorbunovey.logisticapp.dto.WayPointDTO;
 import com.gorbunovey.logisticapp.service.CargoService;
+import com.gorbunovey.logisticapp.service.MapService;
 import com.gorbunovey.logisticapp.service.OrderService;
 import com.gorbunovey.logisticapp.service.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +17,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpSession;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAdjusters;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -29,6 +35,8 @@ public class OrdersController {
     private CargoService cargoService;
     @Autowired
     private TruckService truckService;
+    @Autowired
+    private MapService mapService;
 
     // ---------------------------------------- ALL ----------------------------------------
 
@@ -175,28 +183,119 @@ public class OrdersController {
         return "redirect:/orders/new/shipment";
     }
 
-    // ---------------------------------------- Trucks ----------------------------------------
+    // ---------------------------------------- TRUCKS ----------------------------------------
 
+    // Show suitable trucks
     @GetMapping(value = "/new/trucks")
     public String newOrderTrucks(Model model, HttpSession session, final RedirectAttributes redirectAttributes) {
         List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
-        // Sanity check:
+        // Sanity checks:
         if (wayPoints == null) {
-            redirectAttributes.addFlashAttribute("statusMsg", "Failure. Couldn't create a shipment list");
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't create a shipment list. Cause - shipment list is empty");
             return "redirect:/orders";
         }
-        // TODO: check wayPoints by calculating masses
-
+        if(calculateResultAccumulatedMass(wayPoints) != 0){
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't create a shipment list. Cause - loading and unloading mismatch");
+            return "redirect:/orders/new/shipment";
+        }
         int maxMass = calculateMaxMass(wayPoints);
         session.setAttribute("maxMass", maxMass);
-        System.out.println("--@@@@@@@@----------Controller------------getAllActiveWithCapacityAndFree ");
-
         model.addAttribute("trucks", truckService.getAllActiveWithCapacityAndFree(maxMass/1000f));
-        System.out.println("--@@@@@@@@----------Controller------------getAllActiveWithCapacity ");
-        truckService.getAllActiveWithCapacity(maxMass/1000f);
         return "orders/trucks";
+    }
+
+    @PostMapping(value = "/new/trucks/{pathRegNumber}")
+    public String newOrderAddTruck(@PathVariable(value = "pathRegNumber") String pathRegNumber, Model model,
+                                   HttpSession session, final RedirectAttributes redirectAttributes) {
+        List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
+        // TODO: Sanity check(regexp) for regNumber before using service
+        TruckDTO truckDTO = truckService.getTruckByRegNumber(pathRegNumber);
+        if(truckDTO == null){
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't set a truck with registration number #" + pathRegNumber);
+            return "redirect:/orders/new/trucks";
+        }else{
+            session.setAttribute("chosenTruck", truckDTO);
+        }
+        return "redirect:/orders/new/drivers";
+    }
+
+    // ---------------------------------------- DRIVERS ----------------------------------------
+
+    // Show suitable trucks
+    @GetMapping(value = "/new/drivers")
+    public String newOrderDrivers(Model model, HttpSession session, final RedirectAttributes redirectAttributes) {
+        List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");
+        TruckDTO truck = (TruckDTO) session.getAttribute("chosenTruck");
+        // Sanity check:
+        if (wayPoints == null) {
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't create a shipment list. Cause - shipment list is empty");
+            return "redirect:/orders";
+        }
+        if (truck == null) {
+            redirectAttributes.addFlashAttribute("statusMsg", "Failure. " +
+                    "Couldn't set a truck. Please, choose the suitable truck");
+            return "redirect:/orders/new/trucks";
+        }
+        // Calculate distance and ordering seqNumber
+        int totalDistance = 0;
+        Long lastStopCityCode = truck.getCityCode();
+        for(int i = 0; i< wayPoints.size(); i++){
+            WayPointDTO wayPoint = wayPoints.get(i);
+            wayPoint.setSeqNumber(i+1);
+            // choose next stop
+            Long newStopCityCode;
+            if(wayPoint.isType()){
+                newStopCityCode = wayPoint.getCargo().getCityFromCode();
+            }else{
+                newStopCityCode = wayPoint.getCargo().getCityToCode();
+            }
+            // calculate distance
+            if(!newStopCityCode.equals(lastStopCityCode)){
+                totalDistance += mapService.getDistanceBetween(lastStopCityCode, newStopCityCode);
+                lastStopCityCode = newStopCityCode;
+            }
+        }
+        // Calculate the journey time:
+        // Average speed = 75 km/h
+        // Driver's daily shift = 9 hours
+        final double speed = 75;
+        final double shift = 9;
+        double driveTime = totalDistance/speed;
+        double shiftsNeed = driveTime/shift;
+        double daysNeed = shiftsNeed/truck.getCrew();
+        double hoursUnderway = Math.ceil(daysNeed*24);
+        System.out.println("---------driveTime----------->" + driveTime);
+        System.out.println("---------driveTime----------->" + driveTime);
+        System.out.println("---------shiftsNeed----------->" + shiftsNeed);
+        System.out.println("---------daysNeed----------->" + daysNeed);
+        System.out.println("---------hoursUnderway----------->" + hoursUnderway);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstDayOfNextMonth = LocalDateTime.of(now.toLocalDate().with(TemporalAdjusters.firstDayOfNextMonth()), LocalTime.MIDNIGHT);
+        System.out.println("---------now----------->" + now);
+        System.out.println("---------firstDayOfNextMonth----------->" + firstDayOfNextMonth);
+        long firstWay = now.until(firstDayOfNextMonth, ChronoUnit.HOURS);
+        long secondWay = ChronoUnit.HOURS.between(now,firstDayOfNextMonth);
+        System.out.println("---------now.until(firstDayOfNextMonth, ChronoUnit.HOURS)----------->" + firstWay);
+        System.out.println("---------ChronoUnit.HOURS.between(now,firstDayOfNextMonth)----------->" + secondWay);
+
+
+
+
+
+
+
+
+
+        return "orders/drivers";
 
     }
+
+
+
     // ---------------------------------------- PRIVATE METHODS ----------------------------------------
 
     private int calculateMaxMass(List<WayPointDTO> wayPoints){

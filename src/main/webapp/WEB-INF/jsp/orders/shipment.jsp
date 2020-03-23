@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Order shipment</title>
+    <title>New Order - shipment</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
@@ -18,7 +18,7 @@
     </c:if>
     <%-- message from redirect flash attribute  --%>
 
-    <h2>New Order shipment cart</h2>
+    <h2>Shipment list</h2>
         <div>
             <c:if test="${empty sessionScope.wayPoints}">
                 <div>List is empty. Please, choose the first cargo to load</div>
