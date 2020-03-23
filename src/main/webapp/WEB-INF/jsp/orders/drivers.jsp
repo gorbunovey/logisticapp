@@ -4,7 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>New Order - truck choosing</title>
+    <title>New Order - divers choosing</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
@@ -12,6 +12,22 @@
 <div>
     <%-- pageBody --%>
     <h1>New Order - step 3. Drivers choosing</h1>
+    <c:if test="${(!empty sessionScope.wayPoints) and (!empty sessionScope.chosenTruck) }">
+        <h1>
+            <div>
+                <c:set var="lastStop" value="${sessionScope.chosenTruck.cityName}" scope="page" />
+                <c:out value="${lastStop}"/>
+                <c:forEach var="point" items="${sessionScope.wayPoints}">
+                    <c:set var="newStop" value="${point.type == true ? point.cargo.cityFromName : point.cargo.cityToName}" scope="page" />
+                    <c:if test="${lastStop != newStop}">
+                        <c:set var="lastStop" value="${newStop}" scope="page" />
+                        &nbsp;-->&nbsp;<c:out value="${lastStop}"/>
+                    </c:if>
+                </c:forEach>
+            </div>
+        </h1>
+    </c:if>
+
     <%-- message from redirect flash attribute  --%>
     <c:if test="${not empty statusMsg}">
         <div><strong><c:out value="${statusMsg}"/></strong></div>
@@ -76,8 +92,30 @@
                 </tbody>
             </table>
         </c:if>
-
     </div>
+    <h2>Chosen truck</h2>
+        <c:if test="${!empty sessionScope.chosenTruck}">
+            <table>
+                <thead>
+                <tr>
+                    <th>Registration Number</th>
+                    <th>Crew size</th>
+                    <th>Load capacity</th>
+                    <th>Vehicle state</th>
+                    <th>Current city</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td class="center">${sessionScope.chosenTruck.regNumber}</td>
+                    <td class="center">${sessionScope.chosenTruck.crew}</td>
+                    <td class="center">${sessionScope.chosenTruck.capacity}</td>
+                    <td class="center">${sessionScope.chosenTruck.active == true ? "active":"broken"}</td>
+                    <td class="center">${sessionScope.chosenTruck.cityName == null ? "no City" : sessionScope.chosenTruck.cityName}</td>
+                </tr>
+                </tbody>
+            </table>
+        </c:if>
     <h2>Available drivers</h2>
     <div>
         <c:if test="${!empty drivers}">

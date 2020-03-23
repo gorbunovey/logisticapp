@@ -12,6 +12,23 @@
 <div>
     <%-- pageBody --%>
     <h1>New Order - step 2. Truck choosing</h1>
+
+    <c:if test="${!empty sessionScope.wayPoints}">
+        <h1>
+            <div>
+                <c:set var="lastStop" value="${sessionScope.wayPoints.get(0).cargo.cityFromName}" scope="page" />
+                <c:out value="${lastStop}"/>
+                <c:forEach var="point" items="${sessionScope.wayPoints}">
+                    <c:set var="newStop" value="${point.type == true ? point.cargo.cityFromName : point.cargo.cityToName}" scope="page" />
+                    <c:if test="${lastStop != newStop}">
+                        <c:set var="lastStop" value="${newStop}" scope="page" />
+                        &nbsp;-->&nbsp;<c:out value="${lastStop}"/>
+                    </c:if>
+                </c:forEach>
+            </div>
+        </h1>
+    </c:if>
+
     <%-- message from redirect flash attribute  --%>
     <c:if test="${not empty statusMsg}">
         <div><strong><c:out value="${statusMsg}"/></strong></div>

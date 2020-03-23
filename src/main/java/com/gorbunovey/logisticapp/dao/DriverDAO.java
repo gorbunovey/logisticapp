@@ -13,4 +13,5 @@ public interface DriverDAO {
     List<DriverEntity> getAll();
 
     DriverEntity getByNumber(Long number);
+    List<DriverEntity> getAllInCityWithoutOrder(Long cityCode);
 }

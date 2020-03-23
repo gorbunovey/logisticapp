@@ -11,7 +11,4 @@ public interface OrderService {
     List<OrderDTO> getOrderList();
     List<OrderDTO> getActiveOrdersList();
     //boolean closeOrder();
-
-
-
 }

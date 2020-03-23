@@ -3,10 +3,7 @@ package com.gorbunovey.logisticapp.controller;
 import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.dto.TruckDTO;
 import com.gorbunovey.logisticapp.dto.WayPointDTO;
-import com.gorbunovey.logisticapp.service.CargoService;
-import com.gorbunovey.logisticapp.service.MapService;
-import com.gorbunovey.logisticapp.service.OrderService;
-import com.gorbunovey.logisticapp.service.TruckService;
+import com.gorbunovey.logisticapp.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -37,6 +34,8 @@ public class OrdersController {
     private TruckService truckService;
     @Autowired
     private MapService mapService;
+    @Autowired
+    private DriverService driverService;
 
     // ---------------------------------------- ALL ----------------------------------------
 
@@ -240,25 +239,32 @@ public class OrdersController {
                     "Couldn't set a truck. Please, choose the suitable truck");
             return "redirect:/orders/new/trucks";
         }
-        // Calculate distance and ordering seqNumber
+        // Calculate distance, ordering seqNumber, route (for better visualization)
         int totalDistance = 0;
         Long lastStopCityCode = truck.getCityCode();
+        //List<String> route = new ArrayList<>();// for visualization
+        //route.add(truck.getCityName());// for visualization
         for(int i = 0; i< wayPoints.size(); i++){
             WayPointDTO wayPoint = wayPoints.get(i);
             wayPoint.setSeqNumber(i+1);
             // choose next stop
             Long newStopCityCode;
+            //String newStopCityName;// for visualization
             if(wayPoint.isType()){
                 newStopCityCode = wayPoint.getCargo().getCityFromCode();
+                //newStopCityName = wayPoint.getCargo().getCityFromName();// for visualization
             }else{
                 newStopCityCode = wayPoint.getCargo().getCityToCode();
+                //newStopCityName = wayPoint.getCargo().getCityToName();// for visualization
             }
-            // calculate distance
+            // calculate distance and add routeStop
             if(!newStopCityCode.equals(lastStopCityCode)){
                 totalDistance += mapService.getDistanceBetween(lastStopCityCode, newStopCityCode);
                 lastStopCityCode = newStopCityCode;
+                //route.add(newStopCityName);// for visualization
             }
         }
+        //model.addAttribute("routeList", route);// for visualization
         // Calculate the journey time:
         // Average speed = 75 km/h
         // Driver's daily shift = 9 hours
@@ -283,6 +289,8 @@ public class OrdersController {
         System.out.println("---------ChronoUnit.HOURS.between(now,firstDayOfNextMonth)----------->" + secondWay);
 
 
+        // проверка ДАО
+        driverService.GetAllFreeInCityWithHours(truck.getCityCode(), 0);
 
 
 

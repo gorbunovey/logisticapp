@@ -6,14 +6,21 @@ import com.gorbunovey.logisticapp.dao.RoleDAO;
 import com.gorbunovey.logisticapp.dao.UserDAO;
 import com.gorbunovey.logisticapp.dto.DriverDTO;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
+import com.gorbunovey.logisticapp.entity.DriverHistoryEntity;
 import com.gorbunovey.logisticapp.entity.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -94,4 +101,41 @@ public class DriverServiceImpl implements DriverService {
         return driverDTOList;
     }
 
+    @Override
+    public List<DriverDTO> GetAllFreeInCityWithHours(Long cityCode, int hours) {
+        List<DriverEntity> allFreeInCity = driverDAO.getAllInCityWithoutOrder(cityCode);
+
+        System.out.println("[-------------allFreeInCity-------------]");
+        allFreeInCity.forEach(System.out::println);
+        this.getDriverHours(allFreeInCity.get(0));
+        return null;
+    }
+
+    // сколько водитель наработал в месяце
+    private int getDriverHours(DriverEntity driverEntity){
+        System.out.println("#######-------------getDriverHours(DriverEntity driverEntity)-------------#######");
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstDayOfThisMonth = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIDNIGHT);
+        System.out.println("-------firstDayOfThisMonth-----"+firstDayOfThisMonth);
+
+        List<DriverHistoryEntity> thisMonthHistory = driverEntity.getDriverHistory().stream()
+                .filter(h->h.getStatusTime().isAfter(firstDayOfThisMonth))
+                //.sorted((DriverHistoryEntity h1, DriverHistoryEntity h2) -> h1.getStatusTime().compareTo(h2.getStatusTime()))
+                .sorted(Comparator.comparing(DriverHistoryEntity::getStatusTime))
+                .collect(Collectors.toList());
+        if(thisMonthHistory == null || thisMonthHistory.isEmpty()) return 0;
+        String lastStatus = thisMonthHistory.get(0).getStatus();
+        for(DriverHistoryEntity history: thisMonthHistory){
+            String tempStatus = history.getStatus();
+            switch (tempStatus){
+                case "free": break;
+                case "first": break;
+                case "second": break;
+                case "loading": break;
+                case "resting": break;
+            }
+        }
+
+        return -Integer.MAX_VALUE;
+    }
 }

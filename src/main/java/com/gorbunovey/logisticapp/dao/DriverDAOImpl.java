@@ -49,4 +49,14 @@ public class DriverDAOImpl implements DriverDAO {
         q.setParameter("number", number);
         return q.getResultStream().findAny().orElse(null);
     }
+
+    @Override
+    public List<DriverEntity> getAllInCityWithoutOrder(Long cityCode) {
+        TypedQuery<DriverEntity> q = entityManager.createQuery(
+                "SELECT d FROM DriverEntity d LEFT JOIN d.orders o " +
+                        "WHERE (d.city.code = :cityCode )" +
+                        "AND ( o.active IN (FALSE) OR d.orders IS EMPTY)", DriverEntity.class);
+        q.setParameter("cityCode", cityCode);
+        return q.getResultList();
+    }
 }

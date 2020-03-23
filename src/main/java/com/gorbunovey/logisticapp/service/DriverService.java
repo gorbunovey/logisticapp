@@ -11,4 +11,5 @@ public interface DriverService {
     boolean updateDriver(DriverDTO driverDTO);
     boolean deleteDriver(Long number);
     List<DriverDTO> getDriverList();
+    List<DriverDTO> GetAllFreeInCityWithHours(Long cityCode, int hours);
 }

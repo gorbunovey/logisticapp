@@ -40,7 +40,7 @@
                         <td class="center">${truck.crew}</td>
                         <td class="center">${truck.capacity}</td>
                         <td class="center">${truck.active == true ? "active":"broken"}</td>
-                        <td class="center">${truck.cityName}</td>
+                        <td class="center">${truck.cityName == null ? "no City" : truck.cityName}</td>
                         <td class="center">
                             <a href="/trucks/edit/${truck.regNumber}">Edit</a>
                             <a href="/trucks/delete/${truck.regNumber}">Delete</a>
