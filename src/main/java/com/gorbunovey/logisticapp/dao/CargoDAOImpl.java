@@ -54,4 +54,24 @@ public class CargoDAOImpl implements CargoDAO {
                 .setParameter("status", status)
                 .getResultList();
     }
+
+    @Override
+    public List<CargoEntity> findWithStatusWithoutOrder(String status) {
+        TypedQuery<CargoEntity> q = entityManager.createQuery(
+                "SELECT c FROM CargoEntity c LEFT JOIN c.wayPoints w " +
+                        "WHERE c.status = : status AND c.wayPoints IS EMPTY", CargoEntity.class);
+        q.setParameter("status", status);
+        return q.getResultList();
+    }
+
+    @Override
+    public List<CargoEntity> findWithStatusInCityWithoutOrder(String status, Long cityCode) {
+        TypedQuery<CargoEntity> q = entityManager.createQuery(
+                "SELECT c FROM CargoEntity c LEFT JOIN c.wayPoints w " +
+                        "WHERE c.status = : status AND c.cityFrom.code = :cityCode " +
+                        "AND c.wayPoints IS EMPTY", CargoEntity.class);
+        q.setParameter("status", status);
+        q.setParameter("cityCode", cityCode);
+        return q.getResultList();
+    }
 }

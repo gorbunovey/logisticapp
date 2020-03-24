@@ -21,7 +21,7 @@
     <h2>Shipment list</h2>
         <div>
             <c:if test="${empty sessionScope.wayPoints}">
-                <div>List is empty. Please, choose the first cargo to load</div>
+                <div>Please, choose the first cargo to load</div>
             </c:if>
             <c:if test="${!empty sessionScope.wayPoints}">
                 <div>
@@ -97,7 +97,6 @@
                     </table>
                         <c:if test="${(!empty sessionScope.wayPoints) && (accumulatedMass == 0)}">
                             <div>
-<%--                                <input type="submit" formaction="/orders/new/trucks" value="Next"/>--%>
                                 <a href="<c:url value="/orders/new/trucks"/>">Choose truck</a>
                             </div>
                         </c:if>

@@ -6,7 +6,6 @@ import com.gorbunovey.logisticapp.dao.RoleDAO;
 import com.gorbunovey.logisticapp.dao.UserDAO;
 import com.gorbunovey.logisticapp.dto.DriverDTO;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
-import com.gorbunovey.logisticapp.entity.DriverHistoryEntity;
 import com.gorbunovey.logisticapp.entity.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -102,40 +102,58 @@ public class DriverServiceImpl implements DriverService {
     }
 
     @Override
-    public List<DriverDTO> GetAllFreeInCityWithHours(Long cityCode, int hours) {
+    public List<DriverDTO> GetAllFreeInCityWithHours(Long cityCode, int driveTime) {
         List<DriverEntity> allFreeInCity = driverDAO.getAllInCityWithoutOrder(cityCode);
-
-        System.out.println("[-------------allFreeInCity-------------]");
-        allFreeInCity.forEach(System.out::println);
-        this.getDriverHours(allFreeInCity.get(0));
-        return null;
+        List<DriverEntity> allFreeInCityAndAvailable = null; // available for driveTime
+        // calculate if trip will end this month:
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime firstDayOfNextMonth = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfNextMonth()), LocalTime.MIDNIGHT);
+        float daysUnderway = (float) driveTime / DriverService.SHIFT_HOURS;
+        int hoursUnderway = Math.round(daysUnderway*24);
+        if(now.plus(hoursUnderway, ChronoUnit.HOURS).isBefore(firstDayOfNextMonth)){
+            allFreeInCityAndAvailable = allFreeInCity.stream()
+                    .filter(driver -> (DriverService.MAX_HOURS - driver.getHours()) >= driveTime)
+                    .collect(Collectors.toList());
+        }else{
+            long hoursUnderwayThisMonth = ChronoUnit.HOURS.between(now,firstDayOfNextMonth);
+            long driveTimeThisMonth = hoursUnderwayThisMonth * DriverService.SHIFT_HOURS / 24;
+            allFreeInCityAndAvailable = allFreeInCity.stream()
+                    .filter(driver -> (DriverService.MAX_HOURS - driver.getHours()) >= driveTimeThisMonth)
+                    .collect(Collectors.toList());
+        }
+        List<DriverDTO> driverDTOList = new ArrayList<>();
+        allFreeInCityAndAvailable.forEach(driverEntity -> driverDTOList.add(modelMapper.map(driverEntity, DriverDTO.class)));
+        return driverDTOList;
     }
 
-    // сколько водитель наработал в месяце
-    private int getDriverHours(DriverEntity driverEntity){
-        System.out.println("#######-------------getDriverHours(DriverEntity driverEntity)-------------#######");
-        LocalDateTime now = LocalDateTime.now();
-        LocalDateTime firstDayOfThisMonth = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIDNIGHT);
-        System.out.println("-------firstDayOfThisMonth-----"+firstDayOfThisMonth);
-
-        List<DriverHistoryEntity> thisMonthHistory = driverEntity.getDriverHistory().stream()
-                .filter(h->h.getStatusTime().isAfter(firstDayOfThisMonth))
-                //.sorted((DriverHistoryEntity h1, DriverHistoryEntity h2) -> h1.getStatusTime().compareTo(h2.getStatusTime()))
-                .sorted(Comparator.comparing(DriverHistoryEntity::getStatusTime))
-                .collect(Collectors.toList());
-        if(thisMonthHistory == null || thisMonthHistory.isEmpty()) return 0;
-        String lastStatus = thisMonthHistory.get(0).getStatus();
-        for(DriverHistoryEntity history: thisMonthHistory){
-            String tempStatus = history.getStatus();
-            switch (tempStatus){
-                case "free": break;
-                case "first": break;
-                case "second": break;
-                case "loading": break;
-                case "resting": break;
+    @Override
+    @Transactional
+    public void setDriverShift(Long driverNumber, boolean isOnShift){
+        DriverEntity driverEntity = driverDAO.getByNumber(driverNumber);
+        if(isOnShift){ // if driver start his shift -> set this time
+            driverEntity.setLastShiftTime(LocalDateTime.now());
+        }else{ // else -> calculate how much was his shift
+            LocalDateTime shiftStartedTime = driverEntity.getLastShiftTime();
+            LocalDateTime firstDayOfThisMonth = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIDNIGHT);
+            // if month not change (shift was started this month)
+            if(shiftStartedTime.isAfter(firstDayOfThisMonth)){
+                int workingHours = (int) ChronoUnit.HOURS.between(shiftStartedTime,LocalDateTime.now());
+                driverEntity.setHours(driverEntity.getHours() + workingHours);
+            }else{//if month changed
+                int workingHours = (int) ChronoUnit.HOURS.between(firstDayOfThisMonth,LocalDateTime.now());
+                driverEntity.setHours(driverEntity.getHours() + workingHours);
             }
         }
-
-        return -Integer.MAX_VALUE;
     }
+
+    @Override
+    public void filterDriverList(List<DriverDTO> sourceList, List<DriverDTO> subtractDrivers) {
+        if(subtractDrivers != null){
+            List<Long> subtractDriversNumbers = subtractDrivers.stream()
+                    .map(DriverDTO::getNumber)
+                    .collect(Collectors.toList());
+            sourceList.removeIf(driver->subtractDriversNumbers.contains(driver.getNumber()));
+        }
+    }
+
 }

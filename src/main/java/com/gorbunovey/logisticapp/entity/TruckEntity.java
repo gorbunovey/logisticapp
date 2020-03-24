@@ -6,6 +6,8 @@ import java.io.Serializable;
 import java.util.Set;
 
 @Data
+@EqualsAndHashCode(exclude = "orders")
+@ToString(exclude = "orders")
 @Entity
 @Table(name = "TRUCK")
 public class TruckEntity implements Serializable {

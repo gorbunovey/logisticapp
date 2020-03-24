@@ -3,11 +3,12 @@ package com.gorbunovey.logisticapp.entity;
 import lombok.*;
 import javax.persistence.*;
 import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.Set;
 
 @Data
-@EqualsAndHashCode(exclude = { "driverHistory", "orders"})
-@ToString(exclude = { "driverHistory", "orders"})
+@EqualsAndHashCode(exclude = "orders")
+@ToString(exclude = "orders")
 @Entity
 @Table(name = "DRIVER")
 public class DriverEntity  implements Serializable {
@@ -28,10 +29,17 @@ public class DriverEntity  implements Serializable {
     @JoinColumn(name = "USER_ID", referencedColumnName = "ID")
     private UserEntity user;
 
-    // orphanRemoval="true" - для автоматической очистки истории при удалении драйвера
-    // по идее cascade = CascadeType.ALL - должна сделать тоже самое
-    @OneToMany(mappedBy = "driver", orphanRemoval = true)
-    private Set<DriverHistoryEntity> driverHistory;
+    @Column(name = "STATUS", nullable = false)
+    private String status;
+
+    @Column(name = "HOURS", nullable = false)
+    private int hours;
+
+    @Column(name = "SHIFT", nullable = false)
+    private boolean onShift;
+
+    @Column(name = "SHIFT_TIME", nullable = false)
+    private LocalDateTime lastShiftTime;
 
     @ManyToMany(mappedBy = "drivers")
     private Set<OrderEntity> orders;

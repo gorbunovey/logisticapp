@@ -1,9 +1,11 @@
 package com.gorbunovey.logisticapp.service;
 
+import com.gorbunovey.logisticapp.dao.CargoDAO;
+import com.gorbunovey.logisticapp.dao.DriverDAO;
 import com.gorbunovey.logisticapp.dao.OrderDAO;
-import com.gorbunovey.logisticapp.dto.CargoDTO;
-import com.gorbunovey.logisticapp.dto.OrderDTO;
-import com.gorbunovey.logisticapp.dto.WayPointDTO;
+import com.gorbunovey.logisticapp.dao.TruckDAO;
+import com.gorbunovey.logisticapp.dto.*;
+import com.gorbunovey.logisticapp.dto.converters.OrderConverter;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
 import com.gorbunovey.logisticapp.entity.OrderEntity;
 import com.gorbunovey.logisticapp.entity.WayPointEntity;
@@ -22,70 +24,93 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     OrderDAO orderDAO;
-
-    private ModelMapper modelMapper = new ModelMapper();
+    @Autowired
+    TruckDAO truckDAO;
+    @Autowired
+    DriverDAO driverDAO;
+    @Autowired
+    CargoDAO cargoDAO;
+    @Autowired
+    OrderConverter converter;
 
     @Override
+    @Transactional
     public void addOrder(OrderDTO orderDTO) {
-        // TODO: сделать метод + маппер из ДТО в сущность
+        // TODO: сделать метод при рефакторинге
     }
 
     @Override
     public OrderDTO getOrderByNumber(Long number) {
         OrderEntity orderEntity = orderDAO.getByNumber(number);
-        if (orderEntity == null){
+        if (orderEntity == null) {
             return null;
-        }else{
-            return mapEntityToDto(orderEntity);
+        } else {
+            return converter.mapEntityToDto(orderEntity);
         }
     }
 
     @Override
     public List<OrderDTO> getOrderList() {
         List<OrderEntity> orderEntityList = orderDAO.getAll();
-        List<OrderDTO>  orderDTOList = mapEntityListToDto(orderEntityList);
+        List<OrderDTO> orderDTOList = converter.mapEntityListToDto(orderEntityList);
         orderDTOList.forEach(System.out::println);
         return orderDTOList;
     }
 
     @Override
     public List<OrderDTO> getActiveOrdersList() {
-        return mapEntityListToDto(orderDAO.getAllActive());
+        return converter.mapEntityListToDto(orderDAO.getAllActive());
     }
 
-    // Mappers:
-
-    private OrderDTO mapEntityToDto(OrderEntity entity){
-        OrderDTO orderDTO = new OrderDTO();
-        // simple fields
-        orderDTO.setNumber(entity.getNumber());
-        orderDTO.setActive(entity.isActive());
-        orderDTO.setTruckRegNumber(entity.getTruck().getRegNumber());
-        // drivers
-        List<Long> driversNumber = entity.getDrivers().stream()
-                .map(DriverEntity::getNumber)
-                .collect(Collectors.toList());
-        orderDTO.setDriversNumber(driversNumber);
-        driversNumber.forEach(System.out::println);
+    @Override
+    @Transactional
+    public void addOrder(List<WayPointDTO> wayPoints, TruckDTO truck, List<DriverDTO> drivers) {
+        // Handmade mapping - will be exclude after refactor OrderDTO
+        OrderEntity newOrderEntity = new OrderEntity();
+        newOrderEntity.setActive(true);
+        newOrderEntity.setTruck(truckDAO.getByRegNumber(truck.getRegNumber()));
+        drivers.forEach(driver -> newOrderEntity.getDrivers().add(driverDAO.getByNumber(driver.getNumber())));
         // wayPoints
-        List<WayPointDTO> wayPointDTOList = new ArrayList<>();
-        entity.getWayPoints().forEach(wayPointEntity -> {
-            WayPointDTO wayPointDTO = new WayPointDTO();
-            wayPointDTO.setSeqNumber(wayPointEntity.getSeqNumber());
-            wayPointDTO.setType(wayPointEntity.isType());
-            wayPointDTO.setOrderNumber(entity.getNumber());
-            wayPointDTO.setCargo(modelMapper.map(wayPointEntity.getCargo(), CargoDTO.class));
-            wayPointDTOList.add(wayPointDTO);
+        wayPoints.forEach(wayPointDTO -> {
+            WayPointEntity wayPointEntity = new WayPointEntity();
+            wayPointEntity.setSeqNumber(wayPointDTO.getSeqNumber());
+            wayPointEntity.setType(wayPointDTO.isType());
+            wayPointEntity.setCargo(cargoDAO.getByNumber(wayPointDTO.getCargo().getNumber()));
+            newOrderEntity.addWayPoint(wayPointEntity);
         });
-        orderDTO.setWayPoints(wayPointDTOList);
-        return orderDTO;
+        if(checkNewOrder(newOrderEntity)){
+            orderDAO.add(newOrderEntity);
+        }
     }
 
-    private List<OrderDTO> mapEntityListToDto(List<OrderEntity> orderEntityList){
-        List<OrderDTO> orderDTOList = new ArrayList<>();
-        for(OrderEntity entity: orderEntityList){
-            orderDTOList.add(mapEntityToDto(entity));
+    // переделать на чек checkNewOrder(OrderDTO newOrderDTO) и добавить в api, после рефакторинга OrderDTO
+    public boolean checkNewOrder(OrderEntity newOrderEntity){
+        // Truck checks:
+        // Truck capacity don't change (add check from shipment later with refactor)
+        boolean truckIsGood = true;
+        truckIsGood = newOrderEntity.getTruck().isActive();
+        for(OrderEntity order: newOrderEntity.getTruck().getOrders()){
+            if (order.isActive()) {
+                truckIsGood = false;
+                break;
+            }
         }
-        return orderDTOList;
+        // Cargo checks:
+        // Masses calculated at DTO construction and it hardly can be changed (add check from shipment later with refactor)
+        boolean cargoIsGood = true;
+        for(WayPointEntity point: newOrderEntity.getWayPoints()){
+            if (!point.getCargo().getStatus().equalsIgnoreCase("Prepared")) {
+                cargoIsGood = false;
+                break;
+            }
+        }
+        // Drivers checks:
+        boolean diversIsGood = true;
+        List<DriverEntity> availableDrivers = driverDAO.getAllInCityWithoutOrder(newOrderEntity.getTruck().getCity().getCode());
+        if(!availableDrivers.containsAll(newOrderEntity.getDrivers()) ||
+                newOrderEntity.getTruck().getCrew() != newOrderEntity.getDrivers().size()){
+            diversIsGood = false;
+        }
+        return truckIsGood && cargoIsGood && diversIsGood;
     }
 }

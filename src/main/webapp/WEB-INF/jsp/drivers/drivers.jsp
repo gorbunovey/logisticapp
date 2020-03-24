@@ -28,6 +28,7 @@
                     <th>Number</th>
                     <th>First Name</th>
                     <th>Last Name</th>
+                    <th>Email</th>
                     <th>Status</th>
                     <th>Hours</th>
                     <th>Current City</th>
@@ -40,9 +41,10 @@
                         <td class="center">${driver.number}</td>
                         <td class="center">${driver.userFirstName}</td>
                         <td class="center">${driver.userLastName}</td>
+                        <td class="center">${driver.userEmail}</td>
                         <td class="center">${driver.status}</td>
                         <td class="center">${driver.hours}</td>
-                        <td class="center">${driver.cityName}</td>
+                        <td class="center">${driver.cityName == null ? "-" : driver.cityName}</td>
                         <td class="center">
                             <a href="/drivers/edit/${driver.number}">Edit</a>
                             <a href="/drivers/delete/${driver.number}">Delete</a>

@@ -9,4 +9,7 @@ public interface CargoService {
     CargoDTO getCargoByNumber(Long number);
     List<CargoDTO> getCargoList();
     List<CargoDTO> getCargoWithStatus(String status);
+    List<CargoDTO> getCargoWithStatusFromCity(Long cityCode, String status);
+    List<CargoDTO> getCargoWithStatusWithoutOrder(String status);
+    List<CargoDTO> getCargoWithStatusFromCityWithoutOrder(Long cityCode, String status);
 }

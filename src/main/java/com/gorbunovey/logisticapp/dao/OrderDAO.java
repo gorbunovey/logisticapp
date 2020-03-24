@@ -7,7 +7,7 @@ import java.util.List;
 
 public interface OrderDAO {
 
-    void add(OrderEntity entity);
+    Long add(OrderEntity entity);
     OrderEntity get(Long id);
     void update(OrderEntity entity);
     void delete(OrderEntity entity);

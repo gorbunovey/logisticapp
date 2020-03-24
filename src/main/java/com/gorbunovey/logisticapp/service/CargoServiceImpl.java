@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -41,8 +42,30 @@ public class CargoServiceImpl implements CargoService {
     public List<CargoDTO> getCargoWithStatus(String status) {
         List<CargoDTO> cargoWithStatusDTOList = new ArrayList<>();
         cargoDAO.findWithStatus(status).forEach(cargoEntity -> cargoWithStatusDTOList.add(modelMapper.map(cargoEntity, CargoDTO.class)));
-        System.out.println("--------------------------" + cargoWithStatusDTOList.isEmpty());
-        cargoWithStatusDTOList.forEach(System.out::println);
         return cargoWithStatusDTOList;
+    }
+
+    @Override
+    public List<CargoDTO> getCargoWithStatusFromCity(Long cityCode, String status) {
+        List<CargoDTO> withStatusCargo = this.getCargoWithStatus(status);
+        return withStatusCargo.stream()
+                .filter(c->c.getCityFromCode().equals(cityCode))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<CargoDTO> getCargoWithStatusWithoutOrder(String status) {
+        List<CargoDTO> cargoDTOList = new ArrayList<>();
+        cargoDAO.findWithStatusWithoutOrder(status)
+                .forEach(cargoEntity -> cargoDTOList.add(modelMapper.map(cargoEntity, CargoDTO.class)));
+        return cargoDTOList;
+    }
+
+    @Override
+    public List<CargoDTO> getCargoWithStatusFromCityWithoutOrder(Long cityCode, String status) {
+        List<CargoDTO> cargoDTOList = new ArrayList<>();
+        cargoDAO.findWithStatusInCityWithoutOrder(status, cityCode)
+                .forEach(cargoEntity -> cargoDTOList.add(modelMapper.map(cargoEntity, CargoDTO.class)));
+        return cargoDTOList;
     }
 }

@@ -14,4 +14,6 @@ public interface CargoDAO {
 
     CargoEntity getByNumber(Long number);
     List<CargoEntity> findWithStatus(String status);
+    List<CargoEntity> findWithStatusWithoutOrder(String status);
+    List<CargoEntity> findWithStatusInCityWithoutOrder(String status, Long cityCode);
 }

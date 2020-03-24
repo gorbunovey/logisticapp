@@ -6,6 +6,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import javax.validation.constraints.*;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -18,20 +19,17 @@ public class DriverDTO {
     private long number;
     private long oldNumber;
 
-    private Long cityCode; // уникальный идентификатор города
+    private Long cityCode;
     private String cityName;
+    private String status;
+    private int hours;
+    private boolean onShift;
+    private LocalDateTime lastShiftTime;
 
     private String userFirstName;
     private String userLastName;
-    private Long userNumber; // уникальный идентификатор юзера
+    private Long userNumber;
     private String userEmail;
     private String userPassword;
-    private String userRoleName; // нужен ли?
-
-    // DriverEntity есть Set истории водилы:
-    // поля ниже нужно вычислять из этого сета:
-    // наверно лучше его сделать трисетом с макс датой на верху
-    private String status; // как вычислить?
-    private int hours; // как вычислить?
-
+    private String userRoleName;
 }

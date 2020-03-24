@@ -141,34 +141,31 @@ INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_F
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('18', 'Corn', '3000', 'prepared', '3','1');
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('19', 'Lettuce', '500', 'prepared', '3','1');
 INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('20', 'Cabbage', '8000', 'prepared', '3','1');
--- delivered
- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('21', 'Potato', '10000', 'delivered', '1','3');
- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('22', 'Cabbage', '5000', 'delivered', '1','2');
 -- loaded
-INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('23', 'Onion', '5000', 'loaded', '3','1');
--- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('24', 'Potato', '5000', 'loaded', '1','3');
--- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('25', 'Carrot', '5000', 'loaded', '1','3');
-
+INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('21', 'Onion', '5000', 'loaded', '3','1');
+-- delivered
+-- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('22', 'Potato', '10000', 'delivered', '1','3');
+-- INSERT INTO `logisticdb`.`cargo` (`NUMBER`, `TITLE`, `WEIGHT`, `STATUS`, `CITY_FROM`, `CITY_TO`) VALUES ('23', 'Cabbage', '5000', 'delivered', '1','2');
 
 -- -----------------------------------------------------
 -- Table ORDERS
 -- -----------------------------------------------------
 -- closed
- INSERT INTO `logisticdb`.`orders` (`NUMBER`, `STATUS`, `TRUCK_ID`) VALUES ('1', '0', '11');
+-- INSERT INTO `logisticdb`.`orders` (`STATUS`, `TRUCK_ID`) VALUES ( '0', '11');
 -- open
-INSERT INTO `logisticdb`.`orders` (`NUMBER`, `STATUS`, `TRUCK_ID`) VALUES ('2', '1', '22');
+INSERT INTO `logisticdb`.`orders` (`STATUS`, `TRUCK_ID`) VALUES ( '1', '22');
 
 -- -----------------------------------------------------
 -- Table WAY_POINT
 -- -----------------------------------------------------
 -- closed
--- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','21','1');
--- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '1','22','1');
--- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('3', '0','22','1');
--- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('4', '0','21','1');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','21','2');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '1','22','2');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('3', '0','22','2');
+-- INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('4', '0','21','2');
 -- open
-INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','23','2');
-INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '0','23','2');
+INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('1', '1','21','1');
+INSERT INTO `logisticdb`.`way_point` (`SEQ_NUMBER`, `TYPE`, `CARGO_ID`, `ORDER_ID`) VALUES ('2', '0','21','1');
 
 
 -- -----------------------------------------------------
@@ -203,37 +200,20 @@ INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`
 -- Table DRIVER
 -- -----------------------------------------------------
 
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('101', '1', '1');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('102', '1', '2');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('103', '1', '3');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('104', '1', '4');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('105', '1', '5');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('106', '3', '6');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('107', '3', '7');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('108', '3', '8');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('109', '3', '9');
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`) VALUES ('110', '3', '10');
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('101', '1', '1', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('102', '1', '2', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('103', '1', '3', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('104', '1', '4', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('105', '1', '5', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('106', '3', '6', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('107', '3', '7', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('108', '3', '8', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('109', '3', '9', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('110', '3', '10', 'first', '0', '1', NOW() - INTERVAL 8 HOUR);
 
--- -----------------------------------------------------
--- Table DRIVER_HISTORY
--- -----------------------------------------------------
--- STATUS {free, first driver, second driver, loading, resting}
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '1');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '2');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '3');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '4');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '5');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '6');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '7');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '8');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '9');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('free', NOW(), '10');
--- open:
--- INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('first', '2020-03-01', '10');
-INSERT INTO `logisticdb`.`driver_history` (`STATUS`,`STATUS_TIME`,`DRIVER_ID`) VALUES ('first', NOW() - INTERVAL 1 DAY, '10');
 -- -----------------------------------------------------
 -- Table ORDER_DRIVERS
 -- -----------------------------------------------------
 -- closed
 -- open
-INSERT INTO `logisticdb`.`order_drivers` (`ORDER_ID`,`DRIVER_ID`) VALUES ('2','10');
+INSERT INTO `logisticdb`.`order_drivers` (`ORDER_ID`,`DRIVER_ID`) VALUES ('1','10');

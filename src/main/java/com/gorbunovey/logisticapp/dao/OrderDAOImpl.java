@@ -15,8 +15,9 @@ public class OrderDAOImpl implements OrderDAO {
     private EntityManager entityManager;
 
     @Override
-    public void add(OrderEntity entity) {
+    public Long add(OrderEntity entity) {
         entityManager.persist(entity);
+        return entity.getId();
     }
 
     @Override

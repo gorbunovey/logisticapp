@@ -18,5 +18,4 @@ public class OrderDTO {
     private String truckRegNumber;
     List<Long> driversNumber;
     List<WayPointDTO> wayPoints;
-
 }

@@ -6,7 +6,6 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 @Data
 @EqualsAndHashCode(exclude = {"drivers", "wayPoints"})
@@ -20,9 +19,6 @@ public class OrderEntity implements Serializable {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "NUMBER", nullable = false, unique = true)
-    private long number;
-
     @Column(name = "STATUS", nullable = false)
     private boolean active;
 
@@ -35,17 +31,17 @@ public class OrderEntity implements Serializable {
             name = "ORDER_DRIVERS",
             joinColumns = @JoinColumn(name = "ORDER_ID"),
             inverseJoinColumns = @JoinColumn(name = "DRIVER_ID"))
-    private Set<DriverEntity> drivers;
+    private List<DriverEntity> drivers = new ArrayList<>();
 
-    @OneToMany(mappedBy = "order", orphanRemoval = true)
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<WayPointEntity> wayPoints = new ArrayList<>();
 
-    public void addChild(WayPointEntity wayPoint) {
+    public void addWayPoint(WayPointEntity wayPoint) {
         wayPoints.add(wayPoint);
         wayPoint.setOrder(this);
     }
 
-    public void removeChild(WayPointEntity wayPoint) {
+    public void removeWayPoint(WayPointEntity wayPoint) {
         wayPoints.remove(wayPoint);
         wayPoint.setOrder(null);
     }
