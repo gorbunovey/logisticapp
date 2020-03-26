@@ -2,8 +2,6 @@ package com.gorbunovey.logisticapp.service;
 
 import com.gorbunovey.logisticapp.dao.CityDAO;
 import com.gorbunovey.logisticapp.dao.DriverDAO;
-import com.gorbunovey.logisticapp.dao.RoleDAO;
-import com.gorbunovey.logisticapp.dao.UserDAO;
 import com.gorbunovey.logisticapp.dto.DriverDTO;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
 import com.gorbunovey.logisticapp.entity.UserEntity;
@@ -18,7 +16,6 @@ import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
 import java.time.temporal.TemporalAdjusters;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -84,7 +81,6 @@ public class DriverServiceImpl implements DriverService {
     @Transactional
     public boolean deleteDriver(Long number) {
         DriverEntity driverEntity = driverDAO.getByNumber(number);
-        System.out.println("--------deleteDriver------>" + driverEntity);
         if (driverEntity == null) {
             return false;
         } else {
@@ -132,6 +128,7 @@ public class DriverServiceImpl implements DriverService {
         DriverEntity driverEntity = driverDAO.getByNumber(driverNumber);
         if(isOnShift){ // if driver start his shift -> set this time
             driverEntity.setLastShiftTime(LocalDateTime.now());
+            driverEntity.setStatus(DriverDTO.isOnShiftStatuses[1]);
         }else{ // else -> calculate how much was his shift
             LocalDateTime shiftStartedTime = driverEntity.getLastShiftTime();
             LocalDateTime firstDayOfThisMonth = LocalDateTime.of(LocalDate.now().with(TemporalAdjusters.firstDayOfMonth()), LocalTime.MIDNIGHT);
@@ -143,7 +140,11 @@ public class DriverServiceImpl implements DriverService {
                 int workingHours = (int) ChronoUnit.HOURS.between(firstDayOfThisMonth,LocalDateTime.now());
                 driverEntity.setHours(driverEntity.getHours() + workingHours);
             }
+            // change status to indicate that driver isn't working anymore
+            driverEntity.setStatus(DriverDTO.isOnShiftStatuses[0]);
         }
+        driverEntity.setOnShift(isOnShift);
+        driverDAO.update(driverEntity);
     }
 
     @Override
@@ -156,4 +157,11 @@ public class DriverServiceImpl implements DriverService {
         }
     }
 
+    @Override
+    @Transactional
+    public void setStatus(Long driverNumber, String newStatus) {
+        DriverEntity driverEntity = driverDAO.getByNumber(driverNumber);
+        driverEntity.setStatus(newStatus);
+        driverDAO.update(driverEntity);
+    }
 }

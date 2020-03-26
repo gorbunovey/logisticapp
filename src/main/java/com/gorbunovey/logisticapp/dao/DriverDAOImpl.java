@@ -53,7 +53,7 @@ public class DriverDAOImpl implements DriverDAO {
     @Override
     public List<DriverEntity> getAllInCityWithoutOrder(Long cityCode) {
         TypedQuery<DriverEntity> q = entityManager.createQuery(
-                "SELECT d FROM DriverEntity d LEFT JOIN d.orders o " +
+                "SELECT DISTINCT d FROM DriverEntity d LEFT JOIN d.orders o " +
                         "WHERE (d.city.code = :cityCode )" +
                         "AND ( o.active IN (FALSE) OR d.orders IS EMPTY)", DriverEntity.class);
         q.setParameter("cityCode", cityCode);

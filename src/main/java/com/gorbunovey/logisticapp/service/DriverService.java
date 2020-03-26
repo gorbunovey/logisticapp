@@ -17,4 +17,5 @@ public interface DriverService {
     List<DriverDTO> GetAllFreeInCityWithHours(Long cityCode, int driveTime);
     void setDriverShift(Long driverNumber, boolean isOnShift);
     void filterDriverList(List<DriverDTO> sourceList, List<DriverDTO> subtractDrivers);
+    void setStatus(Long driverNumber, String newStatus);
 }

@@ -170,7 +170,7 @@ public class ShipmentServiceImpl implements ShipmentService {
                 // otherwise -> just removing unload wayPoint:
                 wayPoints.remove(seqNumber-1);
                 // and need to change status:
-                removableWayPoint.getCargo().setStatus("load");
+                removableWayPoint.getCargo().setStatus("load");// mark cargo as loaded
             }
         }
     }

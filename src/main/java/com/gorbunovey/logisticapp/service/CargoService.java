@@ -12,4 +12,5 @@ public interface CargoService {
     List<CargoDTO> getCargoWithStatusFromCity(Long cityCode, String status);
     List<CargoDTO> getCargoWithStatusWithoutOrder(String status);
     List<CargoDTO> getCargoWithStatusFromCityWithoutOrder(Long cityCode, String status);
+    void setCargoStatus(Long number, String status);
 }

@@ -49,7 +49,7 @@
                             <c:if test="${not empty order.wayPoints}">
                                 <c:forEach var="wayPoint" items="${order.wayPoints}">
                                     ${wayPoint.seqNumber}
-                                    ${wayPoint.type == true ? wayPoint.cargo.cityFromName : wayPoint.cargo.cityFromName}
+                                    ${wayPoint.type == true ? wayPoint.cargo.cityFromName : wayPoint.cargo.cityToName}
                                     ${wayPoint.type == true ? "Loading":"Unloading"}
                                     Cargo #${wayPoint.cargo.number}
                                     ${wayPoint.cargo.title}<br/>

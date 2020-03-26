@@ -32,10 +32,8 @@ public class TruckServiceImpl implements TruckService {
         // TODO: маппер автоматически создает объект City в truckEntity!
         //  т.к. новая truckEntity еще не под управлением entityManager, то он позволет создать недостроенный объект City
         //  нужна java-конфигурация и настройка маппер, в идеале - обертка вокруг маппера как на хабре
-        System.out.println("NEW-TRUCK-from-mapper =" + truckEntity);
         CityEntity cityEntity = cityDAO.getByCode(truckDTO.getCityCode());
         truckEntity.setCity(cityEntity);
-        System.out.println("NEW-TRUCK-FULL =" + truckEntity);
         truckDAO.add(truckEntity);
     }
 
@@ -94,9 +92,6 @@ public class TruckServiceImpl implements TruckService {
     public List<TruckDTO> getAllActiveWithCapacity(float capacity) {
         List<TruckDTO> truckDTOList = new ArrayList<>();
         truckDAO.getAllActiveWithCapacity(capacity).forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
-        System.out.println("---------capacity------------------------" + capacity);
-        System.out.println("---------getAllActiveWithCapacity--------truckDTOList.isEmpty()---------" + truckDTOList.isEmpty());
-        truckDTOList.forEach(System.out::println);
         return truckDTOList;
     }
 
@@ -104,9 +99,6 @@ public class TruckServiceImpl implements TruckService {
     public List<TruckDTO> getAllActiveWithCapacityAndFree(float capacity) {
         List<TruckDTO> truckDTOList = new ArrayList<>();
         truckDAO.getAllActiveWithCapacityAndFree(capacity).forEach(truckEntity -> truckDTOList.add(modelMapper.map(truckEntity, TruckDTO.class)));
-        System.out.println("---------capacity------------------------" + capacity);
-        System.out.println("---------getAllActiveWithCapacityAndFree--------truckDTOList.isEmpty()---------" + truckDTOList.isEmpty());
-        truckDTOList.forEach(System.out::println);
         return truckDTOList;
     }
 }

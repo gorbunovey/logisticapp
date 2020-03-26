@@ -37,21 +37,22 @@ public class OrderDAOImpl implements OrderDAO {
 
     @Override
     public List<OrderEntity> getAll() {
-        return entityManager.createQuery("select e from OrderEntity e").getResultList();
-    }
-
-    @Override
-    public OrderEntity getByNumber(Long number) {
-        TypedQuery<OrderEntity> q = entityManager.createQuery(
-                "SELECT e from OrderEntity e where e.number =: number", OrderEntity.class);
-        q.setParameter("number", number);
-        return q.getResultStream().findAny().orElse(null);
+        return entityManager.createQuery("SELECT e FROM OrderEntity e").getResultList();
     }
 
     @Override
     public List<OrderEntity> getAllActive() {
         return entityManager.createQuery(
-                "SELECT o FROM OrderEntity o WHERE o.active  = TRUE")
+                "SELECT e FROM OrderEntity e WHERE e.active  = TRUE")
                 .getResultList();
+    }
+
+    @Override
+    public OrderEntity getActiveByDriverNumber(Long driverNumber) {
+        TypedQuery<OrderEntity> q = entityManager.createQuery(
+                "SELECT o FROM OrderEntity o JOIN o.drivers d WHERE o.active = TRUE AND d.number =  :driverNumber ", OrderEntity.class);
+                        //"AND :driverNumber IN ( SELECT d.number FROM d)", OrderEntity.class);
+        q.setParameter("driverNumber", driverNumber);
+        return q.getResultStream().findAny().orElse(null);
     }
 }

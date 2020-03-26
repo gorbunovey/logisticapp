@@ -162,7 +162,7 @@ public class OrdersController {
 
     // ---------------------------------------- DRIVERS (STEP 3) ----------------------------------------
 
-    // Show suitable trucks
+    // Show suitable drivers
     @GetMapping(value = "/new/drivers")
     public String newOrderDrivers(Model model, HttpSession session, final RedirectAttributes redirectAttributes) {
         List<WayPointDTO> wayPoints = (List<WayPointDTO>) session.getAttribute("wayPoints");

@@ -12,7 +12,6 @@ public interface OrderDAO {
     void update(OrderEntity entity);
     void delete(OrderEntity entity);
     List<OrderEntity> getAll();
-
-    OrderEntity getByNumber(Long number);
     List<OrderEntity> getAllActive();
+    OrderEntity getActiveByDriverNumber(Long driverNumber);
 }

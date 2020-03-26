@@ -14,6 +14,8 @@ public interface OrderService {
     List<OrderDTO> getOrderList();
     List<OrderDTO> getActiveOrdersList();
     void addOrder(List<WayPointDTO> wayPoints, TruckDTO truck, List<DriverDTO> drivers);
-    //boolean closeOrder();
-
+    boolean closeOrderIfAllCargoDelivered(Long number);
+    Long getActiveOrderNumberByDriverNumber(Long driverNumber);
+    OrderDTO getActiveOrderByDriverNumber(Long driverNumber);
+    void updateOrderInfoFromDriver(Long driverNumber, Long cargoNumber, String newCargoStatus);
 }

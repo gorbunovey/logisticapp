@@ -172,7 +172,7 @@
                             <td class="center">${driver.hours}</td>
                             <td class="center">${driver.cityName}</td>
                             <td class="center">
-                                <input type="submit" formaction="/orders/new/drivers/${driver.number}" value="Pick"/>
+                                <input type="submit" formaction="/orders/new/drivers/${driver.number}" value="Choose"/>
                             </td>
                         </tr>
                     </c:forEach>

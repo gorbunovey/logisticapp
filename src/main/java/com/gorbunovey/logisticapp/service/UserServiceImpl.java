@@ -50,6 +50,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean updateUser(UserDTO userDTO) {
         UserEntity userEntity = userDAO.getByNumber(userDTO.getNumber());
         if (userEntity == null) {
@@ -66,6 +67,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public boolean updateUserRole(Long userNumber, String newRole) {
         UserEntity userEntity = userDAO.getByNumber(userNumber);
         if (userEntity == null) {

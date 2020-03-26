@@ -12,7 +12,6 @@
 <div>
     <%-- pageBody --%>
     <h1>New Order - step 2. Truck choosing</h1>
-
     <c:if test="${!empty sessionScope.wayPoints}">
         <h1>
             <div>
@@ -28,7 +27,9 @@
             </div>
         </h1>
     </c:if>
-
+    <div>
+        <a href="<c:url value="/orders/new/shipment"/>">Back</a>
+    </div>
     <%-- message from redirect flash attribute  --%>
     <c:if test="${not empty statusMsg}">
         <div><strong><c:out value="${statusMsg}"/></strong></div>
@@ -47,9 +48,6 @@
                 <br/>
             </c:if>
             <c:if test="${!empty sessionScope.wayPoints}">
-                <div>
-                    <a href="<c:url value="/orders/new/shipment"/>">Back</a>
-                </div>
                 <table>
                     <thead>
                     <tr>

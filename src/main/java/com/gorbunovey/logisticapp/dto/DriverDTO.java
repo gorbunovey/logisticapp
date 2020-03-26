@@ -14,6 +14,9 @@ import java.time.LocalDateTime;
 @EqualsAndHashCode
 public class DriverDTO {
 
+    public static String[] statuses = {"First-Driver", "Second-Driver", "Cargo-handling", "Resting"};
+    public static String[] isOnShiftStatuses = {"not-on-shift", "on-shift"}; // must be only 2
+
     @NotNull
     @Digits(integer=18, fraction=0)
     private long number;

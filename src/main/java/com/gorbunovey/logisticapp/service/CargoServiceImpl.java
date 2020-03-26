@@ -68,4 +68,11 @@ public class CargoServiceImpl implements CargoService {
                 .forEach(cargoEntity -> cargoDTOList.add(modelMapper.map(cargoEntity, CargoDTO.class)));
         return cargoDTOList;
     }
+
+    @Override
+    @Transactional
+    public void setCargoStatus(Long number, String status) {
+        CargoEntity cargoEntity = cargoDAO.getByNumber(number);
+        cargoEntity.setStatus(status);
+    }
 }
