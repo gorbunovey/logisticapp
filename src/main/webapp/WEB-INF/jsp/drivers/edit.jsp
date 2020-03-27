@@ -36,13 +36,13 @@
                         </tr>
                         <tr>
                             <td>User:</td>
-                            <td><form:select path="userNumber">
-                                <form:option value="${driver.userNumber}" label="${driver.userEmail}" />
-                                <form:options items="${userList}" itemValue="number" itemLabel="email"/>
+                            <td><form:select path="userId">
+                                <form:option value="${driver.userId}" label="${driver.userEmail}" />
+                                <form:options items="${userList}" itemValue="id" itemLabel="email"/>
                             </form:select>
                                 <form:hidden path="userEmail" />
                             </td>
-                            <td><form:errors path="userNumber"/></td>
+                            <td><form:errors path="userId"/></td>
 
                         </tr>
                         <tr>

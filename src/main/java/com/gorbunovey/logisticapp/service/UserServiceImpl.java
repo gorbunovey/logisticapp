@@ -24,8 +24,8 @@ public class UserServiceImpl implements UserService {
     private ModelMapper modelMapper = new ModelMapper();
 
     @Override
-    public UserDTO getUserByNumber(Long number) {
-        UserEntity userEntity = userDAO.getByNumber(number);
+    public UserDTO getUser(Long id) {
+        UserEntity userEntity = userDAO.get(id);
         if (userEntity == null) {
             return null;
         } else {
@@ -44,15 +44,13 @@ public class UserServiceImpl implements UserService {
     public List<UserDTO> getUsersWithRole(String role) {
         List<UserDTO> usersWithRoleDTOList = new ArrayList<>();
         userDAO.FindWithRole(role).forEach(userEntity -> usersWithRoleDTOList.add(modelMapper.map(userEntity, UserDTO.class)));
-        System.out.println("--------------------------" + usersWithRoleDTOList.isEmpty());
-        usersWithRoleDTOList.forEach(System.out::println);
         return usersWithRoleDTOList;
     }
 
     @Override
     @Transactional
     public boolean updateUser(UserDTO userDTO) {
-        UserEntity userEntity = userDAO.getByNumber(userDTO.getNumber());
+        UserEntity userEntity = userDAO.get(userDTO.getId());
         if (userEntity == null) {
             return false;
         } else {
@@ -68,8 +66,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public boolean updateUserRole(Long userNumber, String newRole) {
-        UserEntity userEntity = userDAO.getByNumber(userNumber);
+    public boolean updateUserRole(Long userId, String newRole) {
+        UserEntity userEntity = userDAO.get(userId);
         if (userEntity == null) {
             return false;
         } else {
@@ -80,7 +78,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserEntity getUserEntityByNumber(Long number) {
-        return userDAO.getByNumber(number);
+    public UserEntity getUserEntity(Long id) {
+        return userDAO.get(id);
     }
 }

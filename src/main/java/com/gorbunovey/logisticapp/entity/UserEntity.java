@@ -18,9 +18,6 @@ public class UserEntity implements Serializable {
     @Column(name = "ID", nullable = false)
     private Long id;
 
-    @Column(name = "NUMBER", nullable = false, unique = true)
-    private Long number;
-
     @Column(name = "FIRST_NAME", nullable = false)
     private String firstName;
 

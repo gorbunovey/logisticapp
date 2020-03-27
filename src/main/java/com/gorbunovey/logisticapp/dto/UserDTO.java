@@ -11,7 +11,7 @@ import lombok.ToString;
 @EqualsAndHashCode
 public class UserDTO {
 
-    private Long number;
+    private Long id;
     private String firstName;
     private String lastName;
     private String email;

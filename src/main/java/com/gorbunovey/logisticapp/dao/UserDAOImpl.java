@@ -41,14 +41,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserEntity getByNumber(Long number) {
-        TypedQuery<UserEntity> q = entityManager.createQuery(
-                "SELECT e FROM UserEntity e WHERE e.number =: number", UserEntity.class);
-        q.setParameter("number", number);
-        return q.getResultStream().findAny().orElse(null);
-    }
-
-    @Override
     public List<UserEntity> FindWithRole(String roleName) {
         return entityManager.createQuery(
                 "SELECT u FROM UserEntity u WHERE u.role.name LIKE :roleName")

@@ -10,8 +10,5 @@ public interface UserDAO {
     void update(UserEntity entity);
     void delete(UserEntity entity);
     List<UserEntity> getAll();
-
-    UserEntity getByNumber(Long number);
     List<UserEntity> FindWithRole(String roleName);
-
 }

@@ -180,35 +180,35 @@ INSERT INTO `logisticdb`.`role` (`NAME`) VALUES ('Guest');
 -- Table USER
 -- -----------------------------------------------------
 
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Alexandr','1', 'Kolobkov','1972-05-11','Kolobkov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Sergey','2', 'Andreykov','1977-02-15','Andreykov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Ivan','3', 'Smirnov','1985-08-17','Smirnov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','4', 'Goncharov','1973-07-13','Goncharov@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Anton','5', 'Kolodyan','1965-01-21','Kolodyan@gmail.com','123456','2');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitry','6', 'Prigozhin','1987-09-26','Prigozhin@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Maksim','7', 'Skolkin','1990-10-24','Skolkin@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vasiliy','8', 'Ampilogov','1982-02-04','Ampilogov@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vyacheslav','9', 'Ivanov','1984-04-28','Ivanov@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Klim','10', 'Panov','1989-03-01','Panov@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey','11', 'Varvanovich','1975-01-26','Varvanovich@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','12', 'Kaminskiy','1976-04-19','Kaminskiy@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir','13', 'Dagov','1972-11-08','Dagov@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Aleksey','14', 'Stebkov','1969-12-04','Stebkov@gmail.com','123456','3');
-INSERT INTO `logisticdb`.`user` (`FIRST_NAME`,`NUMBER`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitriy','15', 'Zhukov','1981-01-25','Zhukov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Alexandr', 'Kolobkov','1972-05-11','Kolobkov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Sergey', 'Andreykov','1977-02-15','Andreykov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Ivan', 'Smirnov','1985-08-17','Smirnov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey', 'Goncharov','1973-07-13','Goncharov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Anton', 'Kolodyan','1965-01-21','Kolodyan@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitry', 'Prigozhin','1987-09-26','Prigozhin@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Maksim', 'Skolkin','1990-10-24','Skolkin@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vasiliy', 'Ampilogov','1982-02-04','Ampilogov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vyacheslav', 'Ivanov','1984-04-28','Ivanov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Klim', 'Panov','1989-03-01','Panov@gmail.com','123456','2');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Andrey', 'Varvanovich','1975-01-26','Varvanovich@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir', 'Kaminskiy','1976-04-19','Kaminskiy@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Vladimir', 'Dagov','1972-11-08','Dagov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Aleksey', 'Stebkov','1969-12-04','Stebkov@gmail.com','123456','3');
+INSERT INTO `logisticdb`.`user` (`FIRST_NAME`, `LAST_NAME`,`BIRTHDAY`,`EMAIL`,`PASSWORD`,`ROLE_ID`) VALUES ('Dmitriy', 'Zhukov','1981-01-25','Zhukov@gmail.com','123456','3');
 
 -- -----------------------------------------------------
 -- Table DRIVER
 -- -----------------------------------------------------
 
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('101', '1', '1', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('102', '1', '2', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('103', '1', '3', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('104', '1', '4', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('105', '1', '5', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('106', '3', '6', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('107', '3', '7', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('108', '3', '8', 'free', '0', '0', NOW());
-INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('109', '3', '9', 'free', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('101', '1', '1', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('102', '1', '2', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('103', '1', '3', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('104', '1', '4', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('105', '1', '5', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('106', '3', '6', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('107', '3', '7', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('108', '3', '8', 'not-on-shift', '0', '0', NOW());
+INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('109', '3', '9', 'not-on-shift', '0', '0', NOW());
 INSERT INTO `logisticdb`.`driver` (`NUMBER`,`CITY_ID`,`USER_ID`,`STATUS`,`HOURS`,`SHIFT`,`SHIFT_TIME`) VALUES ('110', '3', '10', 'first', '0', '1', NOW() - INTERVAL 8 HOUR);
 
 -- -----------------------------------------------------

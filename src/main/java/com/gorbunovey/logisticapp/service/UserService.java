@@ -7,11 +7,11 @@ import java.util.List;
 
 public interface UserService {
 
-    UserDTO getUserByNumber(Long number);
+    UserDTO getUser(Long id);
     List<UserDTO> getUsers();
     List<UserDTO> getUsersWithRole(String role);
     boolean updateUser(UserDTO userDTO);
-    boolean updateUserRole(Long userNumber, String newRole);
-    UserEntity getUserEntityByNumber(Long number);
+    boolean updateUserRole(Long userId, String newRole);
+    UserEntity getUserEntity(Long id);
 
 }

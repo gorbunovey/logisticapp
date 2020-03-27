@@ -34,11 +34,11 @@
                 </tr>
                 <tr>
                     <td>User:</td>
-                    <td><form:select path="userNumber">
-                        <form:options items="${userList}" itemValue="number" itemLabel="email"/>
+                    <td><form:select path="userId">
+                        <form:options items="${userList}" itemValue="id" itemLabel="email"/>
                     </form:select>
                     </td>
-                    <td><form:errors path="userNumber"/></td>
+                    <td><form:errors path="userId"/></td>
 
                 </tr>
                 <tr>

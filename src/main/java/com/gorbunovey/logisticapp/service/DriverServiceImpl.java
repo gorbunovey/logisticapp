@@ -37,9 +37,13 @@ public class DriverServiceImpl implements DriverService {
     public void addDriver(DriverDTO driverDTO) {
         DriverEntity driverEntity = new DriverEntity();
         driverEntity.setNumber(driverDTO.getNumber());
+        driverEntity.setStatus(DriverDTO.statuses[3]);
+        driverEntity.setHours(0);
+        driverEntity.setOnShift(false);
+        driverEntity.setLastShiftTime(LocalDateTime.now());
         driverEntity.setCity(cityDAO.getByCode(driverDTO.getCityCode())); // set City
-        UserEntity userEntity = userService.getUserEntityByNumber(driverDTO.getUserNumber()); // get chosen User
-        userService.updateUserRole(driverDTO.getUserNumber(), "Driver"); // set new Role
+        UserEntity userEntity = userService.getUserEntity(driverDTO.getUserId()); // get chosen User
+        userService.updateUserRole(driverDTO.getUserId(), "Driver"); // set new Role
         driverEntity.setUser(userEntity); // set new User
         driverDAO.add(driverEntity);
     }
@@ -64,13 +68,17 @@ public class DriverServiceImpl implements DriverService {
         } else {
             // обновляю простые поля:
             driverEntity.setNumber(driverDTO.getNumber()); // set new Driver's own number
+            // Должен ли менеджер иметь право менять эти поля???
+//            driverEntity.setStatus(driverDTO.getStatus());
+//            driverEntity.setHours(driverDTO.getHours());
+//            driverEntity.setOnShift(driverDTO.isOnShift());
             driverEntity.setCity(cityDAO.getByCode(driverDTO.getCityCode())); // set new City
             // обновляю поля, которые требуют каскадных изменений, не доступных с этой стороны:
             // т.е. обновляю роль у старого юзера - делаю его гостем
-            userService.updateUserRole(driverEntity.getUser().getNumber(), "Guest"); // set to old User "Guest" Role
+            userService.updateUserRole(driverEntity.getUser().getId(), "Guest"); // set to old User "Guest" Role
             // и устанавливаю водителю нового пользователя
-            UserEntity newUser = userService.getUserEntityByNumber(driverDTO.getUserNumber()); // get new User for Driver
-            userService.updateUserRole(newUser.getNumber(), "Driver"); // set new Role for new User
+            UserEntity newUser = userService.getUserEntity(driverDTO.getUserId()); // get new User for Driver
+            userService.updateUserRole(newUser.getId(), "Driver"); // set new Role for new User
             driverEntity.setUser(newUser); // set new User for Driver
             driverDAO.update(driverEntity);
             return true;
@@ -84,7 +92,7 @@ public class DriverServiceImpl implements DriverService {
         if (driverEntity == null) {
             return false;
         } else {
-            userService.updateUserRole(driverEntity.getUser().getNumber(), "Guest");
+            userService.updateUserRole(driverEntity.getUser().getId(), "Guest");
             driverDAO.delete(driverEntity);
             return true;
         }

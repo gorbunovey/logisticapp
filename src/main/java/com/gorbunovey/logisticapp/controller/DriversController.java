@@ -21,7 +21,6 @@ import java.util.List;
 public class DriversController {
 
     @Autowired
-    @Qualifier("driverServiceImpl")
     DriverService driverService;
 
     @Autowired
@@ -81,7 +80,6 @@ public class DriversController {
             @ModelAttribute("driver") @Valid DriverDTO driverDTO, BindingResult bindingResult, Model model) {
         if (bindingResult.hasErrors()) {
             model.addAttribute("statusMsg", "Failure. Couldn't add new driver. Cause - invalid data");
-            System.out.println(driverDTO);
         } else {
             driverService.addDriver(driverDTO);
             model.addAttribute("statusMsg", "Success. Driver #" + driverDTO.getNumber() + " was added");

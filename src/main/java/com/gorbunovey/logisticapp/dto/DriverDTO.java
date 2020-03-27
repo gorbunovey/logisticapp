@@ -29,9 +29,9 @@ public class DriverDTO {
     private boolean onShift;
     private LocalDateTime lastShiftTime;
 
+    private Long userId;
     private String userFirstName;
     private String userLastName;
-    private Long userNumber;
     private String userEmail;
     private String userPassword;
     private String userRoleName;
