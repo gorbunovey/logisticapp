@@ -18,6 +18,12 @@ import java.util.Properties;
 @PropertySource("classpath:persistence.properties")
 @EnableTransactionManagement
 public class PersistenceConfig {
+    // класс -> конфигурация доступа к БД:
+    // 1 -> настраиваем источник данных
+    // 2 -> фабрику для entityManager(источник данных, реализацию JPA(хибернейт), место расположение репозитория,
+    // диалект для хибернейта, прочие настройки для хибернейта)
+    // 1 -> задаем менеджер транзакций
+
     @Bean
     public DataSource dataSource(@Value("${driverClassName}") String driver,
                                  @Value("${url}") String url,
@@ -33,19 +39,21 @@ public class PersistenceConfig {
 
     @Bean
     public EntityManagerFactory entityManagerFactory(DataSource dataSource) {
-        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
 
+        //Create default configuration for Hibernate:
+        HibernateJpaVendorAdapter jpaVendorAdapter = new HibernateJpaVendorAdapter();
+        // Configure the entity manager factory bean:
         LocalContainerEntityManagerFactoryBean entityManagerFactory =
                 new LocalContainerEntityManagerFactoryBean();
         entityManagerFactory.setDataSource(dataSource);
         entityManagerFactory.setJpaVendorAdapter(jpaVendorAdapter);
+        // Set base package of your entities:
         entityManagerFactory.setPackagesToScan("com.gorbunovey.logisticapp.entity");
-
+        // Set JPA properties:
         Properties props = new Properties();
         props.put("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         props.put("hibernate.show_sql", "true");
         entityManagerFactory.setJpaProperties(props);
-
         entityManagerFactory.afterPropertiesSet();
         return entityManagerFactory.getObject();
     }

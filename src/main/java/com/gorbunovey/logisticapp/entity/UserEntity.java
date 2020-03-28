@@ -38,7 +38,6 @@ public class UserEntity implements Serializable {
     private RoleEntity role;
 
     // orphanRemoval = true - для автоматического удаления водителя, для которого удален его user
-    // по идее cascade = CascadeType.ALL должна тоже это сделать
     @OneToOne(mappedBy = "user", orphanRemoval = true)
     private DriverEntity driver;
 

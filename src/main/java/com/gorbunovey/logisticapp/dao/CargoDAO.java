@@ -11,7 +11,6 @@ public interface CargoDAO {
     void update(CargoEntity entity);
     void delete(CargoEntity entity);
     List<CargoEntity> getAll();
-
     CargoEntity getByNumber(Long number);
     List<CargoEntity> findWithStatus(String status);
     List<CargoEntity> findWithStatusWithoutOrder(String status);

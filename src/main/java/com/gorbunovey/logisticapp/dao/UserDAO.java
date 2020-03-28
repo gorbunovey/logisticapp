@@ -10,5 +10,7 @@ public interface UserDAO {
     void update(UserEntity entity);
     void delete(UserEntity entity);
     List<UserEntity> getAll();
-    List<UserEntity> FindWithRole(String roleName);
+    List<UserEntity> getAllWithRole(String roleName);
+    UserEntity getByEmail(String email);
+    boolean isExistByEmail(String email);
 }

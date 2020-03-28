@@ -6,6 +6,7 @@ import com.gorbunovey.logisticapp.dto.UserDTO;
 import com.gorbunovey.logisticapp.entity.UserEntity;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,11 +18,29 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
 
     @Autowired
-    UserDAO userDAO;
+    private UserDAO userDAO;
     @Autowired
     private RoleDAO roleDAO;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     private ModelMapper modelMapper = new ModelMapper();
+
+    @Override
+    @Transactional
+    public void registerNewUser(UserDTO newUserDTO) {
+        if(userDAO.isExistByEmail(newUserDTO.getEmail())){
+            // throw custom exception - EmailExistsException
+        }else{
+            UserEntity newUserEntity = new UserEntity();
+            newUserEntity.setFirstName(newUserDTO.getFirstName());
+            newUserEntity.setLastName(newUserDTO.getLastName());
+            newUserEntity.setEmail(newUserDTO.getEmail());
+            newUserEntity.setPassword(passwordEncoder.encode(newUserDTO.getPassword()));
+            newUserEntity.setRole(roleDAO.getByName("Guest"));
+            userDAO.add(newUserEntity);
+        }
+    }
 
     @Override
     public UserDTO getUser(Long id) {
@@ -43,7 +62,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public List<UserDTO> getUsersWithRole(String role) {
         List<UserDTO> usersWithRoleDTOList = new ArrayList<>();
-        userDAO.FindWithRole(role).forEach(userEntity -> usersWithRoleDTOList.add(modelMapper.map(userEntity, UserDTO.class)));
+        userDAO.getAllWithRole(role).forEach(userEntity -> usersWithRoleDTOList.add(modelMapper.map(userEntity, UserDTO.class)));
         return usersWithRoleDTOList;
     }
 
@@ -80,5 +99,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserEntity getUserEntity(Long id) {
         return userDAO.get(id);
+    }
+
+    @Override
+    public UserDTO getUserByEmail(String email) {
+        UserEntity userEntity = userDAO.getByEmail(email);
+        if (userEntity == null) {
+            return null;
+        } else {
+            return modelMapper.map(userEntity, UserDTO.class);
+        }
     }
 }
