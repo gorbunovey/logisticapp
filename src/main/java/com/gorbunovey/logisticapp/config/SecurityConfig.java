@@ -24,25 +24,35 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                // маппим страницы:
-                // только для НЕаутентифиц. пользователей:
-                .antMatchers("/login", "/registration").anonymous()
-                // только для аутентифиц. пользователей
-                .antMatchers("/drivers").authenticated()
-                // откл. защиту от атак(временно)
-                .and().csrf().disable()
-                // настраиваем страницу и форму логина:
-                .formLogin()
-                .loginPage("/login")
-                .loginProcessingUrl("/login/process")
-                .failureUrl("/login?error=true") // url на кот. делать редирект при неудачной аутентификации
-                .usernameParameter("email")
-                .passwordParameter("password")
-                .and()
-                .exceptionHandling()
-                .accessDeniedPage("/index")
-                .and().logout();
+            http
+                    .authorizeRequests()
+                        // маппим доступ:
+                        // только для НЕаутентифиц. пользователей:
+                        .antMatchers("/login", "/registration").anonymous()
+                        // для всех
+                        .antMatchers("/").permitAll()
+                        // antMatchers("/admin/**").hasRole("ADMIN") - образец для роли
+                        // все остальные - только для аутентифиц. пользователей
+                        .anyRequest().authenticated()
+                    .and()
+                        // откл. защиту от атак(в этом проекте незачем + она требует logout по POST c csrf-токеном,
+                        // спринговый jstl тег form уже содержит в себе csrf-токен )
+                        .csrf().disable()
+                        // настраиваем страницу и форму логина:
+                        .formLogin()
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login/process")
+                        //.defaultSuccessUrl("/homepage.html",true) // url куда редиректить при успешной аутентификации
+                        .failureUrl("/login?error=true") // url куда редиректить при неудачной аутентификации
+                        .usernameParameter("email")
+                        .passwordParameter("password")
+                    .and()
+                        .exceptionHandling()
+                        .accessDeniedPage("/") // url куда редиректить, когда аутентифиц. польз. идут на log|reg
+                    .and()
+                        .logout()
+                        .invalidateHttpSession(true)
+                        .deleteCookies("JSESSIONID");
 
     }
 
@@ -52,7 +62,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 }

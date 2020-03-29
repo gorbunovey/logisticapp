@@ -41,7 +41,6 @@ public class AuthController {
         } else {
             userService.registerNewUser(user);
         }
-        // TODO: сделать страницу личный кабинет "account" и редиректить в него
-        return "redirect:/index";
+        return "redirect:/login";
     }
 }

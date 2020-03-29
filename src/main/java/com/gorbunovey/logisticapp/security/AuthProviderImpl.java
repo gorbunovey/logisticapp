@@ -29,17 +29,19 @@ public class AuthProviderImpl implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        // get email from login form:
+        // get email from email and password form:
         String email = authentication.getName();
+        String password = authentication.getCredentials().toString();
+        // check if such user exist:
         UserDTO user = userService.getUserByEmail(email);
         if (user == null){
             throw new UsernameNotFoundException("User with email " + email + " not found");
         }
-        // get password from login form:
-        String password = authentication.getCredentials().toString();
+        // check his password:
         if(!passwordEncoder.matches(password, user.getPassword())){
             throw new BadCredentialsException("Bad credentials");
         }
+        // Grand him roles:
         List<GrantedAuthority> authorities = new ArrayList<>();
 //        String userRole = user.getRoleName();
 //        authorities.add(new SimpleGrantedAuthority(userRole));

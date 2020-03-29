@@ -12,9 +12,9 @@
 <div>
     <%-- pageBody --%>
         <c:if test="${error == true}">
-            <div><strong><c:out value="Error! Please, enter correct email and password"/></strong></div>
+            <div><strong><c:out value="Invalid email and password"/></strong></div>
         </c:if>
-        <form action="/login/process" method="post">
+        <form:form action="/login/process" method="post">
             <div>
                 Email: <input name="email" type="email">
             </div>
@@ -22,7 +22,7 @@
                 Password: <input name="password" type="password">
             </div>
             <input type="submit">
-        </form>
+        </form:form>
     <%-- pageBody --%>
     <c:import url="../footer.jsp"/>
 </div>
