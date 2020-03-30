@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.dto.converters;
+package com.gorbunovey.logisticapp.converters;
 
 import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.dto.OrderDTO;
@@ -28,7 +28,6 @@ public class OrderConverter {
                 .map(DriverEntity::getNumber)
                 .collect(Collectors.toList());
         orderDTO.setDriversNumber(driversNumber);
-        driversNumber.forEach(System.out::println);
         // wayPoints
         List<WayPointDTO> wayPointDTOList = new ArrayList<>();
         entity.getWayPoints().forEach(wayPointEntity -> {

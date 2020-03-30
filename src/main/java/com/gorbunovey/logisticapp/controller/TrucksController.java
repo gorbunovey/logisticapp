@@ -1,8 +1,8 @@
 package com.gorbunovey.logisticapp.controller;
 
 import com.gorbunovey.logisticapp.dto.TruckDTO;
-import com.gorbunovey.logisticapp.service.MapService;
-import com.gorbunovey.logisticapp.service.TruckService;
+import com.gorbunovey.logisticapp.service.api.MapService;
+import com.gorbunovey.logisticapp.service.api.TruckService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

@@ -1,6 +1,7 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.impl;
 
 import com.gorbunovey.logisticapp.dto.UserDTO;
+import com.gorbunovey.logisticapp.service.api.SecurityService;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

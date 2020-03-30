@@ -1,8 +1,11 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.impl;
 
 import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.dto.TruckDTO;
 import com.gorbunovey.logisticapp.dto.WayPointDTO;
+import com.gorbunovey.logisticapp.service.api.CargoService;
+import com.gorbunovey.logisticapp.service.api.MapService;
+import com.gorbunovey.logisticapp.service.api.ShipmentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -53,7 +56,9 @@ public class ShipmentServiceImpl implements ShipmentService {
             }else{
                 accumulatedMass-=p.getCargo().getWeight();
             }
-            if(accumulatedMass > maxMass) maxMass = accumulatedMass;
+            if(accumulatedMass > maxMass){
+                maxMass = accumulatedMass;
+            }
         }
         return maxMass;
     }
@@ -116,7 +121,9 @@ public class ShipmentServiceImpl implements ShipmentService {
                 .filter(WayPointDTO::isType)
                 .filter(point->point.getCargo().getNumber() == cargoNumber)
                 .findAny().orElse(null);
-        if(loadPoint != null) return false;
+        if(loadPoint != null){
+            return false;
+        }
         // Add new way point:
         CargoDTO cargo = cargoService.getCargoByNumber(cargoNumber);
         if (cargo != null){
@@ -138,7 +145,9 @@ public class ShipmentServiceImpl implements ShipmentService {
                 .filter(point-> !point.isType())
                 .filter(point-> point.getCargo().getNumber() == cargoNumber)
                 .findAny().orElse(null);
-        if(alreadyUnloaded != null) return false;
+        if(alreadyUnloaded != null){
+            return false;
+        }
         // Check if cargo is present in wayPoints as loaded cargo:
         WayPointDTO loadPoint = wayPoints.stream()
                 .filter(WayPointDTO::isType)

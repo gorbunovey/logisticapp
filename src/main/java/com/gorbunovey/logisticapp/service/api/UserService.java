@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.api;
 
 import com.gorbunovey.logisticapp.dto.UserDTO;
 import com.gorbunovey.logisticapp.entity.UserEntity;

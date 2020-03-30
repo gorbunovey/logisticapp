@@ -1,10 +1,11 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.impl;
 
 import com.gorbunovey.logisticapp.dao.api.RoleDAO;
 import com.gorbunovey.logisticapp.dao.api.UserDAO;
 import com.gorbunovey.logisticapp.dto.UserDTO;
 import com.gorbunovey.logisticapp.entity.RoleEntity;
 import com.gorbunovey.logisticapp.entity.UserEntity;
+import com.gorbunovey.logisticapp.service.api.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;

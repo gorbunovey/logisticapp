@@ -1,12 +1,10 @@
 package com.gorbunovey.logisticapp.controller;
 
 import com.gorbunovey.logisticapp.dto.DriverDTO;
-import com.gorbunovey.logisticapp.dto.UserDTO;
-import com.gorbunovey.logisticapp.service.DriverService;
-import com.gorbunovey.logisticapp.service.MapService;
-import com.gorbunovey.logisticapp.service.UserService;
+import com.gorbunovey.logisticapp.service.api.DriverService;
+import com.gorbunovey.logisticapp.service.api.MapService;
+import com.gorbunovey.logisticapp.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,7 +12,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Controller
 @RequestMapping("/drivers")

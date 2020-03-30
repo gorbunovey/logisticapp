@@ -1,7 +1,7 @@
 package com.gorbunovey.logisticapp.security;
 
 import com.gorbunovey.logisticapp.dto.UserDTO;
-import com.gorbunovey.logisticapp.service.UserService;
+import com.gorbunovey.logisticapp.service.api.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -1,15 +1,17 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.impl;
 
 import com.gorbunovey.logisticapp.dao.api.CargoDAO;
 import com.gorbunovey.logisticapp.dao.api.DriverDAO;
 import com.gorbunovey.logisticapp.dao.api.OrderDAO;
 import com.gorbunovey.logisticapp.dao.api.TruckDAO;
 import com.gorbunovey.logisticapp.dto.*;
-import com.gorbunovey.logisticapp.dto.converters.OrderConverter;
+import com.gorbunovey.logisticapp.converters.OrderConverter;
 import com.gorbunovey.logisticapp.entity.CityEntity;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
 import com.gorbunovey.logisticapp.entity.OrderEntity;
 import com.gorbunovey.logisticapp.entity.WayPointEntity;
+import com.gorbunovey.logisticapp.service.api.CargoService;
+import com.gorbunovey.logisticapp.service.api.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -127,7 +129,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = orderDAO.getActiveByDriverNumber(driverNumber);
         // set new city to drivers and truck:
         CityEntity newCity = null;
-        // Find current way point and extract the city
+        // find current way point and extract the city
         for (WayPointEntity point : orderEntity.getWayPoints()) {
             // filter by cargo
             if (point.getCargo().getNumber() == cargoNumber) {

@@ -1,8 +1,9 @@
-package com.gorbunovey.logisticapp.service;
+package com.gorbunovey.logisticapp.service.impl;
 
 import com.gorbunovey.logisticapp.dao.api.CargoDAO;
 import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.entity.CargoEntity;
+import com.gorbunovey.logisticapp.service.api.CargoService;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
