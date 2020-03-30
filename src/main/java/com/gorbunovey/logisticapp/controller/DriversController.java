@@ -22,10 +22,8 @@ public class DriversController {
 
     @Autowired
     DriverService driverService;
-
     @Autowired
     private MapService mapService;
-
     @Autowired
     private UserService userService;
 
@@ -93,7 +91,7 @@ public class DriversController {
     // ---------------------------------------- DELETE ----------------------------------------
 
     @RequestMapping(value = "/delete/{number}", method = RequestMethod.GET)
-    public String deleteDriverConfirmation(@PathVariable(value = "number") Long number,Model model) {
+    public String deleteDriverConfirmation(@PathVariable(value = "number") Long number, Model model) {
         // TODO: Sanity check for id before using service
         model.addAttribute("driver", driverService.getDriverByNumber(number));
         return "drivers/delete";

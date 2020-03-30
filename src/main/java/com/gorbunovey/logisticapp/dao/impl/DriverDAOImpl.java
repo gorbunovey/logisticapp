@@ -1,15 +1,13 @@
-package com.gorbunovey.logisticapp.dao;
+package com.gorbunovey.logisticapp.dao.impl;
 
+import com.gorbunovey.logisticapp.dao.api.DriverDAO;
 import com.gorbunovey.logisticapp.entity.DriverEntity;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.TypedQuery;
 import java.util.List;
-
-import com.gorbunovey.logisticapp.entity.DriverEntity;
 
 @Component
 public class DriverDAOImpl implements DriverDAO {

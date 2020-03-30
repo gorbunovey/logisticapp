@@ -4,13 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Index</title>
+    <title>Login</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
+        <h2>Login form:</h2>
         <c:if test="${error == true}">
             <div><strong><c:out value="Invalid email and password"/></strong></div>
         </c:if>
@@ -21,7 +22,7 @@
             <div>
                 Password: <input name="password" type="password">
             </div>
-            <input type="submit">
+            <input type="submit"  value="Sign In" >
         </form:form>
     <%-- pageBody --%>
     <c:import url="../footer.jsp"/>

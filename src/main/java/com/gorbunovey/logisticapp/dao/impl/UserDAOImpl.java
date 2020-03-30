@@ -1,5 +1,6 @@
-package com.gorbunovey.logisticapp.dao;
+package com.gorbunovey.logisticapp.dao.impl;
 
+import com.gorbunovey.logisticapp.dao.api.UserDAO;
 import com.gorbunovey.logisticapp.entity.UserEntity;
 import org.springframework.stereotype.Component;
 

@@ -1,7 +1,7 @@
 package com.gorbunovey.logisticapp.service;
 
-import com.gorbunovey.logisticapp.dao.CityDAO;
-import com.gorbunovey.logisticapp.dao.TruckDAO;
+import com.gorbunovey.logisticapp.dao.api.CityDAO;
+import com.gorbunovey.logisticapp.dao.api.TruckDAO;
 import com.gorbunovey.logisticapp.dto.TruckDTO;
 import com.gorbunovey.logisticapp.entity.CityEntity;
 import com.gorbunovey.logisticapp.entity.TruckEntity;

@@ -1,6 +1,6 @@
 package com.gorbunovey.logisticapp.service;
 
-import com.gorbunovey.logisticapp.dao.CargoDAO;
+import com.gorbunovey.logisticapp.dao.api.CargoDAO;
 import com.gorbunovey.logisticapp.dto.CargoDTO;
 import com.gorbunovey.logisticapp.entity.CargoEntity;
 import org.modelmapper.ModelMapper;

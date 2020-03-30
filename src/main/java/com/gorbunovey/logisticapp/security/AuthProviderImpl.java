@@ -43,8 +43,8 @@ public class AuthProviderImpl implements AuthenticationProvider {
         }
         // Grand him roles:
         List<GrantedAuthority> authorities = new ArrayList<>();
-//        String userRole = user.getRoleName();
-//        authorities.add(new SimpleGrantedAuthority(userRole));
+        String userRole = user.getRoleName();
+        authorities.add(new SimpleGrantedAuthority(userRole));
         return new UsernamePasswordAuthenticationToken(user, null, authorities);
     }
 

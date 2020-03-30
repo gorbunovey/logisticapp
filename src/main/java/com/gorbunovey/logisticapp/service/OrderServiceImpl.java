@@ -1,9 +1,9 @@
 package com.gorbunovey.logisticapp.service;
 
-import com.gorbunovey.logisticapp.dao.CargoDAO;
-import com.gorbunovey.logisticapp.dao.DriverDAO;
-import com.gorbunovey.logisticapp.dao.OrderDAO;
-import com.gorbunovey.logisticapp.dao.TruckDAO;
+import com.gorbunovey.logisticapp.dao.api.CargoDAO;
+import com.gorbunovey.logisticapp.dao.api.DriverDAO;
+import com.gorbunovey.logisticapp.dao.api.OrderDAO;
+import com.gorbunovey.logisticapp.dao.api.TruckDAO;
 import com.gorbunovey.logisticapp.dto.*;
 import com.gorbunovey.logisticapp.dto.converters.OrderConverter;
 import com.gorbunovey.logisticapp.entity.CityEntity;
@@ -16,7 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)

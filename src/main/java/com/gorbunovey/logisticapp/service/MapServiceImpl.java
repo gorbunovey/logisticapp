@@ -1,6 +1,6 @@
 package com.gorbunovey.logisticapp.service;
 
-import com.gorbunovey.logisticapp.dao.CityDAO;
+import com.gorbunovey.logisticapp.dao.api.CityDAO;
 import com.gorbunovey.logisticapp.dto.CityDTO;
 import com.gorbunovey.logisticapp.entity.CityEntity;
 import com.gorbunovey.logisticapp.entity.MapEntity;
@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)

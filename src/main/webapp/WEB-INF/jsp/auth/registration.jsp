@@ -4,13 +4,14 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Index</title>
+    <title>Registration</title>
     <c:import url="../head.jsp"/>
 </head>
 <body>
 <c:import url="../header.jsp"/>
 <div>
     <%-- pageBody --%>
+        <h2>Registration form:</h2>
         <form:form action="/registration" method="post" modelAttribute="user">
             <div>
                 <form:label path="firstName">First Name

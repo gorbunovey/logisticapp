@@ -10,8 +10,11 @@ public interface UserService {
     UserDTO getUser(Long id);
     List<UserDTO> getUsers();
     List<UserDTO> getUsersWithRole(String role);
-    boolean updateUser(UserDTO userDTO);
+    void updateUser(UserDTO userDTO);
+    boolean updateUserAndKeepRole(UserDTO userDTO);
     boolean updateUserRole(Long userId, String newRole);
+    boolean deleteUser(Long id);
     UserEntity getUserEntity(Long id);
     UserDTO getUserByEmail(String email);
+    List<String> getRoles();
 }

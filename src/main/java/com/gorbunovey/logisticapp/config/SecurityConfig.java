@@ -16,41 +16,46 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @EnableWebSecurity
 @ComponentScan("com.gorbunovey.logisticapp.security")
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    // класс -> конфигурация веб-доступа
+    // class -> for web access configuration
 
     @Autowired
     private AuthProviderImpl authProvider;
-    // свой authenticationProvider для ручной аутентификации
+    // own authenticationProvider for manual authentication
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
             http
                     .authorizeRequests()
-                        // маппим доступ:
-                        // только для НЕаутентифиц. пользователей:
+                        // map access:
+                        // for non-authenticated users only
                         .antMatchers("/login", "/registration").anonymous()
-                        // для всех
-                        .antMatchers("/").permitAll()
-                        // antMatchers("/admin/**").hasRole("ADMIN") - образец для роли
-                        // все остальные - только для аутентифиц. пользователей
+                        // for all
+                        .antMatchers("/resources/**", "/**").permitAll()
+                        .antMatchers("/", "/index", "/about").permitAll()
+                        // by roles
+                        .antMatchers("/driver/**").hasAnyRole("DRIVER", "ADMIN")
+                        .antMatchers("/drivers/**", "/trucks/**","/cargo/**","/orders/**").hasAnyRole("STUFF", "ADMIN")
+                        .antMatchers("/admin/**").hasRole("ADMIN")
+                        // any other - only for authenticated users
                         .anyRequest().authenticated()
                     .and()
-                        // откл. защиту от атак(в этом проекте незачем + она требует logout по POST c csrf-токеном,
-                        // спринговый jstl тег form уже содержит в себе csrf-токен )
+                        // cut off csrf-attack defense(there is no need in this project + it demands logout by POST with csrf-token,
+                        // PS: spring tag <form> already contains csrf-token )
                         .csrf().disable()
-                        // настраиваем страницу и форму логина:
+                        // customize the login page and form:
                         .formLogin()
                         .loginPage("/login")
                         .loginProcessingUrl("/login/process")
-                        //.defaultSuccessUrl("/homepage.html",true) // url куда редиректить при успешной аутентификации
-                        .failureUrl("/login?error=true") // url куда редиректить при неудачной аутентификации
+                        .defaultSuccessUrl("/index",true) // redirect url upon successful authentication
+                        .failureUrl("/login?error=true") // redirect url upon authentication failure
                         .usernameParameter("email")
                         .passwordParameter("password")
                     .and()
                         .exceptionHandling()
-                        .accessDeniedPage("/") // url куда редиректить, когда аутентифиц. польз. идут на log|reg
+                        .accessDeniedPage("/") // redirect url, when authenticated users go to идут на log|reg
                     .and()
                         .logout()
+                        .logoutSuccessUrl("/index")
                         .invalidateHttpSession(true)
                         .deleteCookies("JSESSIONID");
 

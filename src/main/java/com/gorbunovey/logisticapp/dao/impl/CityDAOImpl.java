@@ -1,5 +1,6 @@
-package com.gorbunovey.logisticapp.dao;
+package com.gorbunovey.logisticapp.dao.impl;
 
+import com.gorbunovey.logisticapp.dao.api.CityDAO;
 import com.gorbunovey.logisticapp.entity.CityEntity;
 import org.springframework.stereotype.Component;
 
@@ -16,13 +17,13 @@ public class CityDAOImpl implements CityDAO {
 
     @Override
     public List<CityEntity> getAll() {
-        return entityManager.createQuery("select e from CityEntity e").getResultList();
+        return entityManager.createQuery("SELECT e FROM CityEntity e").getResultList();
     }
 
     @Override
     public CityEntity getByCode(Long code){
         TypedQuery<CityEntity> q = entityManager.createQuery(
-                "SELECT e from CityEntity e where e.code =: code", CityEntity.class);
+                "SELECT e FROM CityEntity e WHERE e.code =: code", CityEntity.class);
         q.setParameter("code", code);
         return q.getResultStream().findAny().orElse(null);
     }

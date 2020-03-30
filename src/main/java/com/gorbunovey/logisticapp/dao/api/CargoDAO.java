@@ -1,4 +1,4 @@
-package com.gorbunovey.logisticapp.dao;
+package com.gorbunovey.logisticapp.dao.api;
 
 import com.gorbunovey.logisticapp.entity.CargoEntity;
 
