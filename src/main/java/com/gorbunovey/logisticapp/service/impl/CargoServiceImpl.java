@@ -25,11 +25,7 @@ public class CargoServiceImpl implements CargoService {
     @Override
     public CargoDTO getCargoByNumber(Long number) {
         CargoEntity cargoEntity = cargoDAO.getByNumber(number);
-        if (cargoEntity == null) {
-            return null;
-        } else {
-            return modelMapper.map(cargoEntity, CargoDTO.class);
-        }
+        return (cargoEntity == null ? null: modelMapper.map(cargoEntity, CargoDTO.class));
     }
 
     @Override

@@ -21,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Controller
-// SessionScope!!! Проверить на инкогнито
 @RequestMapping("/orders")
 public class OrdersController {
 

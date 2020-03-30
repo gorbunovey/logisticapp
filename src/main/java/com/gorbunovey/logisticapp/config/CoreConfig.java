@@ -6,8 +6,8 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 @ComponentScan("com.gorbunovey.logisticapp")
 public class CoreConfig {
-    // класс -> сканирует пакет и создает бины по аннотациям @Service, @Component
-    // нужен т.к. в WebAppInitializer мы подключаем SecurityConfig который использует эти бины
-    // сюда также можно прикрутить аспекты, добавив аннотацию @EnableAspectJAutoProxy
-    // классы-аспекты должны быть в сканируемом пакете с аннотациями @Component и @Aspect
+    // class for -> scans a packet and creates beans by annotations @Service, @Component
+    // need to be here, because WebAppInitializer upload SecurityConfig which use those beans
+    // here also could be added aspects, by adding annotation @EnableAspectJAutoProxy
+    // classes for aspects must be in scanning package with annotations @Component и @Aspect
 }

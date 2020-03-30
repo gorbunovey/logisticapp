@@ -5,5 +5,5 @@ import org.springframework.security.web.context.AbstractSecurityWebApplicationIn
 
 @Order(2)
 public class SecurityInitializer extends AbstractSecurityWebApplicationInitializer {
-    // класс -> вспомогательный, нужен для работы SecurityConfig
+    // class -> accessory, needed for SecurityConfig proper working
 }

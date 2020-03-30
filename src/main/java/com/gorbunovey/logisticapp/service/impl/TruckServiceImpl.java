@@ -30,9 +30,7 @@ public class TruckServiceImpl implements TruckService {
     @Transactional
     public void addTruck(TruckDTO truckDTO) {
         TruckEntity truckEntity = modelMapper.map(truckDTO, TruckEntity.class);
-        // TODO: маппер автоматически создает объект City в truckEntity!
-        //  т.к. новая truckEntity еще не под управлением entityManager, то он позволет создать недостроенный объект City
-        //  нужна java-конфигурация и настройка маппер, в идеале - обертка вокруг маппера как на хабре
+        // Must take city entity from DB, cause modelMapper made a new and it cannot be used
         CityEntity cityEntity = cityDAO.getByCode(truckDTO.getCityCode());
         truckEntity.setCity(cityEntity);
         truckDAO.add(truckEntity);
@@ -41,11 +39,7 @@ public class TruckServiceImpl implements TruckService {
     @Override
     public TruckDTO getTruckByRegNumber(String regNumber) {
         TruckEntity truckEntity = truckDAO.getByRegNumber(regNumber);
-        if (truckEntity == null) {
-            return null;
-        } else {
-            return modelMapper.map(truckEntity, TruckDTO.class);
-        }
+        return (truckEntity == null ? null: modelMapper.map(truckEntity, TruckDTO.class));
     }
 
     @Override
@@ -55,10 +49,8 @@ public class TruckServiceImpl implements TruckService {
         if (truckEntity == null) {
             return false;
         } else {
-            // TODO: маппер автоматически создает объект City в truckEntity!
-            //  без настройки modelMapper нельзя юзать для update, т.к. мы обновляем сущность уже в контексте
-            //  и он меняет объект cityEntity, который не может заполнить полностью и хибернейт кидает исключение
-            //modelMapper.map(truckDTO, truckEntity);
+            // can't use model mapper here because it's try to create inner objects, but can't do it properly
+            // for example - in this case it tries create a new city which will conflict with one in DB
             truckEntity.setRegNumber(truckDTO.getRegNumber());
             truckEntity.setCrew(truckDTO.getCrew());
             truckEntity.setCapacity(truckDTO.getCapacity());

@@ -34,7 +34,6 @@ public class TrucksController {
 
     @RequestMapping(value = "/edit/{pathRegNumber}", method = RequestMethod.GET)
     public String getTruck(@PathVariable(value = "pathRegNumber") String pathRegNumber, Model model) {
-        // TODO: Sanity check for regNumber, before using service
         model.addAttribute("truck", truckService.getTruckByRegNumber(pathRegNumber));
         model.addAttribute("cityList", mapService.getCityList());
         return "trucks/edit";
@@ -83,7 +82,6 @@ public class TrucksController {
 
     @RequestMapping(value = "/delete/{regNumber}", method = RequestMethod.GET)
     public String deleteTruckConfirmation(@PathVariable(value = "regNumber") String regNumber, Model model) {
-        // TODO: Sanity check for regNumber before using service
         model.addAttribute("truck", truckService.getTruckByRegNumber(regNumber));
         return "trucks/delete";
     }
@@ -91,7 +89,6 @@ public class TrucksController {
     @RequestMapping(value = "/delete/{regNumber}", method = RequestMethod.POST)
     public String deleteTruck(
             @PathVariable(value = "regNumber") String regNumber, final RedirectAttributes redirectAttributes) {
-        // TODO: Sanity check for regNumber before using service
         boolean isDeleted = truckService.deleteTruck(regNumber);
         if (isDeleted) {
             redirectAttributes.addFlashAttribute("statusMsg", "Success. Truck #" + regNumber + " was deleted");

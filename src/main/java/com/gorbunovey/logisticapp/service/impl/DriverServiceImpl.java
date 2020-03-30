@@ -53,32 +53,28 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public DriverDTO getDriverByNumber(Long number) {
         DriverEntity driverEntity = driverDAO.getByNumber(number);
-        if (driverEntity == null) {
-            return null;
-        } else {
-            return modelMapper.map(driverEntity, DriverDTO.class);
-        }
+        return (driverEntity == null ? null: modelMapper.map(driverEntity, DriverDTO.class));
     }
 
     @Override
     @Transactional
     public boolean updateDriver(DriverDTO driverDTO) {
-        // Получаю сущность:
+        // Get entity:
         DriverEntity driverEntity = driverDAO.getByNumber(driverDTO.getOldNumber()); // get old Driver
         if (driverEntity == null) {
             return false;
         } else {
-            // обновляю простые поля:
+            // update simple fields:
             driverEntity.setNumber(driverDTO.getNumber()); // set new Driver's own number
-            // Должен ли менеджер иметь право менять эти поля???
+            // Should the manager have the right to change these fields???
 //            driverEntity.setStatus(driverDTO.getStatus());
 //            driverEntity.setHours(driverDTO.getHours());
 //            driverEntity.setOnShift(driverDTO.isOnShift());
             driverEntity.setCity(cityDAO.getByCode(driverDTO.getCityCode())); // set new City
-            // обновляю поля, которые требуют каскадных изменений, не доступных с этой стороны:
-            // т.е. обновляю роль у старого юзера - делаю его гостем
+            // update fields, which need cascade changing, not accessible from this side:
+            // i.e update role for old user
             userService.updateUserRole(driverEntity.getUser().getId(), "Guest"); // set to old User "Guest" Role
-            // и устанавливаю водителю нового пользователя
+            // and set for driver new user
             UserEntity newUser = userService.getUserEntity(driverDTO.getUserId()); // get new User for Driver
             userService.updateUserRole(newUser.getId(), "Driver"); // set new Role for new User
             driverEntity.setUser(newUser); // set new User for Driver

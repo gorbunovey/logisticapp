@@ -12,7 +12,7 @@ import lombok.ToString;
 public class WayPointDTO {
 
     private Long orderNumber;
-    private int seqNumber; // порядковый номер в заказе
+    private int seqNumber; // sequence number in the order
     private boolean type;
     private CargoDTO cargo;
 

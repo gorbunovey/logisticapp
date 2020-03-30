@@ -13,7 +13,6 @@ public class TruckDTO {
     @NotBlank
     @Size(min = 7, max = 7)
     private String regNumber;
-
     private String oldRegNumber;
 
     @NotNull

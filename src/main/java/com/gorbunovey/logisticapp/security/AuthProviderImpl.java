@@ -19,8 +19,8 @@ import java.util.List;
 
 @Component
 public class AuthProviderImpl implements AuthenticationProvider {
-    // класс -> свой провайдер для аутентификации, можно использовать стандартный, но у него требования к наименованию
-    // в своем провайдере можно более гибко настраивать раздачу ролей и т.п.
+    // this class -> own authentication provider, could be used standard, but it has naming requirements
+    // and in your own provider yot could more flexible customization of roles etc.
 
     @Autowired
     private UserService userService;

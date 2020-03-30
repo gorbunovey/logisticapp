@@ -26,11 +26,11 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderDAO orderDAO;
     @Autowired
-    TruckDAO truckDAO;// должно уйти в конвертер при рефакторинге для OrderDTO
+    TruckDAO truckDAO;// will go to the converter when refactoring OrderDTO
     @Autowired
-    DriverDAO driverDAO;// должно уйти в конвертер при рефакторинге для OrderDTO
+    DriverDAO driverDAO;// will go to the converter when refactoring OrderDTO
     @Autowired
-    CargoDAO cargoDAO;// должно уйти в конвертер при рефакторинге для OrderDTO
+    CargoDAO cargoDAO;// will go to the converter when refactoring OrderDTO
     @Autowired
     CargoService cargoService;
     @Autowired
@@ -39,17 +39,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void addOrder(OrderDTO orderDTO) {
-        // TODO: сделать метод при рефакторинге
+        // TODO: made method when refactoring OrderDTO
     }
 
     @Override
     public OrderDTO getOrderByNumber(Long number) {
         OrderEntity orderEntity = orderDAO.get(number);
-        if (orderEntity == null) {
-            return null;
-        } else {
-            return converter.mapEntityToDto(orderEntity);
-        }
+        return (orderEntity == null ? null: converter.mapEntityToDto(orderEntity));
     }
 
     @Override
@@ -104,21 +100,13 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Long getActiveOrderNumberByDriverNumber(Long driverNumber) {
         OrderEntity orderEntity = orderDAO.getActiveByDriverNumber(driverNumber);
-        if (orderEntity == null) {
-            return null;
-        } else {
-            return orderEntity.getId();
-        }
+        return (orderEntity == null ? null: orderEntity.getId());
     }
 
     @Override
     public OrderDTO getActiveOrderByDriverNumber(Long driverNumber) {
         OrderEntity orderEntity = orderDAO.getActiveByDriverNumber(driverNumber);
-        if (orderEntity == null) {
-            return null;
-        } else {
-            return converter.mapEntityToDto(orderEntity);
-        }
+        return (orderEntity == null ? null: converter.mapEntityToDto(orderEntity));
     }
 
     @Override
@@ -153,7 +141,7 @@ public class OrderServiceImpl implements OrderService {
         closeOrderIfAllCargoDelivered(orderEntity.getId());
     }
 
-    // переделать на чек checkNewOrder(OrderDTO newOrderDTO) и добавить в api, после рефакторинга OrderDTO
+    // redo to service checkNewOrder(OrderDTO newOrderDTO) and add to api, after refactoring OrderDTO
     public boolean checkNewOrder(OrderEntity newOrderEntity) {
         // Truck checks:
         // Truck capacity don't change (add check from shipment later with refactor)

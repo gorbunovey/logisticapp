@@ -5,12 +5,12 @@ import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatche
 
 @Order(1)
 public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
-    // класс -> инициализация веб-контекста, последовательное подтягивание других контекстов
-    // замена дескриптора развертывания web.xml и импортов в класе диспетчере
+    // class for -> web-context initialization, uploading other configs
+    // replacement for deployment descriptor (web.xml) and imports in dispatcher servlet
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        // основные конфиги, которые шли импортом в диспетчер-сервлете
+        // core config classes
         return new Class<?>[] {
                 PersistenceConfig.class, CoreConfig.class, SecurityConfig.class
         };
@@ -18,13 +18,13 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
 
     @Override
     protected Class<?>[] getServletConfigClasses() {
-        // класс описывающий диспетчер-сервлет
+        // dispatcher servlet description class
         return new Class<?>[]{WebConfig.class};
     }
 
     @Override
     protected String[] getServletMappings() {
-        // маппинг запросов на диспетчер-сервлет
+        // dispatcher servlet requests mapping
         return new String[]{"/"};
     }
 

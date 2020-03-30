@@ -37,13 +37,13 @@ public class TruckDAOImpl implements TruckDAO {
 
     @Override
     public List<TruckEntity> getAll() {
-        return entityManager.createQuery("select e from TruckEntity e").getResultList();
+        return entityManager.createQuery("SELECT e FROM TruckEntity e").getResultList();
     }
 
     @Override
     public TruckEntity getByRegNumber(String regNumber) {
         TypedQuery<TruckEntity> q = entityManager.createQuery(
-                "SELECT e from TruckEntity e where e.regNumber =: regNumber", TruckEntity.class);
+                "SELECT e FROM TruckEntity e WHERE e.regNumber =: regNumber", TruckEntity.class);
         q.setParameter("regNumber", regNumber);
         return q.getResultStream().findAny().orElse(null);
     }

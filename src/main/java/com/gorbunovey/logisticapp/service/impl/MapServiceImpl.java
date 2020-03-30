@@ -32,11 +32,7 @@ public class MapServiceImpl implements MapService {
     @Override
     public CityDTO getCityByCode(Long code) {
         CityEntity cityEntity = cityDAO.getByCode(code);
-        if (cityEntity == null){
-            return null;
-        }else {
-            return modelMapper.map(cityEntity, CityDTO.class);
-        }
+        return (cityEntity == null ? null: modelMapper.map(cityEntity, CityDTO.class));
     }
 
     @Override

@@ -18,11 +18,11 @@ import java.util.Properties;
 @PropertySource("classpath:persistence.properties")
 @EnableTransactionManagement
 public class PersistenceConfig {
-    // класс -> конфигурация доступа к БД:
-    // 1 -> настраиваем источник данных
-    // 2 -> фабрику для entityManager(источник данных, реализацию JPA(хибернейт), место расположение репозитория,
-    // диалект для хибернейта, прочие настройки для хибернейта)
-    // 1 -> задаем менеджер транзакций
+    // class for -> configuration connection to DB:
+    // 1 -> configure data source
+    // 2 -> factory for entityManager(data source, JPA implementation (Hibernate), repository placing,
+    // dialect for hibernate, some other jpa-properties)
+    // 1 -> set transaction manager
 
     @Bean
     public DataSource dataSource(@Value("${driverClassName}") String driver,
